@@ -57,36 +57,11 @@
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
         </dependency>
-        
-        <!-- <dependency>
-			<groupId>org.pac4j</groupId>
-			<artifactId>spring-security-pac4j</artifactId>
-			<version>${spring-security-pac4j.version}</version>
-		</dependency>
+
 		<dependency>
-			<groupId>org.pac4j</groupId>
-			<artifactId>pac4j-oauth</artifactId>
-			<version>${pac4j.version}</version>
-		</dependency> -->
-		<!--<dependency>-->
-		<!--<groupId>org.pac4j</groupId>-->
-		<!--<artifactId>pac4j-openid</artifactId>-->
-		<!--<version>${pac4j.version}</version>-->
-		<!--</dependency>-->
-		<!--<dependency>-->
-			<!--<groupId>org.pac4j</groupId>-->
-			<!--<artifactId>pac4j-cas</artifactId>-->
-			<!--<version>${pac4j.version}</version>-->
-		<!--</dependency>-->
-		<!-- <dependency>
-			<groupId>org.pac4j</groupId>
-			<artifactId>pac4j-http</artifactId>
-			<version>${pac4j.version}</version>
-		</dependency> -->
-		<dependency>
-			<groupId>org.pac4j</groupId>
-			<artifactId>pac4j-jwt</artifactId>
-			<version>${pac4j.version}</version>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper-spring-boot-starter</artifactId>
+			<version>1.2.3</version>
 		</dependency>
 	</dependencies>
 

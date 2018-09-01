@@ -2,16 +2,18 @@ package com.example.demo.model;
 
 import java.util.Date;
 
-public class UserModel {
+public class VehicleModel {
     private Integer id;
 
-    private String name;
+    private Integer userId;
 
-    private String phone;
+    private Integer seatCount;
 
-    private String unionid;
+    private String imageUrl;
 
-    private String openid;
+    private String no;
+
+    private String model;
 
     private Byte delInd;
 
@@ -31,36 +33,44 @@ public class UserModel {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
-    public String getPhone() {
-        return phone;
+    public Integer getSeatCount() {
+        return seatCount;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone == null ? null : phone.trim();
+    public void setSeatCount(Integer seatCount) {
+        this.seatCount = seatCount;
     }
 
-    public String getUnionid() {
-        return unionid;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setUnionid(String unionid) {
-        this.unionid = unionid == null ? null : unionid.trim();
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl == null ? null : imageUrl.trim();
     }
 
-    public String getOpenid() {
-        return openid;
+    public String getNo() {
+        return no;
     }
 
-    public void setOpenid(String openid) {
-        this.openid = openid == null ? null : openid.trim();
+    public void setNo(String no) {
+        this.no = no == null ? null : no.trim();
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model == null ? null : model.trim();
     }
 
     public Byte getDelInd() {

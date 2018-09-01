@@ -2,16 +2,14 @@ package com.example.demo.model;
 
 import java.util.Date;
 
-public class UserModel {
+public class LocationModel {
     private Integer id;
 
-    private String name;
+    private Integer userId;
 
-    private String phone;
+    private String longitude;
 
-    private String unionid;
-
-    private String openid;
+    private String latitude;
 
     private Byte delInd;
 
@@ -31,36 +29,28 @@ public class UserModel {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getLongitude() {
+        return longitude;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone == null ? null : phone.trim();
+    public void setLongitude(String longitude) {
+        this.longitude = longitude == null ? null : longitude.trim();
     }
 
-    public String getUnionid() {
-        return unionid;
+    public String getLatitude() {
+        return latitude;
     }
 
-    public void setUnionid(String unionid) {
-        this.unionid = unionid == null ? null : unionid.trim();
-    }
-
-    public String getOpenid() {
-        return openid;
-    }
-
-    public void setOpenid(String openid) {
-        this.openid = openid == null ? null : openid.trim();
+    public void setLatitude(String latitude) {
+        this.latitude = latitude == null ? null : latitude.trim();
     }
 
     public Byte getDelInd() {

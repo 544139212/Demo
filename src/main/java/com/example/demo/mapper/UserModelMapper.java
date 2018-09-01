@@ -3,8 +3,10 @@ package com.example.demo.mapper;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.example.demo.model.UserModel;
+import org.springframework.stereotype.Repository;
 
 @Mapper
+@Repository
 public interface UserModelMapper {
     int deleteByPrimaryKey(Integer id);
 

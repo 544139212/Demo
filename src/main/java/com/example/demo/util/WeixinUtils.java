@@ -18,6 +18,8 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class WeixinUtils {
 	
 	private static Logger logger = LoggerFactory.getLogger(WeixinUtils.class);
@@ -32,10 +34,12 @@ public class WeixinUtils {
 	
 	private static String appsecret = "2f53f4e6ac1d2549fde65b085ce9cada";
 	
+	private static ObjectMapper mapper = new ObjectMapper();
 	
-	public static String getOpenId(String code) throws Exception {
+	public static Map<String, Object> getOpenId(String code) throws Exception {
     	String url = String.format(jscode2sessionUrl, appid, appsecret, code);
-        return get(url, null);//{"session_key":"O7B0nGx438SYNTBTSaPhJg==","openid":"otHji5CMQMVQd40n7OTGY0PVzM74"}
+        String content = get(url, null);//{"session_key":"O7B0nGx438SYNTBTSaPhJg==","openid":"otHji5CMQMVQd40n7OTGY0PVzM74"}
+        return mapper.readValue(content, Map.class);
     }
 	
 	public static String get(String url, Map<String, String> params) throws Exception {

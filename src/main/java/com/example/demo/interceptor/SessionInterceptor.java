@@ -34,8 +34,8 @@ public class SessionInterceptor implements HandlerInterceptor {
 			throws Exception {
 		// TODO Auto-generated method stub
 		
-		System.out.println(request.getRequestURI());
-		
+		logger.debug("url:{}", request.getRequestURI());
+
         String token = request.getHeader(Constant.TOKEN);
         logger.debug("token:{}", token);
         

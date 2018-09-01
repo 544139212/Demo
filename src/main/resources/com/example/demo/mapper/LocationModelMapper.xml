@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.example.demo.mapper.UserModelMapper" >
-  <resultMap id="BaseResultMap" type="com.example.demo.model.UserModel" >
+<mapper namespace="com.example.demo.mapper.LocationModelMapper" >
+  <resultMap id="BaseResultMap" type="com.example.demo.model.LocationModel" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="phone" property="phone" jdbcType="VARCHAR" />
-    <result column="unionid" property="unionid" jdbcType="VARCHAR" />
-    <result column="openid" property="openid" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="longitude" property="longitude" jdbcType="VARCHAR" />
+    <result column="latitude" property="latitude" jdbcType="VARCHAR" />
     <result column="del_ind" property="delInd" jdbcType="TINYINT" />
     <result column="create_by" property="createBy" jdbcType="VARCHAR" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
@@ -14,45 +13,42 @@
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, phone, unionid, openid, del_ind, create_by, create_date, update_by, update_date
+    id, user_id, longitude, latitude, del_ind, create_by, create_date, update_by, update_date
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from user
+    from location
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from user
+    delete from location
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.example.demo.model.UserModel" >
-    insert into user (id, name, phone, 
-      unionid, openid, del_ind, 
-      create_by, create_date, update_by, 
-      update_date)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
-      #{unionid,jdbcType=VARCHAR}, #{openid,jdbcType=VARCHAR}, #{delInd,jdbcType=TINYINT}, 
-      #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
-      #{updateDate,jdbcType=TIMESTAMP})
+  <insert id="insert" parameterType="com.example.demo.model.LocationModel" >
+    insert into location (id, user_id, longitude, 
+      latitude, del_ind, create_by, 
+      create_date, update_by, update_date
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{longitude,jdbcType=VARCHAR}, 
+      #{latitude,jdbcType=VARCHAR}, #{delInd,jdbcType=TINYINT}, #{createBy,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.example.demo.model.UserModel" >
-    insert into user
+  <insert id="insertSelective" parameterType="com.example.demo.model.LocationModel" >
+    insert into location
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
       </if>
-      <if test="name != null" >
-        name,
+      <if test="userId != null" >
+        user_id,
       </if>
-      <if test="phone != null" >
-        phone,
+      <if test="longitude != null" >
+        longitude,
       </if>
-      <if test="unionid != null" >
-        unionid,
-      </if>
-      <if test="openid != null" >
-        openid,
+      <if test="latitude != null" >
+        latitude,
       </if>
       <if test="delInd != null" >
         del_ind,
@@ -74,17 +70,14 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
       </if>
-      <if test="phone != null" >
-        #{phone,jdbcType=VARCHAR},
+      <if test="longitude != null" >
+        #{longitude,jdbcType=VARCHAR},
       </if>
-      <if test="unionid != null" >
-        #{unionid,jdbcType=VARCHAR},
-      </if>
-      <if test="openid != null" >
-        #{openid,jdbcType=VARCHAR},
+      <if test="latitude != null" >
+        #{latitude,jdbcType=VARCHAR},
       </if>
       <if test="delInd != null" >
         #{delInd,jdbcType=TINYINT},
@@ -103,20 +96,17 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.model.UserModel" >
-    update user
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.model.LocationModel" >
+    update location
     <set >
-      <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="phone != null" >
-        phone = #{phone,jdbcType=VARCHAR},
+      <if test="longitude != null" >
+        longitude = #{longitude,jdbcType=VARCHAR},
       </if>
-      <if test="unionid != null" >
-        unionid = #{unionid,jdbcType=VARCHAR},
-      </if>
-      <if test="openid != null" >
-        openid = #{openid,jdbcType=VARCHAR},
+      <if test="latitude != null" >
+        latitude = #{latitude,jdbcType=VARCHAR},
       </if>
       <if test="delInd != null" >
         del_ind = #{delInd,jdbcType=TINYINT},
@@ -136,12 +126,11 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.example.demo.model.UserModel" >
-    update user
-    set name = #{name,jdbcType=VARCHAR},
-      phone = #{phone,jdbcType=VARCHAR},
-      unionid = #{unionid,jdbcType=VARCHAR},
-      openid = #{openid,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.model.LocationModel" >
+    update location
+    set user_id = #{userId,jdbcType=INTEGER},
+      longitude = #{longitude,jdbcType=VARCHAR},
+      latitude = #{latitude,jdbcType=VARCHAR},
       del_ind = #{delInd,jdbcType=TINYINT},
       create_by = #{createBy,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},
@@ -149,12 +138,12 @@
       update_date = #{updateDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  
-  <select id="getUserByOpenid" resultMap="BaseResultMap" parameterType="java.lang.String" >
-  	select 
-    <include refid="Base_Column_List" />
-    from user
-    where openid = #{openid,jdbcType=VARCHAR}
-    and del_ind = 0
+
+  <select id="getLocation" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select <include refid="Base_Column_List" />
+    from user_location
+    where user_id = #{userId,jdbcType=INTEGER}
+    order by create_date desc
+    limit 1
   </select>
 </mapper>

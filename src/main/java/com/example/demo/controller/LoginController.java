@@ -16,19 +16,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.context.Session;
+import com.example.demo.enums.ResponseStatusEnum;
 import com.example.demo.mapper.UserModelMapper;
 import com.example.demo.model.UserModel;
 import com.example.demo.util.EncryptUtils;
 import com.example.demo.util.WeixinUtils;
 import com.example.demo.vo.Result;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 public class LoginController {
 
 	private static Logger logger = LoggerFactory.getLogger(LoginController.class);
-
-	private static ObjectMapper mapper = new ObjectMapper();
 	
 	@Autowired
     RedisTemplate<String, Object> redisTemplate;
@@ -50,16 +48,14 @@ public class LoginController {
 		try {
 			String code = request.getParameter("code");
 			if (StringUtils.isEmpty(code)) {
-				result.setCode(-1);
-				result.setMsg("code不能为空");
+				result.setCode(ResponseStatusEnum.ERROR.getCode());
+				result.setMsg(ResponseStatusEnum.ERROR.getMsg());
 				return result;
 			}
-			String json = WeixinUtils.getOpenId(code);
-			logger.info("获取openid响应结果:{}", json);
-			Map<String, Object> map = mapper.readValue(json, Map.class);
+			Map<String, Object> map = WeixinUtils.getOpenId(code);
 			if (map.containsKey("errcode") && 40029 == (Integer)map.get("errcode")) {
-				result.setCode(40029);
-				result.setMsg((String)map.get("errmsg"));
+				result.setCode(ResponseStatusEnum.ERROR.getCode());
+				result.setMsg(ResponseStatusEnum.ERROR.getMsg());
 				return result;
 			} 
 			
@@ -74,21 +70,22 @@ public class LoginController {
 			}
 			
 			Session session = new Session();
+//			session.setUnionid();
 			session.setOpenid(openid);
 			session.setSessionKey(sessionKey);
-			session.setUserModel(userModel);
-			
+			session.setUserId(userModel.getId());
+
             String token = EncryptUtils.md5(UUID.randomUUID().toString());
             redisTemplate.opsForValue().set(token, session);
             redisTemplate.expire(token, 30*60, TimeUnit.SECONDS);
             
-            result.setCode(0);
-			result.setMsg("success");
+            result.setCode(ResponseStatusEnum.SUCCESS.getCode());
+			result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
 			result.setData(token);
 			return result;
             
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("login error", e);
 		}
 		return null;
 	}

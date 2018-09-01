@@ -85,7 +85,7 @@ public class VehicleController {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET)
-    public Result<Vehicle> getLocation() {
+    public Result<Vehicle> get() {
         Result<Vehicle> result = new Result<>();
         VehicleModel criteria = new VehicleModel();
         criteria.setUserId(Context.get().getUserId());
@@ -106,7 +106,7 @@ public class VehicleController {
      * @return
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Result<Vehicle> getLocation(@PathVariable Integer id) {
+    public Result<Vehicle> get(@PathVariable Integer id) {
         Result<Vehicle> result = new Result<>();
         VehicleModel criteria = new VehicleModel();
         criteria.setId(id);

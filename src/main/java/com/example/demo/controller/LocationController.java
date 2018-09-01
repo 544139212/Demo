@@ -48,7 +48,7 @@ public class LocationController {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET)
-    public Result<Location> getLocation() {
+    public Result<Location> get() {
         Result<Location> result = new Result<>();
         LocationModel locationModel = locationModelMapper.getLocation(Context.get().getUserId());
         Location location = null;

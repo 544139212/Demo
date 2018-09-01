@@ -1,12 +1,12 @@
 package com.example.demo.enums;
 
 public enum ResponseStatusEnum {
-	SUCCESS(0, "success"),
-	ERROR(-1, "error"),
-	INVALID(-2, "invalid"),
-	NOT_FOUND(-3, "not found"),
-	AUTH(-4, "auth"),
-	EXIST(-5, "exist");
+	SUCCESS(0, "成功"),
+	ERROR(-1, "错误"),
+	INVALID(-2, "参数错误"),
+	NOT_FOUND(-3, "未找到相关记录"),
+	AUTH(-4, "鉴权未通过"),
+	EXIST(-5, "记录已存在");
 	
 	private int code;
 	private String msg;

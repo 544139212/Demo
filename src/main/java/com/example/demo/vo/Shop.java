@@ -10,6 +10,9 @@ public class Shop implements Serializable {
     @NotBlank(message = "请填写店铺名称")
     private String name;
 
+    @NotBlank(message = "请填写店铺地址")
+    private String address;
+
     public Integer getId() {
         return id;
     }
@@ -24,5 +27,13 @@ public class Shop implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

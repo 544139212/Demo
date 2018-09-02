@@ -9,6 +9,8 @@ public class ShopModel {
 
     private String name;
 
+    private String address;
+
     private Byte delInd;
 
     private String createBy;
@@ -41,6 +43,14 @@ public class ShopModel {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address == null ? null : address.trim();
     }
 
     public Byte getDelInd() {

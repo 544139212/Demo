@@ -5,6 +5,7 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
     <result column="del_ind" property="delInd" jdbcType="TINYINT" />
     <result column="create_by" property="createBy" jdbcType="VARCHAR" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
@@ -12,10 +13,10 @@
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, user_id, name, del_ind, create_by, create_date, update_by, update_date
+    id, user_id, name, address, del_ind, create_by, create_date, update_by, update_date
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from shop
     where id = #{id,jdbcType=INTEGER}
@@ -25,12 +26,14 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.example.demo.model.ShopModel" >
-    insert into shop (id, user_id, name, 
-      del_ind, create_by, create_date, 
-      update_by, update_date)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{delInd,jdbcType=TINYINT}, #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
-      #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP})
+    insert into shop (id, user_id, name,
+      address, del_ind, create_by,
+      create_date, update_by, update_date
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
+      #{address,jdbcType=VARCHAR}, #{delInd,jdbcType=TINYINT}, #{createBy,jdbcType=VARCHAR},
+      #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.example.demo.model.ShopModel" >
     insert into shop
@@ -43,6 +46,9 @@
       </if>
       <if test="name != null" >
         name,
+      </if>
+      <if test="address != null" >
+        address,
       </if>
       <if test="delInd != null" >
         del_ind,
@@ -70,6 +76,9 @@
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
       <if test="delInd != null" >
         #{delInd,jdbcType=TINYINT},
       </if>
@@ -96,6 +105,9 @@
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
       <if test="delInd != null" >
         del_ind = #{delInd,jdbcType=TINYINT},
       </if>
@@ -118,6 +130,7 @@
     update shop
     set user_id = #{userId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
       del_ind = #{delInd,jdbcType=TINYINT},
       create_by = #{createBy,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},
@@ -136,6 +149,9 @@
       </if>
       <if test="name != null" >
         and name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        and address = #{address,jdbcType=VARCHAR},
       </if>
       and del_ind = 0
     </trim>

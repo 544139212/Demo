@@ -44,8 +44,8 @@ public class ShopController {
             return result;
         }
         ShopModel shopModel = new ShopModel();
-        shopModel.setUserId(Context.get().getUserId());
         BeanUtils.copyProperties(shop, shopModel);
+        shopModel.setUserId(Context.get().getUserId());
         shopModelMapper.insertSelective(shopModel);
         result.setCode(ResponseStatusEnum.SUCCESS.getCode());
         result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());

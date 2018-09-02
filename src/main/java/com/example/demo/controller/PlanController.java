@@ -44,8 +44,8 @@ public class PlanController {
             return result;
         }
         PlanModel planModel = new PlanModel();
-        planModel.setUserId(Context.get().getUserId());
         BeanUtils.copyProperties(plan, planModel);
+        planModel.setUserId(Context.get().getUserId());
         planModelMapper.insertSelective(planModel);
         result.setCode(ResponseStatusEnum.SUCCESS.getCode());
         result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());

@@ -44,8 +44,8 @@ public class DriverLicenseController {
             return result;
         }
         DriverLicenseModel driverLicenseModel = new DriverLicenseModel();
-        driverLicenseModel.setUserId(Context.get().getUserId());
         BeanUtils.copyProperties(driverLicense, driverLicenseModel);
+        driverLicenseModel.setUserId(Context.get().getUserId());
         driverLicenseModelMapper.insertSelective(driverLicenseModel);
         result.setCode(ResponseStatusEnum.SUCCESS.getCode());
         result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());

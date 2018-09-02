@@ -35,8 +35,8 @@ public class LocationController {
 
         Result<Void> result = new Result<>();
         LocationModel locationModel = new LocationModel();
-        locationModel.setUserId(Context.get().getUserId());
         BeanUtils.copyProperties(location, locationModel);
+        locationModel.setUserId(Context.get().getUserId());
         locationModelMapper.insertSelective(locationModel);
         result.setCode(ResponseStatusEnum.SUCCESS.getCode());
         result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());

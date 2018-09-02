@@ -44,8 +44,8 @@ public class VehicleController {
             return result;
         }
         VehicleModel vehicleModel = new VehicleModel();
-        vehicleModel.setUserId(Context.get().getUserId());
         BeanUtils.copyProperties(vehicle, vehicleModel);
+        vehicleModel.setUserId(Context.get().getUserId());
         vehicleModelMapper.insertSelective(vehicleModel);
         result.setCode(ResponseStatusEnum.SUCCESS.getCode());
         result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());

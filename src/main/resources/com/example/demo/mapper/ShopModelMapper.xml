@@ -145,13 +145,13 @@
         and id = #{id,jdbcType=INTEGER}
       </if>
       <if test="userId != null" >
-        and user_id = #{userId,jdbcType=INTEGER},
+        and user_id = #{userId,jdbcType=INTEGER}
       </if>
       <if test="name != null" >
-        and name = #{name,jdbcType=VARCHAR},
+        and name = #{name,jdbcType=VARCHAR}
       </if>
       <if test="address != null" >
-        and address = #{address,jdbcType=VARCHAR},
+        and address = #{address,jdbcType=VARCHAR}
       </if>
       and del_ind = 0
     </trim>

@@ -168,19 +168,19 @@
         and id = #{id,jdbcType=INTEGER}
       </if>
       <if test="userId != null" >
-        and user_id = #{userId,jdbcType=INTEGER},
+        and user_id = #{userId,jdbcType=INTEGER}
       </if>
       <if test="stationStart != null" >
-        and station_start = #{stationStart,jdbcType=INTEGER},
+        and station_start = #{stationStart,jdbcType=INTEGER}
       </if>
       <if test="stationEnd != null" >
-        and station_end = #{stationEnd,jdbcType=INTEGER},
+        and station_end = #{stationEnd,jdbcType=INTEGER}
       </if>
       <if test="time != null" >
-        and time = #{time,jdbcType=TIMESTAMP},
+        and time = #{time,jdbcType=TIMESTAMP}
       </if>
       <if test="remark != null" >
-        and remark = #{remark,jdbcType=VARCHAR},
+        and remark = #{remark,jdbcType=VARCHAR}
       </if>
       and del_ind = 0
     </trim>

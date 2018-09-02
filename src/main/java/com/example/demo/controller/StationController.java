@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -106,6 +107,29 @@ public class StationController {
         result.setCode(ResponseStatusEnum.SUCCESS.getCode());
         result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
         result.setData(station);
+        return result;
+    }
+
+    /**
+     * 获取全部站点<>用户/管理</>
+     * @return
+     */
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public Result<List<Station>> list() {
+        Result<List<Station>> result = new Result<>();
+        StationModel criteria = new StationModel();
+        List<StationModel> list = stationModelMapper.search(criteria);//TODO:优化
+        List<Station> list1 = new ArrayList<>();
+        if (list != null && !list.isEmpty()) {
+            list.stream().forEach(stationModel -> {
+                Station station = new Station();
+                BeanUtils.copyProperties(stationModel, station);
+                list1.add(station);
+            });
+        }
+        result.setCode(ResponseStatusEnum.SUCCESS.getCode());
+        result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
+        result.setData(list1);
         return result;
     }
 }

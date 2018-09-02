@@ -26,7 +26,7 @@ public class PlanController {
     PlanModelMapper planModelMapper;
 
     /**
-     * 添加车辆信息<>当前登录用户</>
+     * 添加时间计划信息<>当前登录用户</>
      * @param plan
      * @return
      */
@@ -53,7 +53,7 @@ public class PlanController {
     }
 
     /**
-     * 更新车辆信息<>当前登录用户</>
+     * 更新时间计划信息<>当前登录用户</>
      * @param plan
      * @return
      */
@@ -86,7 +86,7 @@ public class PlanController {
     }
 
     /**
-     * 获取车辆信息<>当前登录用户</>
+     * 获取时间计划信息<>当前登录用户</>
      * @return
      */
     @RequestMapping(method = RequestMethod.GET)
@@ -107,7 +107,7 @@ public class PlanController {
     }
 
     /**
-     * 获取车辆信息<>用户/管理</>
+     * 获取时间计划信息<>用户/管理</>
      * @return
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

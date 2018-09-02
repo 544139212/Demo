@@ -62,6 +62,11 @@ public class PlanController {
         logger.debug("参数:{}", JsonUtils.deserializer(plan));
 
         Result<Void> result = new Result<>();
+        if (plan.getId() == null) {
+            result.setCode(ResponseStatusEnum.INVALID.getCode());
+            result.setMsg(ResponseStatusEnum.INVALID.getMsg());
+            return result;
+        }
         PlanModel planModel = planModelMapper.selectByPrimaryKey(plan.getId());
         if (planModel == null) {
             result.setCode(ResponseStatusEnum.NOT_FOUND.getCode());

@@ -62,6 +62,11 @@ public class DriverLicenseController {
         logger.debug("参数:{}", JsonUtils.deserializer(driverLicense));
 
         Result<Void> result = new Result<>();
+        if (driverLicense.getId() == null) {
+            result.setCode(ResponseStatusEnum.INVALID.getCode());
+            result.setMsg(ResponseStatusEnum.INVALID.getMsg());
+            return result;
+        }
         DriverLicenseModel driverLicenseModel = driverLicenseModelMapper.selectByPrimaryKey(driverLicense.getId());
         if (driverLicenseModel == null) {
             result.setCode(ResponseStatusEnum.NOT_FOUND.getCode());

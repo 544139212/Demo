@@ -62,6 +62,11 @@ public class ShopController {
         logger.debug("参数:{}", JsonUtils.deserializer(shop));
 
         Result<Void> result = new Result<>();
+        if (shop.getId() == null) {
+            result.setCode(ResponseStatusEnum.INVALID.getCode());
+            result.setMsg(ResponseStatusEnum.INVALID.getMsg());
+            return result;
+        }
         ShopModel shopModel = shopModelMapper.selectByPrimaryKey(shop.getId());
         if (shopModel == null) {
             result.setCode(ResponseStatusEnum.NOT_FOUND.getCode());

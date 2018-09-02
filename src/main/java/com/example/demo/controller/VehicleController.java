@@ -62,6 +62,11 @@ public class VehicleController {
         logger.debug("参数:{}", JsonUtils.deserializer(vehicle));
 
         Result<Void> result = new Result<>();
+        if (vehicle.getId() == null) {
+            result.setCode(ResponseStatusEnum.INVALID.getCode());
+            result.setMsg(ResponseStatusEnum.INVALID.getMsg());
+            return result;
+        }
         VehicleModel vehicleModel = vehicleModelMapper.selectByPrimaryKey(vehicle.getId());
         if (vehicleModel == null) {
             result.setCode(ResponseStatusEnum.NOT_FOUND.getCode());

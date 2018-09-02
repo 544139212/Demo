@@ -35,6 +35,13 @@ public class UserController {
 		logger.debug("参数:{}", JsonUtils.deserializer(user));
 
 		Result<Void> result = new Result<>();
+
+		// 方式一
+		/*if (user.getId() == null) {
+			result.setCode(ResponseStatusEnum.INVALID.getCode());
+			result.setMsg(ResponseStatusEnum.INVALID.getMsg());
+			return result;
+		}
 		UserModel userModel = userModelMapper.selectByPrimaryKey(user.getId());
 		if (userModel == null) {
 			result.setCode(ResponseStatusEnum.NOT_FOUND.getCode());
@@ -47,7 +54,19 @@ public class UserController {
 			return result;
 		}
 		BeanUtils.copyProperties(user, userModel);
+		userModelMapper.updateByPrimaryKeySelective(userModel);*/
+
+		// 方式二
+		UserModel userModel = userModelMapper.selectByPrimaryKey(Context.get().getUserId());
+		if (userModel == null) {
+			result.setCode(ResponseStatusEnum.NOT_FOUND.getCode());
+			result.setMsg(ResponseStatusEnum.NOT_FOUND.getMsg());
+			return result;
+		}
+		BeanUtils.copyProperties(user, userModel);
+		userModel.setId(Context.get().getUserId());
 		userModelMapper.updateByPrimaryKeySelective(userModel);
+
 		result.setCode(ResponseStatusEnum.SUCCESS.getCode());
 		result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
 		return result;

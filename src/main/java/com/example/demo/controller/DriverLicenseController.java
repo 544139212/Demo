@@ -6,7 +6,10 @@ import com.example.demo.mapper.DriverLicenseModelMapper;
 import com.example.demo.model.DriverLicenseModel;
 import com.example.demo.util.JsonUtils;
 import com.example.demo.vo.DriverLicense;
+import com.example.demo.vo.Pagination;
 import com.example.demo.vo.Result;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -14,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -108,6 +112,7 @@ public class DriverLicenseController {
 
     /**
      * 获取驾驶执照信息<>用户/管理</>
+     * @param id
      * @return
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -124,6 +129,37 @@ public class DriverLicenseController {
         result.setCode(ResponseStatusEnum.SUCCESS.getCode());
         result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
         result.setData(driverLicense);
+        return result;
+    }
+
+    /**
+     * 获取分页驾驶执照<>管理</>
+     * @param pageNum
+     * @return
+     */
+    @RequestMapping(value = "/page/{pageNum}", method = RequestMethod.GET)
+    public Result<Pagination<DriverLicense>> list(@PathVariable Integer pageNum) {
+        Result<Pagination<DriverLicense>> result = new Result<>();
+        PageHelper.startPage(pageNum, 20);
+        DriverLicenseModel criteria = new DriverLicenseModel();
+        Page<DriverLicenseModel> page = (Page<DriverLicenseModel>)driverLicenseModelMapper.search(criteria);//TODO:优化
+        List<DriverLicense> list = new ArrayList<>();
+        if (page.getResult() != null && !page.getResult().isEmpty()) {
+            page.getResult().stream().forEach(driverLicenseModel -> {
+                DriverLicense driverLicense = new DriverLicense();
+                BeanUtils.copyProperties(driverLicenseModel, driverLicense);
+                list.add(driverLicense);
+            });
+        }
+        Pagination<DriverLicense> pagination = new Pagination<>();
+        pagination.setPageNum(page.getPageNum());
+        pagination.setPageSize(page.getPageSize());
+        pagination.setPages(page.getPages());
+        pagination.setTotal(page.getTotal());
+        pagination.setList(list);
+        result.setCode(ResponseStatusEnum.SUCCESS.getCode());
+        result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
+        result.setData(pagination);
         return result;
     }
 }

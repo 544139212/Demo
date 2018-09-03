@@ -5,8 +5,11 @@ import com.example.demo.enums.ResponseStatusEnum;
 import com.example.demo.mapper.ShopModelMapper;
 import com.example.demo.model.ShopModel;
 import com.example.demo.util.JsonUtils;
+import com.example.demo.vo.Pagination;
 import com.example.demo.vo.Result;
 import com.example.demo.vo.Shop;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -14,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -108,6 +112,7 @@ public class ShopController {
 
     /**
      * 获取店铺信息<>用户/管理</>
+     * @param id
      * @return
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -124,6 +129,37 @@ public class ShopController {
         result.setCode(ResponseStatusEnum.SUCCESS.getCode());
         result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
         result.setData(shop);
+        return result;
+    }
+
+    /**
+     * 获取分页店铺<>管理</>
+     * @param pageNum
+     * @return
+     */
+    @RequestMapping(value = "/page/{pageNum}", method = RequestMethod.GET)
+    public Result<Pagination<Shop>> list(@PathVariable Integer pageNum) {
+        Result<Pagination<Shop>> result = new Result<>();
+        PageHelper.startPage(pageNum, 20);
+        ShopModel criteria = new ShopModel();
+        Page<ShopModel> page = (Page<ShopModel>)shopModelMapper.search(criteria);//TODO:优化
+        List<Shop> list = new ArrayList<>();
+        if (page.getResult() != null && !page.getResult().isEmpty()) {
+            page.getResult().stream().forEach(shopModel -> {
+                Shop shop = new Shop();
+                BeanUtils.copyProperties(shopModel, shop);
+                list.add(shop);
+            });
+        }
+        Pagination<Shop> pagination = new Pagination<>();
+        pagination.setPageNum(page.getPageNum());
+        pagination.setPageSize(page.getPageSize());
+        pagination.setPages(page.getPages());
+        pagination.setTotal(page.getTotal());
+        pagination.setList(list);
+        result.setCode(ResponseStatusEnum.SUCCESS.getCode());
+        result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
+        result.setData(pagination);
         return result;
     }
 }

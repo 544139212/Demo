@@ -149,12 +149,31 @@
       update_date = #{updateDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  
-  <select id="getUserByOpenid" resultMap="BaseResultMap" parameterType="java.lang.String" >
-  	select 
-    <include refid="Base_Column_List" />
+
+  <sql id="Base_Where">
+    <trim prefix="where" prefixOverrides="and | or" >
+      <if test="id != null">
+        and id = #{id,jdbcType=INTEGER}
+      </if>
+      <if test="name != null" >
+        and name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="phone != null" >
+        and phone = #{phone,jdbcType=VARCHAR}
+      </if>
+      <if test="unionid != null" >
+        and unionid = #{unionid,jdbcType=VARCHAR}
+      </if>
+      <if test="openid != null" >
+        and openid = #{openid,jdbcType=VARCHAR}
+      </if>
+      and del_ind = 0
+    </trim>
+  </sql>
+
+  <select id="search" resultMap="BaseResultMap" >
+    select <include refid="Base_Column_List" />
     from user
-    where openid = #{openid,jdbcType=VARCHAR}
-    and del_ind = 0
+    <include refid="Base_Where" />
   </select>
 </mapper>

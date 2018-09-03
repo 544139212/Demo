@@ -2,7 +2,10 @@ package com.example.demo.controller;
 
 import com.example.demo.enums.ResponseStatusEnum;
 import com.example.demo.util.JsonUtils;
+import com.example.demo.vo.Pagination;
 import com.example.demo.vo.User;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -15,6 +18,8 @@ import com.example.demo.model.UserModel;
 import com.example.demo.vo.Result;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/user")
@@ -88,6 +93,58 @@ public class UserController {
 		result.setCode(ResponseStatusEnum.SUCCESS.getCode());
 		result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
 		result.setData(user);
+		return result;
+	}
+
+	/**
+	 * 获取用户信息<>用户/管理</>
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public Result<User> get(@PathVariable Integer id) {
+		Result<User> result = new Result<>();
+		UserModel userModel = userModelMapper.selectByPrimaryKey(id);
+		User user = null;
+		if (userModel != null) {
+			user = new User();
+			BeanUtils.copyProperties(userModel, user);
+		}
+		result.setCode(ResponseStatusEnum.SUCCESS.getCode());
+		result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
+		result.setData(user);
+		return result;
+	}
+
+	/**
+	 * 获取分页用户<>管理</>
+	 * @param pageNum
+	 * @return
+	 */
+	@RequestMapping(value = "/page/{pageNum}", method = RequestMethod.GET)
+	public Result<Pagination<User>> list(@PathVariable Integer pageNum) {
+		Result<Pagination<User>> result = new Result<>();
+		//TODO: 鉴权
+		PageHelper.startPage(pageNum, 20);
+		UserModel criteria = new UserModel();
+		Page<UserModel> page = (Page<UserModel>)userModelMapper.search(criteria);//TODO:优化
+		List<User> list = new ArrayList<>();
+		if (page.getResult() != null && !page.getResult().isEmpty()) {
+			page.getResult().stream().forEach(userModel -> {
+				User user = new User();
+				BeanUtils.copyProperties(userModel, user);
+				list.add(user);
+			});
+		}
+		Pagination<User> pagination = new Pagination<>();
+		pagination.setPageNum(page.getPageNum());
+		pagination.setPageSize(page.getPageSize());
+		pagination.setPages(page.getPages());
+		pagination.setTotal(page.getTotal());
+		pagination.setList(list);
+		result.setCode(ResponseStatusEnum.SUCCESS.getCode());
+		result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
+		result.setData(pagination);
 		return result;
 	}
 }

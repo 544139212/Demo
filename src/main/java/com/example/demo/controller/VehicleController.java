@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.vo.Pagination;
 import com.example.demo.vo.Vehicle;
 import com.example.demo.context.Context;
 import com.example.demo.enums.ResponseStatusEnum;
@@ -7,6 +8,8 @@ import com.example.demo.mapper.VehicleModelMapper;
 import com.example.demo.model.VehicleModel;
 import com.example.demo.util.JsonUtils;
 import com.example.demo.vo.Result;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -14,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -108,6 +112,7 @@ public class VehicleController {
 
     /**
      * 获取车辆信息<>用户/管理</>
+     * @param id
      * @return
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -124,6 +129,37 @@ public class VehicleController {
         result.setCode(ResponseStatusEnum.SUCCESS.getCode());
         result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
         result.setData(vehicle);
+        return result;
+    }
+
+    /**
+     * 获取分页车辆<>管理</>
+     * @param pageNum
+     * @return
+     */
+    @RequestMapping(value = "/page/{pageNum}", method = RequestMethod.GET)
+    public Result<Pagination<Vehicle>> list(@PathVariable Integer pageNum) {
+        Result<Pagination<Vehicle>> result = new Result<>();
+        PageHelper.startPage(pageNum, 20);
+        VehicleModel criteria = new VehicleModel();
+        Page<VehicleModel> page = (Page<VehicleModel>)vehicleModelMapper.search(criteria);//TODO:优化
+        List<Vehicle> list = new ArrayList<>();
+        if (page.getResult() != null && !page.getResult().isEmpty()) {
+            page.getResult().stream().forEach(vehicleModel -> {
+                Vehicle vehicle = new Vehicle();
+                BeanUtils.copyProperties(vehicleModel, vehicle);
+                list.add(vehicle);
+            });
+        }
+        Pagination<Vehicle> pagination = new Pagination<>();
+        pagination.setPageNum(page.getPageNum());
+        pagination.setPageSize(page.getPageSize());
+        pagination.setPages(page.getPages());
+        pagination.setTotal(page.getTotal());
+        pagination.setList(list);
+        result.setCode(ResponseStatusEnum.SUCCESS.getCode());
+        result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
+        result.setData(pagination);
         return result;
     }
 

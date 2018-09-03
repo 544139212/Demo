@@ -93,6 +93,7 @@ public class StationController {
 
     /**
      * 获取站点信息<>用户/管理</>
+     * @param id
      * @return
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -136,7 +137,8 @@ public class StationController {
     }
 
     /**
-     * 获取分页站点<>用户/管理</>
+     * 获取分页站点<>管理</>
+     * @param pageNum
      * @return
      */
     @RequestMapping(value = "/page/{pageNum}", method = RequestMethod.GET)

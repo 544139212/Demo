@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Mapper;
 import com.example.demo.model.UserModel;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Mapper
 @Repository
 public interface UserModelMapper {
@@ -19,6 +21,6 @@ public interface UserModelMapper {
     int updateByPrimaryKeySelective(UserModel record);
 
     int updateByPrimaryKey(UserModel record);
-    
-    UserModel getUserByOpenid(String openid);
+
+    List<UserModel> search(UserModel record);
 }

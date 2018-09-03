@@ -5,8 +5,11 @@ import com.example.demo.enums.ResponseStatusEnum;
 import com.example.demo.mapper.PlanModelMapper;
 import com.example.demo.model.PlanModel;
 import com.example.demo.util.JsonUtils;
+import com.example.demo.vo.Pagination;
 import com.example.demo.vo.Plan;
 import com.example.demo.vo.Result;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -14,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -108,6 +112,7 @@ public class PlanController {
 
     /**
      * 获取时间计划信息<>用户/管理</>
+     * @param id
      * @return
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -124,6 +129,37 @@ public class PlanController {
         result.setCode(ResponseStatusEnum.SUCCESS.getCode());
         result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
         result.setData(plan);
+        return result;
+    }
+
+    /**
+     * 获取分页时间计划<>管理</>
+     * @param pageNum
+     * @return
+     */
+    @RequestMapping(value = "/page/{pageNum}", method = RequestMethod.GET)
+    public Result<Pagination<Plan>> list(@PathVariable Integer pageNum) {
+        Result<Pagination<Plan>> result = new Result<>();
+        PageHelper.startPage(pageNum, 20);
+        PlanModel criteria = new PlanModel();
+        Page<PlanModel> page = (Page<PlanModel>)planModelMapper.search(criteria);//TODO:优化
+        List<Plan> list = new ArrayList<>();
+        if (page.getResult() != null && !page.getResult().isEmpty()) {
+            page.getResult().stream().forEach(planModel -> {
+                Plan plan = new Plan();
+                BeanUtils.copyProperties(planModel, plan);
+                list.add(plan);
+            });
+        }
+        Pagination<Plan> pagination = new Pagination<>();
+        pagination.setPageNum(page.getPageNum());
+        pagination.setPageSize(page.getPageSize());
+        pagination.setPages(page.getPages());
+        pagination.setTotal(page.getTotal());
+        pagination.setList(list);
+        result.setCode(ResponseStatusEnum.SUCCESS.getCode());
+        result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
+        result.setData(pagination);
         return result;
     }
 }

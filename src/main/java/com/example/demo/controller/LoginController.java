@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -61,12 +62,17 @@ public class LoginController {
 			
 			String openid = (String)map.get("openid");
 			String sessionKey = (String)map.get("session_key");
-			
-			UserModel userModel = userModelMapper.getUserByOpenid(openid);
-			if (userModel == null) {
+
+			UserModel criteria = new UserModel();
+			criteria.setOpenid(openid);
+			List<UserModel> list = userModelMapper.search(criteria);
+			UserModel userModel = null;
+			if (list == null || list.isEmpty()) {
 				userModel = new UserModel();
 				userModel.setOpenid(openid);
 				userModelMapper.insertSelective(userModel);
+			} else {
+				userModel = list.get(0);
 			}
 			
 			Session session = new Session();

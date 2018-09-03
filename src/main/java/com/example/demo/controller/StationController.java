@@ -1,12 +1,14 @@
 package com.example.demo.controller;
 
-import com.example.demo.context.Context;
 import com.example.demo.enums.ResponseStatusEnum;
 import com.example.demo.mapper.StationModelMapper;
 import com.example.demo.model.StationModel;
 import com.example.demo.util.JsonUtils;
+import com.example.demo.vo.Pagination;
 import com.example.demo.vo.Result;
 import com.example.demo.vo.Station;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -130,6 +132,36 @@ public class StationController {
         result.setCode(ResponseStatusEnum.SUCCESS.getCode());
         result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
         result.setData(list1);
+        return result;
+    }
+
+    /**
+     * 获取分页站点<>用户/管理</>
+     * @return
+     */
+    @RequestMapping(value = "/page/{pageNum}", method = RequestMethod.GET)
+    public Result<Pagination<Station>> list(@PathVariable Integer pageNum) {
+        Result<Pagination<Station>> result = new Result<>();
+        PageHelper.startPage(pageNum, 20);
+        StationModel criteria = new StationModel();
+        Page<StationModel> page = (Page<StationModel>)stationModelMapper.search(criteria);//TODO:优化
+        List<Station> list = new ArrayList<>();
+        if (page.getResult() != null && !page.getResult().isEmpty()) {
+            page.getResult().stream().forEach(stationModel -> {
+                Station station = new Station();
+                BeanUtils.copyProperties(stationModel, station);
+                list.add(station);
+            });
+        }
+        Pagination<Station> pagination = new Pagination<>();
+        pagination.setPageNum(page.getPageNum());
+        pagination.setPageSize(page.getPageSize());
+        pagination.setPages(page.getPages());
+        pagination.setTotal(page.getTotal());
+        pagination.setList(list);
+        result.setCode(ResponseStatusEnum.SUCCESS.getCode());
+        result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
+        result.setData(pagination);
         return result;
     }
 }

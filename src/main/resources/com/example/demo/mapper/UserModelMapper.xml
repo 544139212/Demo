@@ -178,7 +178,7 @@
   </select>
 
   <select id="selectByIdList" resultMap="BaseResultMap" >
-    select
+    select <include refid="Base_Column_List" />
     from user
     where id in
     <foreach collection="idList" open="(" close=")" separator="," item="id">

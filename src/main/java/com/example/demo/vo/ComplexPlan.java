@@ -15,7 +15,7 @@ public class ComplexPlan implements Serializable {
 
     private Station stationEnd;
 
-    private Date time;
+    private String time;
 
     private String remark;
 
@@ -59,11 +59,11 @@ public class ComplexPlan implements Serializable {
         this.stationEnd = stationEnd;
     }
 
-    public Date getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(String time) {
         this.time = time;
     }
 

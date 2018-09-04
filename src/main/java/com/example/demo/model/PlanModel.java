@@ -11,7 +11,7 @@ public class PlanModel {
 
     private Integer stationEnd;
 
-    private Date time;
+    private String time;
 
     private String remark;
 
@@ -57,11 +57,11 @@ public class PlanModel {
         this.stationEnd = stationEnd;
     }
 
-    public Date getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(String time) {
         this.time = time;
     }
 

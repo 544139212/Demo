@@ -193,7 +193,7 @@
   </select>
 
   <select id="selectByUserIdList" resultMap="BaseResultMap" >
-    select
+    select <include refid="Base_Column_List" />
     from vehicle
     where user_id in
     <foreach collection="userIdList" open="(" close=")" separator="," item="userId">

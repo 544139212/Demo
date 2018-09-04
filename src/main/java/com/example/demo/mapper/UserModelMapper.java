@@ -3,6 +3,7 @@ package com.example.demo.mapper;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.example.demo.model.UserModel;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -24,5 +25,5 @@ public interface UserModelMapper {
 
     List<UserModel> search(UserModel record);
 
-    List<UserModel> selectByIdList(List<Integer> idList);
+    List<UserModel> selectByIdList(@Param("idList") List<Integer> idList);
 }

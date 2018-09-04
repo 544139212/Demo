@@ -2,6 +2,7 @@ package com.example.demo.mapper;
 
 import com.example.demo.model.VehicleModel;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -23,5 +24,5 @@ public interface VehicleModelMapper {
 
     List<VehicleModel> search(VehicleModel record);
 
-    List<VehicleModel> selectByUserIdList(List<Integer> userIdList);
+    List<VehicleModel> selectByUserIdList(@Param("userIdList") List<Integer> userIdList);
 }

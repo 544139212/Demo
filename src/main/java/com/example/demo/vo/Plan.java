@@ -1,8 +1,8 @@
 package com.example.demo.vo;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Date;
 
 public class Plan implements Serializable {
 
@@ -10,14 +10,14 @@ public class Plan implements Serializable {
 
     private Integer userId;
 
-    @NotBlank(message = "请填写始发站")
+    @NotNull(message = "请填写始发站")
     private Integer stationStart;
 
-    @NotBlank(message = "请填写终到站")
+    @NotNull(message = "请填写终到站")
     private Integer stationEnd;
 
     @NotBlank(message = "请填写发车时间")
-    private Date time;
+    private String time;
 
     private String remark;
 
@@ -53,11 +53,11 @@ public class Plan implements Serializable {
         this.stationEnd = stationEnd;
     }
 
-    public Date getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(String time) {
         this.time = time;
     }
 

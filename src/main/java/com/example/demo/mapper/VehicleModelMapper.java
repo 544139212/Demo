@@ -22,4 +22,6 @@ public interface VehicleModelMapper {
     int updateByPrimaryKey(VehicleModel record);
 
     List<VehicleModel> search(VehicleModel record);
+
+    List<VehicleModel> selectByUserIdList(List<Integer> userIdList);
 }

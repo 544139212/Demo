@@ -191,4 +191,13 @@
     from vehicle
     <include refid="Base_Where" />
   </select>
+
+  <select id="selectByUserIdList" resultMap="BaseResultMap" >
+    select
+    from vehicle
+    where user_id in
+    <foreach collection="userIdList" open="(" close=")" separator="," item="userId">
+      #{userId,jdbcType=INTEGER}
+    </foreach>
+  </select>
 </mapper>

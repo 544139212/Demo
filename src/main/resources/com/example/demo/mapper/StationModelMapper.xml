@@ -132,4 +132,13 @@
     from station
     <include refid="Base_Where" />
   </select>
+
+  <select id="selectByIdList" resultMap="BaseResultMap" >
+    select
+    from station
+    where id in
+    <foreach collection="idList" open="(" close=")" separator="," item="id">
+      #{id,jdbcType=INTEGER}
+    </foreach>
+  </select>
 </mapper>

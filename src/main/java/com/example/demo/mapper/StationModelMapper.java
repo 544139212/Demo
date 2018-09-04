@@ -22,4 +22,6 @@ public interface StationModelMapper {
     int updateByPrimaryKey(StationModel record);
 
     List<StationModel> search(StationModel record);
+
+    List<StationModel> selectByIdList(List<Integer> idList);
 }

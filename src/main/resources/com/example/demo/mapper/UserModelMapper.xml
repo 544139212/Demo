@@ -176,4 +176,14 @@
     from user
     <include refid="Base_Where" />
   </select>
+
+  <select id="selectByIdList" resultMap="BaseResultMap" >
+    select
+    from user
+    where id in
+    <foreach collection="idList" open="(" close=")" separator="," item="id">
+      #{id,jdbcType=INTEGER}
+    </foreach>
+  </select>
+
 </mapper>

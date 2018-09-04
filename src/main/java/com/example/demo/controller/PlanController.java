@@ -3,11 +3,15 @@ package com.example.demo.controller;
 import com.example.demo.context.Context;
 import com.example.demo.enums.ResponseStatusEnum;
 import com.example.demo.mapper.PlanModelMapper;
+import com.example.demo.mapper.StationModelMapper;
+import com.example.demo.mapper.UserModelMapper;
+import com.example.demo.mapper.VehicleModelMapper;
 import com.example.demo.model.PlanModel;
+import com.example.demo.model.StationModel;
+import com.example.demo.model.UserModel;
+import com.example.demo.model.VehicleModel;
 import com.example.demo.util.JsonUtils;
-import com.example.demo.vo.Pagination;
-import com.example.demo.vo.Plan;
-import com.example.demo.vo.Result;
+import com.example.demo.vo.*;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
@@ -18,7 +22,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/plan")
@@ -28,6 +36,15 @@ public class PlanController {
 
     @Autowired
     PlanModelMapper planModelMapper;
+
+    @Autowired
+    UserModelMapper userModelMapper;
+
+    @Autowired
+    VehicleModelMapper vehicleModelMapper;
+
+    @Autowired
+    StationModelMapper stationModelMapper;
 
     /**
      * 添加时间计划信息<>当前登录用户</>
@@ -137,7 +154,7 @@ public class PlanController {
      * @param pageNum
      * @return
      */
-    @RequestMapping(value = "/page/{pageNum}", method = RequestMethod.GET)
+    @RequestMapping(value = "/list/{pageNum}", method = RequestMethod.GET)
     public Result<Pagination<Plan>> list(@PathVariable Integer pageNum) {
         Result<Pagination<Plan>> result = new Result<>();
         PageHelper.startPage(pageNum, 20);
@@ -152,6 +169,85 @@ public class PlanController {
             });
         }
         Pagination<Plan> pagination = new Pagination<>();
+        pagination.setPageNum(page.getPageNum());
+        pagination.setPageSize(page.getPageSize());
+        pagination.setPages(page.getPages());
+        pagination.setTotal(page.getTotal());
+        pagination.setList(list);
+        result.setCode(ResponseStatusEnum.SUCCESS.getCode());
+        result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
+        result.setData(pagination);
+        return result;
+    }
+
+    /**
+     * 获取分页时间计划<>用户</>
+     * @param pageNum
+     * @return
+     */
+    @RequestMapping(value = "/complexList/{pageNum}", method = RequestMethod.GET)
+    public Result<Pagination<ComplexPlan>> complexList(@PathVariable Integer pageNum) {
+        Result<Pagination<ComplexPlan>> result = new Result<>();
+        PageHelper.startPage(pageNum, 20);
+        PlanModel criteria = new PlanModel();
+        Page<PlanModel> page = (Page<PlanModel>)planModelMapper.search(criteria);//TODO:优化
+        List<ComplexPlan> list = new ArrayList<>();
+        if (page.getResult() != null && !page.getResult().isEmpty()) {
+            List<Integer> userIdList = new ArrayList<>();
+            List<Integer> stationIdList = new ArrayList<>();
+            page.getResult().stream().forEach(planModel -> {
+                if (!userIdList.contains(planModel.getUserId())) {
+                    userIdList.add(planModel.getUserId());
+                }
+                if (!stationIdList.contains(planModel.getStationStart())) {
+                    stationIdList.add(planModel.getStationStart());
+                }
+                if (!stationIdList.contains(planModel.getStationEnd())) {
+                    stationIdList.add(planModel.getStationEnd());
+                }
+            });
+
+            List<UserModel> userModelList = userModelMapper.selectByIdList(userIdList);
+            Map<Integer, User> userMap = new HashMap<>();
+            if (userModelList != null && !userModelList.isEmpty()) {
+                userModelList.stream().forEach(userModel -> {
+                    User user = new User();
+                    BeanUtils.copyProperties(userModel, user);
+                    userMap.put(user.getId(), user);
+                });
+            }
+            List<VehicleModel> vehicleModelList = vehicleModelMapper.selectByUserIdList(userIdList);
+            Map<Integer, Vehicle> vehicleMap = new HashMap<>();
+            if (vehicleModelList != null && !vehicleModelList.isEmpty()) {
+                vehicleModelList.stream().forEach(vehicleModel -> {
+                    Vehicle vehicle = new Vehicle();
+                    BeanUtils.copyProperties(vehicleModel, vehicle);
+                    vehicleMap.put(vehicle.getId(), vehicle);
+                });
+            }
+            List<StationModel> stationModelList = stationModelMapper.selectByIdList(stationIdList);
+            Map<Integer, Station> stationMap = new HashMap<>();
+            if (stationModelList != null && !stationModelList.isEmpty()) {
+                stationModelList.stream().forEach(stationModel -> {
+                    Station station = new Station();
+                    BeanUtils.copyProperties(stationModel, station);
+                    stationMap.put(station.getId(), station);
+                });
+            }
+
+            page.getResult().stream().forEach(planModel -> {
+                ComplexPlan complexPlan = new ComplexPlan();
+                complexPlan.setId(planModel.getId());
+                complexPlan.setUser(userMap.get(planModel.getUserId()));
+                complexPlan.setVehicle(vehicleMap.get(planModel.getUserId()));
+                complexPlan.setStationStart(stationMap.get(planModel.getStationStart()));
+                complexPlan.setStationEnd(stationMap.get(planModel.getStationEnd()));
+                complexPlan.setTime(planModel.getTime());
+                complexPlan.setRemark(planModel.getRemark());
+                list.add(complexPlan);
+            });
+        }
+        Pagination<ComplexPlan> pagination = new Pagination<>();
         pagination.setPageNum(page.getPageNum());
         pagination.setPageSize(page.getPageSize());
         pagination.setPages(page.getPages());

@@ -23,4 +23,6 @@ public interface UserModelMapper {
     int updateByPrimaryKey(UserModel record);
 
     List<UserModel> search(UserModel record);
+
+    List<UserModel> selectByIdList(List<Integer> idList);
 }

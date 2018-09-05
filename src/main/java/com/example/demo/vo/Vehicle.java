@@ -8,6 +8,8 @@ public class Vehicle implements Serializable {
 
     private Integer id;
 
+    private Integer userId;
+
     @NotNull(message = "请填写座位数")
     private Integer seatCount;
 
@@ -26,6 +28,14 @@ public class Vehicle implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public Integer getSeatCount() {

@@ -7,6 +7,8 @@ public class Shop implements Serializable {
 
     private Integer id;
 
+    private Integer userId;
+
     @NotBlank(message = "请填写店铺名称")
     private String name;
 
@@ -19,6 +21,14 @@ public class Shop implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getName() {

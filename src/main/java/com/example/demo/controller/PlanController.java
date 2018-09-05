@@ -2,14 +2,8 @@ package com.example.demo.controller;
 
 import com.example.demo.context.Context;
 import com.example.demo.enums.ResponseStatusEnum;
-import com.example.demo.mapper.PlanModelMapper;
-import com.example.demo.mapper.StationModelMapper;
-import com.example.demo.mapper.UserModelMapper;
-import com.example.demo.mapper.VehicleModelMapper;
-import com.example.demo.model.PlanModel;
-import com.example.demo.model.StationModel;
-import com.example.demo.model.UserModel;
-import com.example.demo.model.VehicleModel;
+import com.example.demo.mapper.*;
+import com.example.demo.model.*;
 import com.example.demo.util.JsonUtils;
 import com.example.demo.vo.*;
 import com.github.pagehelper.Page;
@@ -21,12 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+import java.util.*;
 
 @RestController
 @RequestMapping(value = "/plan")
@@ -39,6 +28,9 @@ public class PlanController {
 
     @Autowired
     UserModelMapper userModelMapper;
+
+    @Autowired
+    LocationModelMapper locationModelMapper;
 
     @Autowired
     VehicleModelMapper vehicleModelMapper;
@@ -216,13 +208,22 @@ public class PlanController {
                     userMap.put(user.getId(), user);
                 });
             }
+            List<LocationModel> locationModelList = locationModelMapper.selectByUserIdList(userIdList);
+            Map<Integer, Location> locationMap = new HashMap<>();
+            if (locationModelList != null && !locationModelList.isEmpty()) {
+                locationModelList.stream().forEach(locationModel -> {
+                    Location location = new Location();
+                    BeanUtils.copyProperties(locationModel, location);
+                    locationMap.put(location.getUserId(), location);
+                });
+            }
             List<VehicleModel> vehicleModelList = vehicleModelMapper.selectByUserIdList(userIdList);
             Map<Integer, Vehicle> vehicleMap = new HashMap<>();
             if (vehicleModelList != null && !vehicleModelList.isEmpty()) {
                 vehicleModelList.stream().forEach(vehicleModel -> {
                     Vehicle vehicle = new Vehicle();
                     BeanUtils.copyProperties(vehicleModel, vehicle);
-                    vehicleMap.put(vehicle.getId(), vehicle);
+                    vehicleMap.put(vehicle.getUserId(), vehicle);
                 });
             }
             List<StationModel> stationModelList = stationModelMapper.selectByIdList(stationIdList);
@@ -239,6 +240,7 @@ public class PlanController {
                 ComplexPlan complexPlan = new ComplexPlan();
                 complexPlan.setId(planModel.getId());
                 complexPlan.setUser(userMap.get(planModel.getUserId()));
+                complexPlan.setLocation(locationMap.get(planModel.getUserId()));
                 complexPlan.setVehicle(vehicleMap.get(planModel.getUserId()));
                 complexPlan.setStationStart(stationMap.get(planModel.getStationStart()));
                 complexPlan.setStationEnd(stationMap.get(planModel.getStationEnd()));
@@ -258,4 +260,5 @@ public class PlanController {
         result.setData(pagination);
         return result;
     }
+
 }

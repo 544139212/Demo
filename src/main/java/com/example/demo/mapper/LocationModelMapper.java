@@ -2,7 +2,10 @@ package com.example.demo.mapper;
 
 import com.example.demo.model.LocationModel;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Mapper
 @Repository
@@ -20,4 +23,6 @@ public interface LocationModelMapper {
     int updateByPrimaryKey(LocationModel record);
 
     LocationModel getLocation(Integer userId);
+
+    List<LocationModel> selectByUserIdList(@Param("userIdList") List<Integer> userIdList);
 }

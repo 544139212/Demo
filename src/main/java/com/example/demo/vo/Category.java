@@ -1,11 +1,13 @@
 package com.example.demo.vo;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 public class Category implements Serializable {
 
     private Integer id;
 
+    @NotBlank(message = "请填写分类名称")
     private String name;
 
     private String imageUrl;

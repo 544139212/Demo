@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -50,6 +51,10 @@ public class ShopController {
         ShopModel shopModel = new ShopModel();
         BeanUtils.copyProperties(shop, shopModel);
         shopModel.setUserId(Context.get().getUserId());
+        shopModel.setCreateBy(Context.get().getUserId().toString());
+        shopModel.setCreateDate(new Date());
+        shopModel.setUpdateBy(Context.get().getUserId().toString());
+        shopModel.setUpdateDate(new Date());
         shopModelMapper.insertSelective(shopModel);
         result.setCode(ResponseStatusEnum.SUCCESS.getCode());
         result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
@@ -83,6 +88,8 @@ public class ShopController {
             return result;
         }
         BeanUtils.copyProperties(shop, shopModel);
+        shopModel.setUpdateBy(Context.get().getUserId().toString());
+        shopModel.setUpdateDate(new Date());
         shopModelMapper.updateByPrimaryKeySelective(shopModel);
         result.setCode(ResponseStatusEnum.SUCCESS.getCode());
         result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());

@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.context.Context;
 import com.example.demo.enums.ResponseStatusEnum;
 import com.example.demo.mapper.AttributeModelMapper;
 import com.example.demo.model.AttributeModel;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -48,6 +50,10 @@ public class AttributeController {
         }
         AttributeModel attributeModel = new AttributeModel();
         BeanUtils.copyProperties(attribute, attributeModel);
+        attributeModel.setCreateBy(Context.get().getUserId().toString());
+        attributeModel.setCreateDate(new Date());
+        attributeModel.setUpdateBy(Context.get().getUserId().toString());
+        attributeModel.setUpdateDate(new Date());
         attributeModelMapper.insertSelective(attributeModel);
         result.setCode(ResponseStatusEnum.SUCCESS.getCode());
         result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
@@ -85,6 +91,8 @@ public class AttributeController {
             return result;
         }
         BeanUtils.copyProperties(attribute, attributeModel);
+        attributeModel.setUpdateBy(Context.get().getUserId().toString());
+        attributeModel.setUpdateDate(new Date());
         attributeModelMapper.updateByPrimaryKeySelective(attributeModel);
         result.setCode(ResponseStatusEnum.SUCCESS.getCode());
         result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());

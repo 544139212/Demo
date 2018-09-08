@@ -59,6 +59,10 @@ public class PlanController {
         PlanModel planModel = new PlanModel();
         BeanUtils.copyProperties(plan, planModel);
         planModel.setUserId(Context.get().getUserId());
+        planModel.setCreateBy(Context.get().getUserId().toString());
+        planModel.setCreateDate(new Date());
+        planModel.setUpdateBy(Context.get().getUserId().toString());
+        planModel.setUpdateDate(new Date());
         planModelMapper.insertSelective(planModel);
         result.setCode(ResponseStatusEnum.SUCCESS.getCode());
         result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
@@ -92,6 +96,8 @@ public class PlanController {
             return result;
         }
         BeanUtils.copyProperties(plan, planModel);
+        planModel.setUpdateBy(Context.get().getUserId().toString());
+        planModel.setUpdateDate(new Date());
         planModelMapper.updateByPrimaryKeySelective(planModel);
         result.setCode(ResponseStatusEnum.SUCCESS.getCode());
         result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());

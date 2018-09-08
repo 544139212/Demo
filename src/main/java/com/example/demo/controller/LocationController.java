@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Date;
 
 @RestController
 @RequestMapping(value = "/location")
@@ -37,6 +38,10 @@ public class LocationController {
         LocationModel locationModel = new LocationModel();
         BeanUtils.copyProperties(location, locationModel);
         locationModel.setUserId(Context.get().getUserId());
+        locationModel.setCreateBy(Context.get().getUserId().toString());
+        locationModel.setCreateDate(new Date());
+        locationModel.setUpdateBy(Context.get().getUserId().toString());
+        locationModel.setUpdateDate(new Date());
         locationModelMapper.insertSelective(locationModel);
         result.setCode(ResponseStatusEnum.SUCCESS.getCode());
         result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());

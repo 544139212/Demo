@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.context.Context;
 import com.example.demo.enums.ResponseStatusEnum;
 import com.example.demo.mapper.CategoryModelMapper;
 import com.example.demo.model.CategoryModel;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -48,6 +50,10 @@ public class CategoryController {
         }
         CategoryModel categoryModel = new CategoryModel();
         BeanUtils.copyProperties(category, categoryModel);
+        categoryModel.setCreateBy(Context.get().getUserId().toString());
+        categoryModel.setCreateDate(new Date());
+        categoryModel.setUpdateBy(Context.get().getUserId().toString());
+        categoryModel.setUpdateDate(new Date());
         categoryModelMapper.insertSelective(categoryModel);
         result.setCode(ResponseStatusEnum.SUCCESS.getCode());
         result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
@@ -85,6 +91,8 @@ public class CategoryController {
             return result;
         }
         BeanUtils.copyProperties(category, categoryModel);
+        categoryModel.setUpdateBy(Context.get().getUserId().toString());
+        categoryModel.setUpdateDate(new Date());
         categoryModelMapper.updateByPrimaryKeySelective(categoryModel);
         result.setCode(ResponseStatusEnum.SUCCESS.getCode());
         result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());

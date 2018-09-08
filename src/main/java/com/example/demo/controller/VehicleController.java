@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -50,6 +51,10 @@ public class VehicleController {
         VehicleModel vehicleModel = new VehicleModel();
         BeanUtils.copyProperties(vehicle, vehicleModel);
         vehicleModel.setUserId(Context.get().getUserId());
+        vehicleModel.setCreateBy(Context.get().getUserId().toString());
+        vehicleModel.setCreateDate(new Date());
+        vehicleModel.setUpdateBy(Context.get().getUserId().toString());
+        vehicleModel.setUpdateDate(new Date());
         vehicleModelMapper.insertSelective(vehicleModel);
         result.setCode(ResponseStatusEnum.SUCCESS.getCode());
         result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
@@ -83,6 +88,8 @@ public class VehicleController {
             return result;
         }
         BeanUtils.copyProperties(vehicle, vehicleModel);
+        vehicleModel.setUpdateBy(Context.get().getUserId().toString());
+        vehicleModel.setUpdateDate(new Date());
         vehicleModelMapper.updateByPrimaryKeySelective(vehicleModel);
         result.setCode(ResponseStatusEnum.SUCCESS.getCode());
         result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());

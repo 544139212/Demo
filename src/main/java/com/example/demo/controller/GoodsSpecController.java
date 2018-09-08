@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.context.Context;
 import com.example.demo.enums.ResponseStatusEnum;
 import com.example.demo.mapper.GoodsSpecModelMapper;
 import com.example.demo.model.GoodsSpecModel;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -48,6 +50,10 @@ public class GoodsSpecController {
         }
         GoodsSpecModel goodsSpecModel = new GoodsSpecModel();
         BeanUtils.copyProperties(goodsSpec, goodsSpecModel);
+        goodsSpecModel.setCreateBy(Context.get().getUserId().toString());
+        goodsSpecModel.setCreateDate(new Date());
+        goodsSpecModel.setUpdateBy(Context.get().getUserId().toString());
+        goodsSpecModel.setUpdateDate(new Date());
         goodsSpecModelMapper.insertSelective(goodsSpecModel);
         result.setCode(ResponseStatusEnum.SUCCESS.getCode());
         result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
@@ -85,6 +91,8 @@ public class GoodsSpecController {
             return result;
         }
         BeanUtils.copyProperties(goodsSpec, goodsSpecModel);
+        goodsSpecModel.setUpdateBy(Context.get().getUserId().toString());
+        goodsSpecModel.setUpdateDate(new Date());
         goodsSpecModelMapper.updateByPrimaryKeySelective(goodsSpecModel);
         result.setCode(ResponseStatusEnum.SUCCESS.getCode());
         result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());

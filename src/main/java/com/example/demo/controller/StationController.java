@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.context.Context;
 import com.example.demo.enums.ResponseStatusEnum;
 import com.example.demo.mapper.StationModelMapper;
 import com.example.demo.model.StationModel;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -48,6 +50,10 @@ public class StationController {
         }
         StationModel stationModel = new StationModel();
         BeanUtils.copyProperties(station, stationModel);
+        stationModel.setCreateBy(Context.get().getUserId().toString());
+        stationModel.setCreateDate(new Date());
+        stationModel.setUpdateBy(Context.get().getUserId().toString());
+        stationModel.setUpdateDate(new Date());
         stationModelMapper.insertSelective(stationModel);
         result.setCode(ResponseStatusEnum.SUCCESS.getCode());
         result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
@@ -85,6 +91,8 @@ public class StationController {
             return result;
         }
         BeanUtils.copyProperties(station, stationModel);
+        stationModel.setUpdateBy(Context.get().getUserId().toString());
+        stationModel.setUpdateDate(new Date());
         stationModelMapper.updateByPrimaryKeySelective(stationModel);
         result.setCode(ResponseStatusEnum.SUCCESS.getCode());
         result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());

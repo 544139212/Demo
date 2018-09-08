@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -71,6 +72,11 @@ public class LoginController {
 				userModel = new UserModel();
 				userModel.setOpenid(openid);
 				userModelMapper.insertSelective(userModel);
+				userModel.setCreateBy(userModel.getId().toString());
+				userModel.setCreateDate(new Date());
+				userModel.setUpdateBy(userModel.getId().toString());
+				userModel.setUpdateDate(new Date());
+				userModelMapper.updateByPrimaryKeySelective(userModel);
 			} else {
 				userModel = list.get(0);
 			}

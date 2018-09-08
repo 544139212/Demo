@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.context.Context;
 import com.example.demo.enums.ResponseStatusEnum;
 import com.example.demo.mapper.BrandModelMapper;
 import com.example.demo.model.BrandModel;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -48,6 +50,10 @@ public class BrandController {
         }
         BrandModel brandModel = new BrandModel();
         BeanUtils.copyProperties(brand, brandModel);
+        brandModel.setCreateBy(Context.get().getUserId().toString());
+        brandModel.setCreateDate(new Date());
+        brandModel.setUpdateBy(Context.get().getUserId().toString());
+        brandModel.setUpdateDate(new Date());
         brandModelMapper.insertSelective(brandModel);
         result.setCode(ResponseStatusEnum.SUCCESS.getCode());
         result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
@@ -85,6 +91,8 @@ public class BrandController {
             return result;
         }
         BeanUtils.copyProperties(brand, brandModel);
+        brandModel.setUpdateBy(Context.get().getUserId().toString());
+        brandModel.setUpdateDate(new Date());
         brandModelMapper.updateByPrimaryKeySelective(brandModel);
         result.setCode(ResponseStatusEnum.SUCCESS.getCode());
         result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());

@@ -19,6 +19,7 @@ import com.example.demo.vo.Result;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -70,6 +71,8 @@ public class UserController {
 		}
 		BeanUtils.copyProperties(user, userModel);
 		userModel.setId(Context.get().getUserId());
+		userModel.setUpdateBy(Context.get().getUserId().toString());
+		userModel.setUpdateDate(new Date());
 		userModelMapper.updateByPrimaryKeySelective(userModel);
 
 		result.setCode(ResponseStatusEnum.SUCCESS.getCode());

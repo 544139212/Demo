@@ -7,9 +7,13 @@ public class PlanModel {
 
     private Integer userId;
 
+    private Byte type;
+
     private Integer stationStart;
 
     private Integer stationEnd;
+
+    private String date;
 
     private String time;
 
@@ -41,6 +45,14 @@ public class PlanModel {
         this.userId = userId;
     }
 
+    public Byte getType() {
+        return type;
+    }
+
+    public void setType(Byte type) {
+        this.type = type;
+    }
+
     public Integer getStationStart() {
         return stationStart;
     }
@@ -55,6 +67,14 @@ public class PlanModel {
 
     public void setStationEnd(Integer stationEnd) {
         this.stationEnd = stationEnd;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getTime() {

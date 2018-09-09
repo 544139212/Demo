@@ -10,13 +10,19 @@ public class Plan implements Serializable {
 
     private Integer userId;
 
-    @NotNull(message = "请填写始发站")
+    @NotNull(message = "请选择类型")
+    private Byte type;
+
+    @NotNull(message = "请填写区间")
     private Integer stationStart;
 
-    @NotNull(message = "请填写终到站")
+    @NotNull(message = "请填写区间")
     private Integer stationEnd;
 
-    @NotBlank(message = "请填写发车时间")
+    @NotBlank(message = "请填写日期")
+    private String date;
+
+    @NotBlank(message = "请填写时间")
     private String time;
 
     private String remark;
@@ -37,6 +43,14 @@ public class Plan implements Serializable {
         this.userId = userId;
     }
 
+    public Byte getType() {
+        return type;
+    }
+
+    public void setType(Byte type) {
+        this.type = type;
+    }
+
     public Integer getStationStart() {
         return stationStart;
     }
@@ -51,6 +65,14 @@ public class Plan implements Serializable {
 
     public void setStationEnd(Integer stationEnd) {
         this.stationEnd = stationEnd;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getTime() {

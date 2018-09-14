@@ -7,13 +7,9 @@ public class VehicleModel {
 
     private Integer userId;
 
-    private Integer seatCount;
-
     private String imageUrl;
 
     private String no;
-
-    private String model;
 
     private Byte delInd;
 
@@ -41,14 +37,6 @@ public class VehicleModel {
         this.userId = userId;
     }
 
-    public Integer getSeatCount() {
-        return seatCount;
-    }
-
-    public void setSeatCount(Integer seatCount) {
-        this.seatCount = seatCount;
-    }
-
     public String getImageUrl() {
         return imageUrl;
     }
@@ -63,14 +51,6 @@ public class VehicleModel {
 
     public void setNo(String no) {
         this.no = no == null ? null : no.trim();
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model == null ? null : model.trim();
     }
 
     public Byte getDelInd() {

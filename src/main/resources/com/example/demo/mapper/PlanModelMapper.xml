@@ -9,6 +9,7 @@
     <result column="station_end" property="stationEnd" jdbcType="INTEGER" />
     <result column="date" property="date" jdbcType="VARCHAR" />
     <result column="time" property="time" jdbcType="VARCHAR" />
+    <result column="num" property="num" jdbcType="INTEGER" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="del_ind" property="delInd" jdbcType="TINYINT" />
     <result column="create_by" property="createBy" jdbcType="VARCHAR" />
@@ -17,8 +18,8 @@
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, user_id, type, station_start, station_end, date, time, remark, del_ind, create_by,
-    create_date, update_by, update_date
+    id, user_id, type, station_start, station_end, date, time, num, remark, del_ind,
+    create_by, create_date, update_by, update_date
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select
@@ -33,14 +34,14 @@
   <insert id="insert" parameterType="com.example.demo.model.PlanModel" >
     insert into plan (id, user_id, type,
       station_start, station_end, date,
-      time, remark, del_ind,
-      create_by, create_date, update_by,
-      update_date)
+      time, num, remark,
+      del_ind, create_by, create_date,
+      update_by, update_date)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT},
       #{stationStart,jdbcType=INTEGER}, #{stationEnd,jdbcType=INTEGER}, #{date,jdbcType=VARCHAR},
-      #{time,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{delInd,jdbcType=TINYINT},
-      #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR},
-      #{updateDate,jdbcType=TIMESTAMP})
+      #{time,jdbcType=VARCHAR}, #{num,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR},
+      #{delInd,jdbcType=TINYINT}, #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP},
+      #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.example.demo.model.PlanModel" >
     insert into plan
@@ -65,6 +66,9 @@
       </if>
       <if test="time != null" >
         time,
+      </if>
+      <if test="num != null" >
+        num,
       </if>
       <if test="remark != null" >
         remark,
@@ -107,6 +111,9 @@
       <if test="time != null" >
         #{time,jdbcType=VARCHAR},
       </if>
+      <if test="num != null" >
+        #{num,jdbcType=INTEGER},
+      </if>
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
       </if>
@@ -148,6 +155,9 @@
       <if test="time != null" >
         time = #{time,jdbcType=VARCHAR},
       </if>
+      <if test="num != null" >
+        num = #{num,jdbcType=INTEGER},
+      </if>
       <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
       </if>
@@ -177,6 +187,7 @@
       station_end = #{stationEnd,jdbcType=INTEGER},
       date = #{date,jdbcType=VARCHAR},
       time = #{time,jdbcType=VARCHAR},
+      num = #{num,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR},
       del_ind = #{delInd,jdbcType=TINYINT},
       create_by = #{createBy,jdbcType=VARCHAR},
@@ -202,6 +213,9 @@
       </if>
       <if test="time != null" >
         and time = #{time,jdbcType=TIMESTAMP}
+      </if>
+      <if test="num != null" >
+        and num = #{num,jdbcType=INTEGER},
       </if>
       <if test="remark != null" >
         and remark = #{remark,jdbcType=VARCHAR}

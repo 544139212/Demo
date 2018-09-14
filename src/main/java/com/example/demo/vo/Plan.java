@@ -25,6 +25,9 @@ public class Plan implements Serializable {
     @NotBlank(message = "请填写时间")
     private String time;
 
+    @NotNull(message = "请填写人数")
+    private Integer num;
+
     private String remark;
 
     public Integer getId() {
@@ -81,6 +84,14 @@ public class Plan implements Serializable {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public Integer getNum() {
+        return num;
+    }
+
+    public void setNum(Integer num) {
+        this.num = num;
     }
 
     public String getRemark() {

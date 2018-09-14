@@ -17,6 +17,8 @@ public class PlanModel {
 
     private String time;
 
+    private Integer num;
+
     private String remark;
 
     private Byte delInd;
@@ -74,7 +76,7 @@ public class PlanModel {
     }
 
     public void setDate(String date) {
-        this.date = date;
+        this.date = date == null ? null : date.trim();
     }
 
     public String getTime() {
@@ -82,7 +84,15 @@ public class PlanModel {
     }
 
     public void setTime(String time) {
-        this.time = time;
+        this.time = time == null ? null : time.trim();
+    }
+
+    public Integer getNum() {
+        return num;
+    }
+
+    public void setNum(Integer num) {
+        this.num = num;
     }
 
     public String getRemark() {

@@ -59,11 +59,8 @@ public class SessionInterceptor implements HandlerInterceptor {
         Context.set(session);
         
         // session续约
-        Long remainingTime = redisTemplate.getExpire(token, TimeUnit.SECONDS);
-        if (remainingTime < 60) {
-        	redisTemplate.expire(token, 30*60, TimeUnit.SECONDS);
-        }
-		
+		redisTemplate.expire(token, 30*60, TimeUnit.SECONDS);
+
 		return HandlerInterceptor.super.preHandle(request, response, handler);
 	}
 	

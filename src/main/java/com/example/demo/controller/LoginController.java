@@ -67,7 +67,7 @@ public class LoginController {
 			UserModel criteria = new UserModel();
 			criteria.setOpenid(openid);
 			List<UserModel> list = userModelMapper.search(criteria);
-			UserModel userModel = null;
+			UserModel userModel;
 			if (list == null || list.isEmpty()) {
 				userModel = new UserModel();
 				userModel.setOpenid(openid);
@@ -82,8 +82,6 @@ public class LoginController {
 			}
 			
 			Session session = new Session();
-//			session.setUnionid();
-			session.setOpenid(openid);
 			session.setSessionKey(sessionKey);
 			session.setUserId(userModel.getId());
 

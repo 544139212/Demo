@@ -1,9 +1,11 @@
 package com.example.demo.controller;
 
 import com.example.demo.context.Context;
+import com.example.demo.enums.PlanTypeEnum;
 import com.example.demo.enums.ResponseStatusEnum;
 import com.example.demo.mapper.*;
 import com.example.demo.model.*;
+import com.example.demo.util.DateUtils;
 import com.example.demo.util.JsonUtils;
 import com.example.demo.vo.*;
 import com.github.pagehelper.Page;
@@ -48,14 +50,61 @@ public class PlanController {
         logger.debug("参数:{}", JsonUtils.deserializer(plan));
 
         Result<Void> result = new Result<>();
-        PlanModel criteria = new PlanModel();
-        criteria.setUserId(Context.get().getUserId());
-        List<PlanModel> list = planModelMapper.search(criteria);//TODO:优化
-        if (list != null && !list.isEmpty()) {
-            result.setCode(ResponseStatusEnum.EXIST.getCode());
-            result.setMsg(ResponseStatusEnum.EXIST.getMsg());
+        // 当类型为"车找人"时，需校验车辆信息是否存在
+        if (PlanTypeEnum.CHE_ZHAO_REN.getType() == plan.getType().byteValue()) {
+            VehicleModel criteria = new VehicleModel();
+            criteria.setUserId(Context.get().getUserId());
+            List<VehicleModel> list = vehicleModelMapper.search(criteria);//TODO:优化
+            if (list == null || list.isEmpty()) {
+                result.setCode(ResponseStatusEnum.VEHICLE_NOT_FOUND.getCode());
+                result.setMsg(ResponseStatusEnum.VEHICLE_NOT_FOUND.getMsg());
+                return result;
+            }
+        }
+
+        // 校验出发地站点是否存在
+        StationModel criteria = new StationModel();
+        criteria.setId(plan.getStationStart());
+        List<StationModel> list = stationModelMapper.search(criteria);//TODO:优化
+        if (list == null || list.isEmpty()) {
+            result.setCode(ResponseStatusEnum.STATION_START_INVALID.getCode());
+            result.setMsg(ResponseStatusEnum.STATION_START_INVALID.getMsg());
             return result;
         }
+
+        // 校验目的地站点是否存在
+        criteria.setId(plan.getStationEnd());
+        list = stationModelMapper.search(criteria);//TODO:优化
+        if (list == null || list.isEmpty()) {
+            result.setCode(ResponseStatusEnum.STATION_END_INVALID.getCode());
+            result.setMsg(ResponseStatusEnum.STATION_END_INVALID.getMsg());
+            return result;
+        }
+
+        if (plan.getStationStart().equals(plan.getStationEnd())) {
+            result.setCode(ResponseStatusEnum.STATION_START_END_EQUAL_ERROR.getCode());
+            result.setMsg(ResponseStatusEnum.STATION_START_END_EQUAL_ERROR.getMsg());
+            return result;
+        }
+
+        // 校验日期
+        Date planDate = DateUtils.toDate(plan.getDate(), DateUtils.DEFAULT_PATTERN_DATE);
+        Date nowDate = DateUtils.toDate(DateUtils.toString(new Date()), DateUtils.DEFAULT_PATTERN_DATE);
+        if (planDate.before(nowDate)) {
+            result.setCode(ResponseStatusEnum.DATE_INVALID.getCode());
+            result.setMsg(ResponseStatusEnum.DATE_INVALID.getMsg());
+            return result;
+        }
+
+        // 校验时间
+        Date planDateTime = DateUtils.toDate(plan.getDate() + " " + plan.getTime(), DateUtils.DEFAULT_PATTERN_DATETIME_SHORT);
+        Date nowDateTime = DateUtils.toDate(DateUtils.toString(new Date()), DateUtils.DEFAULT_PATTERN_DATETIME_SHORT);
+        if (planDateTime.before(nowDateTime)) {
+            result.setCode(ResponseStatusEnum.TIME_INVALID.getCode());
+            result.setMsg(ResponseStatusEnum.TIME_INVALID.getMsg());
+            return result;
+        }
+
         PlanModel planModel = new PlanModel();
         BeanUtils.copyProperties(plan, planModel);
         planModel.setUserId(Context.get().getUserId());
@@ -66,62 +115,6 @@ public class PlanController {
         planModelMapper.insertSelective(planModel);
         result.setCode(ResponseStatusEnum.SUCCESS.getCode());
         result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
-        return result;
-    }
-
-    /**
-     * 更新时间计划信息<>当前登录用户</>
-     * @param plan
-     * @return
-     */
-    @RequestMapping(method = RequestMethod.PUT)
-    public Result<Void> update(@RequestBody @Valid Plan plan) {
-        logger.debug("参数:{}", JsonUtils.deserializer(plan));
-
-        Result<Void> result = new Result<>();
-        if (plan.getId() == null) {
-            result.setCode(ResponseStatusEnum.INVALID.getCode());
-            result.setMsg(ResponseStatusEnum.INVALID.getMsg());
-            return result;
-        }
-        PlanModel planModel = planModelMapper.selectByPrimaryKey(plan.getId());
-        if (planModel == null) {
-            result.setCode(ResponseStatusEnum.NOT_FOUND.getCode());
-            result.setMsg(ResponseStatusEnum.NOT_FOUND.getMsg());
-            return result;
-        }
-        if (!planModel.getUserId().equals(Context.get().getUserId())) {
-            result.setCode(ResponseStatusEnum.AUTH.getCode());
-            result.setMsg(ResponseStatusEnum.AUTH.getMsg());
-            return result;
-        }
-        BeanUtils.copyProperties(plan, planModel);
-        planModel.setUpdateBy(Context.get().getUserId().toString());
-        planModel.setUpdateDate(new Date());
-        planModelMapper.updateByPrimaryKeySelective(planModel);
-        result.setCode(ResponseStatusEnum.SUCCESS.getCode());
-        result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
-        return result;
-    }
-
-    /**
-     * 获取时间计划信息<>当前登录用户</>
-     * @return
-     */
-    @RequestMapping(method = RequestMethod.GET)
-    public Result<Plan> get() {
-        Result<Plan> result = new Result<>();
-        PlanModel criteria = new PlanModel();
-        criteria.setUserId(Context.get().getUserId());
-        List<PlanModel> list = planModelMapper.search(criteria);//TODO:优化
-        Plan plan = null;
-        if (list != null && !list.isEmpty()) {
-            plan = new Plan();
-            BeanUtils.copyProperties(list.get(0), plan);
-        }
-        result.setCode(ResponseStatusEnum.SUCCESS.getCode());
-        result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
-        result.setData(plan);
         return result;
     }
 

@@ -6,7 +6,15 @@ public enum ResponseStatusEnum {
 	INVALID(-2, "参数错误"),
 	NOT_FOUND(-3, "未找到相关记录"),
 	AUTH(-4, "鉴权未通过"),
-	EXIST(-5, "记录已存在");
+	EXIST(-5, "记录已存在"),
+
+	VEHICLE_NOT_FOUND(2003, "请完善车辆信息"),
+	STATION_START_INVALID(2004, "出发地无效"),
+	STATION_END_INVALID(2005, "目的地无效"),
+	STATION_START_END_EQUAL_ERROR(2006, "出发地和目的地不能相同"),
+	DATE_INVALID(2007, "日期不能早于今天"),
+	TIME_INVALID(2008, "时间不能早于现在")
+	;
 	
 	private int code;
 	private String msg;

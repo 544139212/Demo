@@ -1,5 +1,10 @@
 package com.example.demo.vo;
 
+import com.example.demo.enums.PlanTypeEnum;
+import com.example.demo.validator.EcDate;
+import com.example.demo.validator.EcEnum;
+
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -11,6 +16,7 @@ public class Plan implements Serializable {
     private Integer userId;
 
     @NotNull(message = "请选择类型")
+    @EcEnum(clazz = PlanTypeEnum.class, message = "类型无效")
     private Byte type;
 
     @NotNull(message = "请填写区间")
@@ -20,12 +26,15 @@ public class Plan implements Serializable {
     private Integer stationEnd;
 
     @NotBlank(message = "请填写日期")
+    @EcDate(message = "日期格式错误")
     private String date;
 
     @NotBlank(message = "请填写时间")
+    @EcDate(pattern = "HH:mm", message = "时间格式错误")
     private String time;
 
     @NotNull(message = "请填写人数")
+    @Min(value = 1L, message = "人数至少为1")
     private Integer num;
 
     private String remark;

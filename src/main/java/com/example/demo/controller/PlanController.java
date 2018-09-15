@@ -262,7 +262,9 @@ public class PlanController {
                 complexPlan.setVehicle(vehicleMap.get(planModel.getUserId()));
                 complexPlan.setStationStart(stationMap.get(planModel.getStationStart()));
                 complexPlan.setStationEnd(stationMap.get(planModel.getStationEnd()));
+                complexPlan.setDate(planModel.getDate());
                 complexPlan.setTime(planModel.getTime());
+                complexPlan.setNum(planModel.getNum());
                 complexPlan.setRemark(planModel.getRemark());
                 list.add(complexPlan);
             });

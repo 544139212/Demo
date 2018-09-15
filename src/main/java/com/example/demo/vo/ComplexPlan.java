@@ -17,7 +17,11 @@ public class ComplexPlan implements Serializable {
 
     private Station stationEnd;
 
+    private String date;
+
     private String time;
+
+    private Integer num;
 
     private String remark;
 
@@ -69,12 +73,28 @@ public class ComplexPlan implements Serializable {
         this.stationEnd = stationEnd;
     }
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
     public String getTime() {
         return time;
     }
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public Integer getNum() {
+        return num;
+    }
+
+    public void setNum(Integer num) {
+        this.num = num;
     }
 
     public String getRemark() {

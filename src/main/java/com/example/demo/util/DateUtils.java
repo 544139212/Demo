@@ -20,6 +20,7 @@ public class DateUtils {
     public static final String DEFAULT_PATTERN_DATETIME = "yyyy-MM-dd HH:mm:ss";
     public static final String DEFAULT_PATTERN_DATE = "yyyy-MM-dd";
     public static final String DEFAULT_PATTERN_TIME = "HH:mm:ss";
+    public static final String DEFAULT_PATTERN_SHORT_TIME = "HH:mm";
     public static final String DEFAULT_PATTERN_ZONE_TIME = "yyyy-MM-dd'T'HH:mm:ss.sss'Z'";
     public static final String DEFAULT_PATTERN_DATETIME_SHORT = "yyyy-MM-dd HH:mm";
 
@@ -34,6 +35,10 @@ public class DateUtils {
 
     public static String toTimeString(Date date) {
         return toString(date, DEFAULT_PATTERN_TIME);
+    }
+
+    public static String toShortTimeString(Date date) {
+        return toString(date, DEFAULT_PATTERN_SHORT_TIME);
     }
 
     public static String toString(Date date, String pattern) {

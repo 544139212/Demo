@@ -13,8 +13,9 @@ public enum ResponseStatusEnum {
 	STATION_END_INVALID(2005, "目的地无效"),
 	STATION_START_END_EQUAL_ERROR(2006, "出发地和目的地不能相同"),
 	DATE_INVALID(2007, "日期不能早于今天"),
-	TIME_INVALID(2008, "时间不能早于现在")
-	;
+	TIME_INVALID(2008, "时间不能早于现在"),
+	REN_ZHAO_CHE_NUM_INVALID(2009, "出行人数必须大于0"),
+	CHE_ZHAO_REN_NUM_INVALID(2010, "剩余空位必须大于0");
 	
 	private int code;
 	private String msg;

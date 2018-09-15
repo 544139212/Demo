@@ -1,19 +1,19 @@
 package com.example.demo.enums;
 
-public enum PlanTypeEnum {
-    REN_ZHAO_CHE((byte)0, "人找车"),
-    CHE_ZHAO_REN((byte)1, "车找人");
+public enum AppointTypeEnum {
+    NOW((byte)0, "现在"),
+    OTHER((byte)1, "预设");
 
     private byte type;
     private String name;
 
-    PlanTypeEnum(byte type, String name) {
+    AppointTypeEnum(byte type, String name) {
         this.type = type;
         this.name = name;
     }
 
     public static boolean validate(Byte type) {
-        for (PlanTypeEnum current : PlanTypeEnum.values()) {
+        for (AppointTypeEnum current : AppointTypeEnum.values()) {
             if (current.getType() == type.byteValue()) {
                 return true;
             }

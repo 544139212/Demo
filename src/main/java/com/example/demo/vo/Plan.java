@@ -1,5 +1,6 @@
 package com.example.demo.vo;
 
+import com.example.demo.enums.AppointTypeEnum;
 import com.example.demo.enums.PlanTypeEnum;
 import com.example.demo.validator.EcDate;
 import com.example.demo.validator.EcEnum;
@@ -15,26 +16,28 @@ public class Plan implements Serializable {
 
     private Integer userId;
 
-    @NotNull(message = "请选择类型")
-    @EcEnum(clazz = PlanTypeEnum.class, message = "类型无效")
-    private Byte type;
+    @NotNull(message = "请选择行程类型")
+    @EcEnum(clazz = PlanTypeEnum.class, message = "行程类型选择无效")
+    private Byte planType;
 
-    @NotNull(message = "请填写区间")
+    @NotNull(message = "请填写行程区间")
     private Integer stationStart;
 
-    @NotNull(message = "请填写区间")
+    @NotNull(message = "请填写行程区间")
     private Integer stationEnd;
 
-    @NotBlank(message = "请填写日期")
+    @NotNull(message = "请选择出发时间")
+    @EcEnum(clazz = AppointTypeEnum.class, message = "出发时间选择无效")
+    private Byte appointType;
+
     @EcDate(message = "日期格式错误")
     private String date;
 
-    @NotBlank(message = "请填写时间")
     @EcDate(pattern = "HH:mm", message = "时间格式错误")
     private String time;
 
-    @NotNull(message = "请填写人数")
-    @Min(value = 1L, message = "人数至少为1")
+//    @NotNull(message = "请填写出行人数|剩余空位")
+//    @Min(value = 1L, message = "出行人数|剩余空位至少为1")
     private Integer num;
 
     private String remark;
@@ -55,12 +58,12 @@ public class Plan implements Serializable {
         this.userId = userId;
     }
 
-    public Byte getType() {
-        return type;
+    public Byte getPlanType() {
+        return planType;
     }
 
-    public void setType(Byte type) {
-        this.type = type;
+    public void setPlanType(Byte planType) {
+        this.planType = planType;
     }
 
     public Integer getStationStart() {
@@ -77,6 +80,14 @@ public class Plan implements Serializable {
 
     public void setStationEnd(Integer stationEnd) {
         this.stationEnd = stationEnd;
+    }
+
+    public Byte getAppointType() {
+        return appointType;
+    }
+
+    public void setAppointType(Byte appointType) {
+        this.appointType = appointType;
     }
 
     public String getDate() {

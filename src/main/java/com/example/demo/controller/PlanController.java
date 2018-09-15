@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.context.Context;
+import com.example.demo.enums.AppointTypeEnum;
 import com.example.demo.enums.PlanTypeEnum;
 import com.example.demo.enums.ResponseStatusEnum;
 import com.example.demo.mapper.*;
@@ -51,7 +52,7 @@ public class PlanController {
 
         Result<Void> result = new Result<>();
         // 当类型为"车找人"时，需校验车辆信息是否存在
-        if (PlanTypeEnum.CHE_ZHAO_REN.getType() == plan.getType().byteValue()) {
+        if (PlanTypeEnum.CHE_ZHAO_REN.getType() == plan.getPlanType().byteValue()) {
             VehicleModel criteria = new VehicleModel();
             criteria.setUserId(Context.get().getUserId());
             List<VehicleModel> list = vehicleModelMapper.search(criteria);//TODO:优化
@@ -87,21 +88,39 @@ public class PlanController {
             return result;
         }
 
-        // 校验日期
-        Date planDate = DateUtils.toDate(plan.getDate(), DateUtils.DEFAULT_PATTERN_DATE);
-        Date nowDate = DateUtils.toDate(DateUtils.toString(new Date()), DateUtils.DEFAULT_PATTERN_DATE);
-        if (planDate.before(nowDate)) {
-            result.setCode(ResponseStatusEnum.DATE_INVALID.getCode());
-            result.setMsg(ResponseStatusEnum.DATE_INVALID.getMsg());
-            return result;
+        // 校验出发时间
+        if (AppointTypeEnum.NOW.getType() == plan.getAppointType().byteValue()) {
+            plan.setDate(DateUtils.toDateString(new Date()));
+            plan.setTime(DateUtils.toShortTimeString(new Date()));
+        } else if (AppointTypeEnum.OTHER.getType() == plan.getAppointType().byteValue()) {
+            // 校验日期
+            Date planDate = DateUtils.toDate(plan.getDate(), DateUtils.DEFAULT_PATTERN_DATE);
+            Date nowDate = DateUtils.toDate(DateUtils.toDateString(new Date()), DateUtils.DEFAULT_PATTERN_DATE);
+            if (planDate.before(nowDate)) {
+                result.setCode(ResponseStatusEnum.DATE_INVALID.getCode());
+                result.setMsg(ResponseStatusEnum.DATE_INVALID.getMsg());
+                return result;
+            }
+
+            // 校验时间
+            Date planDateTime = DateUtils.toDate(plan.getDate() + " " + plan.getTime(), DateUtils.DEFAULT_PATTERN_DATETIME_SHORT);
+            Date nowDateTime = DateUtils.toDate(DateUtils.toString(new Date()), DateUtils.DEFAULT_PATTERN_DATETIME_SHORT);
+            if (planDateTime.before(nowDateTime)) {
+                result.setCode(ResponseStatusEnum.TIME_INVALID.getCode());
+                result.setMsg(ResponseStatusEnum.TIME_INVALID.getMsg());
+                return result;
+            }
         }
 
-        // 校验时间
-        Date planDateTime = DateUtils.toDate(plan.getDate() + " " + plan.getTime(), DateUtils.DEFAULT_PATTERN_DATETIME_SHORT);
-        Date nowDateTime = DateUtils.toDate(DateUtils.toString(new Date()), DateUtils.DEFAULT_PATTERN_DATETIME_SHORT);
-        if (planDateTime.before(nowDateTime)) {
-            result.setCode(ResponseStatusEnum.TIME_INVALID.getCode());
-            result.setMsg(ResponseStatusEnum.TIME_INVALID.getMsg());
+        // 校验出行人数|剩余空位
+        if (plan.getNum() == null || plan.getNum() < 1) {
+            if (PlanTypeEnum.REN_ZHAO_CHE.getType() == plan.getPlanType().byteValue()) {
+                result.setCode(ResponseStatusEnum.REN_ZHAO_CHE_NUM_INVALID.getCode());
+                result.setMsg(ResponseStatusEnum.REN_ZHAO_CHE_NUM_INVALID.getMsg());
+            } else if (PlanTypeEnum.CHE_ZHAO_REN.getType() == plan.getPlanType().byteValue()) {
+                result.setCode(ResponseStatusEnum.CHE_ZHAO_REN_NUM_INVALID.getCode());
+                result.setMsg(ResponseStatusEnum.CHE_ZHAO_REN_NUM_INVALID.getMsg());
+            }
             return result;
         }
 

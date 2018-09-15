@@ -4,9 +4,10 @@
   <resultMap id="BaseResultMap" type="com.example.demo.model.PlanModel" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="plan_type" property="planType" jdbcType="TINYINT" />
     <result column="station_start" property="stationStart" jdbcType="INTEGER" />
     <result column="station_end" property="stationEnd" jdbcType="INTEGER" />
+    <result column="appoint_type" property="appointType" jdbcType="TINYINT" />
     <result column="date" property="date" jdbcType="VARCHAR" />
     <result column="time" property="time" jdbcType="VARCHAR" />
     <result column="num" property="num" jdbcType="INTEGER" />
@@ -18,8 +19,8 @@
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, user_id, type, station_start, station_end, date, time, num, remark, del_ind,
-    create_by, create_date, update_by, update_date
+    id, user_id, plan_type, station_start, station_end, appoint_type, date, time, num,
+    remark, del_ind, create_by, create_date, update_by, update_date
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select
@@ -32,14 +33,14 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.example.demo.model.PlanModel" >
-    insert into plan (id, user_id, type,
-      station_start, station_end, date,
-      time, num, remark,
+    insert into plan (id, user_id, plan_type,
+      station_start, station_end, appoint_type,
+      date, time, num, remark,
       del_ind, create_by, create_date,
       update_by, update_date)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT},
-      #{stationStart,jdbcType=INTEGER}, #{stationEnd,jdbcType=INTEGER}, #{date,jdbcType=VARCHAR},
-      #{time,jdbcType=VARCHAR}, #{num,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR},
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{planType,jdbcType=TINYINT},
+      #{stationStart,jdbcType=INTEGER}, #{stationEnd,jdbcType=INTEGER}, #{appointType,jdbcType=TINYINT},
+      #{date,jdbcType=VARCHAR}, #{time,jdbcType=VARCHAR}, #{num,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR},
       #{delInd,jdbcType=TINYINT}, #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP},
       #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP})
   </insert>
@@ -52,14 +53,17 @@
       <if test="userId != null" >
         user_id,
       </if>
-      <if test="type != null" >
-        type,
+      <if test="planType != null" >
+        plan_type,
       </if>
       <if test="stationStart != null" >
         station_start,
       </if>
       <if test="stationEnd != null" >
         station_end,
+      </if>
+      <if test="appointType != null" >
+        appoint_type,
       </if>
       <if test="date != null" >
         date,
@@ -96,14 +100,17 @@
       <if test="userId != null" >
         #{userId,jdbcType=INTEGER},
       </if>
-      <if test="type != null" >
-        #{type,jdbcType=TINYINT},
+      <if test="planType != null" >
+        #{planType,jdbcType=TINYINT},
       </if>
       <if test="stationStart != null" >
         #{stationStart,jdbcType=INTEGER},
       </if>
       <if test="stationEnd != null" >
         #{stationEnd,jdbcType=INTEGER},
+      </if>
+      <if test="appointType != null" >
+        #{appointType,jdbcType=TINYINT},
       </if>
       <if test="date != null" >
         #{date,jdbcType=VARCHAR},
@@ -140,14 +147,17 @@
       <if test="userId != null" >
         user_id = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="type != null" >
-        type = #{type,jdbcType=TINYINT},
+      <if test="planType != null" >
+        plan_type = #{planType,jdbcType=TINYINT},
       </if>
       <if test="stationStart != null" >
         station_start = #{stationStart,jdbcType=INTEGER},
       </if>
       <if test="stationEnd != null" >
         station_end = #{stationEnd,jdbcType=INTEGER},
+      </if>
+      <if test="appointType != null" >
+        appoint_type = #{appointType,jdbcType=TINYINT},
       </if>
       <if test="date != null" >
         date = #{date,jdbcType=VARCHAR},
@@ -182,9 +192,10 @@
   <update id="updateByPrimaryKey" parameterType="com.example.demo.model.PlanModel" >
     update plan
     set user_id = #{userId,jdbcType=INTEGER},
-      type = #{type,jdbcType=TINYINT},
+      plan_type = #{planType,jdbcType=TINYINT},
       station_start = #{stationStart,jdbcType=INTEGER},
       station_end = #{stationEnd,jdbcType=INTEGER},
+      appoint_type = #{appointType,jdbcType=TINYINT},
       date = #{date,jdbcType=VARCHAR},
       time = #{time,jdbcType=VARCHAR},
       num = #{num,jdbcType=INTEGER},
@@ -205,17 +216,26 @@
       <if test="userId != null" >
         and user_id = #{userId,jdbcType=INTEGER}
       </if>
+      <if test="planType != null" >
+        and plan_type = #{planType,jdbcType=TINYINT}
+      </if>
       <if test="stationStart != null" >
         and station_start = #{stationStart,jdbcType=INTEGER}
       </if>
       <if test="stationEnd != null" >
         and station_end = #{stationEnd,jdbcType=INTEGER}
       </if>
+      <if test="appointType != null" >
+        and appoint_type = #{appointType,jdbcType=TINYINT}
+      </if>
+      <if test="date != null" >
+        and date = #{date,jdbcType=VARCHAR}
+      </if>
       <if test="time != null" >
         and time = #{time,jdbcType=TIMESTAMP}
       </if>
       <if test="num != null" >
-        and num = #{num,jdbcType=INTEGER},
+        and num = #{num,jdbcType=INTEGER}
       </if>
       <if test="remark != null" >
         and remark = #{remark,jdbcType=VARCHAR}

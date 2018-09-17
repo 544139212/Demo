@@ -23,6 +23,4 @@ public interface LocationModelMapper {
     int updateByPrimaryKey(LocationModel record);
 
     LocationModel getLocation(Integer userId);
-
-    List<LocationModel> selectByUserIdList(@Param("userIdList") List<Integer> userIdList);
 }

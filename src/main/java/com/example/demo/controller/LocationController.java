@@ -67,4 +67,19 @@ public class LocationController {
         return result;
     }
 
+    @RequestMapping(value = "/user/{userId}", method = RequestMethod.GET)
+    public Result<Location> getByUserId(@PathVariable Integer userId) {
+        Result<Location> result = new Result<>();
+        LocationModel locationModel = locationModelMapper.getLocation(userId);
+        Location location = null;
+        if (locationModel != null) {
+            location = new Location();
+            BeanUtils.copyProperties(locationModel, location);
+        }
+        result.setCode(ResponseStatusEnum.SUCCESS.getCode());
+        result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
+        result.setData(location);
+        return result;
+    }
+
 }

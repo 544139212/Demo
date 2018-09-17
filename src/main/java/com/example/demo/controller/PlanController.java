@@ -33,9 +33,6 @@ public class PlanController {
     UserModelMapper userModelMapper;
 
     @Autowired
-    LocationModelMapper locationModelMapper;
-
-    @Autowired
     VehicleModelMapper vehicleModelMapper;
 
     @Autowired
@@ -226,15 +223,6 @@ public class PlanController {
                     userMap.put(user.getId(), user);
                 });
             }
-            List<LocationModel> locationModelList = locationModelMapper.selectByUserIdList(userIdList);
-            Map<Integer, Location> locationMap = new HashMap<>();
-            if (locationModelList != null && !locationModelList.isEmpty()) {
-                locationModelList.stream().forEach(locationModel -> {
-                    Location location = new Location();
-                    BeanUtils.copyProperties(locationModel, location);
-                    locationMap.put(location.getUserId(), location);
-                });
-            }
             List<VehicleModel> vehicleModelList = vehicleModelMapper.selectByUserIdList(userIdList);
             Map<Integer, Vehicle> vehicleMap = new HashMap<>();
             if (vehicleModelList != null && !vehicleModelList.isEmpty()) {
@@ -258,7 +246,6 @@ public class PlanController {
                 ComplexPlan complexPlan = new ComplexPlan();
                 complexPlan.setId(planModel.getId());
                 complexPlan.setUser(userMap.get(planModel.getUserId()));
-                complexPlan.setLocation(locationMap.get(planModel.getUserId()));
                 complexPlan.setVehicle(vehicleMap.get(planModel.getUserId()));
                 complexPlan.setStationStart(stationMap.get(planModel.getStationStart()));
                 complexPlan.setStationEnd(stationMap.get(planModel.getStationEnd()));

@@ -146,20 +146,4 @@
     order by create_date desc
     limit 1
   </select>
-
-  <select id="selectByUserIdList" resultMap="BaseResultMap" >
-    select <include refid="Base_Column_List" />
-    from location
-    where user_id in
-    <foreach collection="userIdList" open="(" close=")" separator="," item="userId">
-      #{userId,jdbcType=INTEGER}
-    </foreach>
-    and exists (
-      select 1
-      from (SELECT user_id, MAX(create_date) max_create_date FROM location GROUP BY user_id) loc
-      where loc.user_id = user_id and loc.max_create_date = create_date
-      group by loc.user_id
-    )
-    order by create_date desc
-  </select>
 </mapper>

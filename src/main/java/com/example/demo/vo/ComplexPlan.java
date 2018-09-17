@@ -9,8 +9,6 @@ public class ComplexPlan implements Serializable {
 
     private User user;
 
-    private Location location;
-
     private Vehicle vehicle;
 
     private Station stationStart;
@@ -39,14 +37,6 @@ public class ComplexPlan implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public Location getLocation() {
-        return location;
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
     }
 
     public Vehicle getVehicle() {

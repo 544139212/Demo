@@ -24,7 +24,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/station")
 public class StationController {
-    private static Logger logger = LoggerFactory.getLogger(VehicleController.class);
+    private static Logger logger = LoggerFactory.getLogger(StationController.class);
 
     @Autowired
     StationModelMapper stationModelMapper;

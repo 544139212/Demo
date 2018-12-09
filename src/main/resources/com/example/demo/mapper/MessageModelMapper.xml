@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.MessageModelMapper" >
+  <resultMap id="BaseResultMap" type="com.example.demo.model.MessageModel" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="oPhone" property="ophone" jdbcType="VARCHAR" />
+    <result column="tPhone" property="tphone" jdbcType="VARCHAR" />
+    <result column="message" property="message" jdbcType="VARCHAR" />
+    <result column="date" property="date" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, oPhone, tPhone, message, date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from message
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from message
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.demo.model.MessageModel" >
+    insert into message (id, oPhone, tPhone,
+    message, date)
+    values (#{id,jdbcType=INTEGER}, #{ophone,jdbcType=VARCHAR}, #{tphone,jdbcType=VARCHAR},
+    #{message,jdbcType=VARCHAR}, #{date,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.demo.model.MessageModel" >
+    insert into message
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="ophone != null" >
+        oPhone,
+      </if>
+      <if test="tphone != null" >
+        tPhone,
+      </if>
+      <if test="message != null" >
+        message,
+      </if>
+      <if test="date != null" >
+        date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="ophone != null" >
+        #{ophone,jdbcType=VARCHAR},
+      </if>
+      <if test="tphone != null" >
+        #{tphone,jdbcType=VARCHAR},
+      </if>
+      <if test="message != null" >
+        #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null" >
+        #{date,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.model.MessageModel" >
+    update message
+    <set >
+      <if test="ophone != null" >
+        oPhone = #{ophone,jdbcType=VARCHAR},
+      </if>
+      <if test="tphone != null" >
+        tPhone = #{tphone,jdbcType=VARCHAR},
+      </if>
+      <if test="message != null" >
+        message = #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null" >
+        date = #{date,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.model.MessageModel" >
+    update message
+    set oPhone = #{ophone,jdbcType=VARCHAR},
+      tPhone = #{tphone,jdbcType=VARCHAR},
+      message = #{message,jdbcType=VARCHAR},
+      date = #{date,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="findMessages" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from message
+    where (oPhone = #{ophone,jdbcType=VARCHAR} and tPhone = #{tphone,jdbcType=VARCHAR})
+    or (oPhone = #{tphone,jdbcType=VARCHAR} and tPhone = #{ophone,jdbcType=VARCHAR})
+    order by id asc
+  </select>
+
+  <select id="findRecentContacts" resultMap="BaseResultMap">
+    select id, oPhone, if(strcmp(tPhone, #{ophone,jdbcType=VARCHAR}) = 0, oPhone, tPhone) tPhone, message, date
+    from message m1,
+    (
+     select max(id) maxid, if(strcmp(oPhone, tPhone) = 1, CONCAT(oPhone, ',', tPhone), CONCAT(tPhone, ',', oPhone))
+     from message
+     where oPhone = #{ophone,jdbcType=VARCHAR} or tPhone = #{ophone,jdbcType=VARCHAR}
+     group by 2
+    ) m2
+    where m1.id = m2.maxid
+    order by date desc
+  </select>
+</mapper>

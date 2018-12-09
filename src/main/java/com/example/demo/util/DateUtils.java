@@ -33,6 +33,10 @@ public class DateUtils {
         return toString(date, DEFAULT_PATTERN_DATE);
     }
 
+    public static String toDateString(long timestamp) {
+        return toDateString(new Date(timestamp));
+    }
+
     public static String toTimeString(Date date) {
         return toString(date, DEFAULT_PATTERN_TIME);
     }

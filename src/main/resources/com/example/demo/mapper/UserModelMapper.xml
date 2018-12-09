@@ -7,6 +7,7 @@
     <result column="phone" property="phone" jdbcType="VARCHAR" />
     <result column="unionid" property="unionid" jdbcType="VARCHAR" />
     <result column="openid" property="openid" jdbcType="VARCHAR" />
+    <result column="jpushid" property="jpushid" jdbcType="VARCHAR" />
     <result column="del_ind" property="delInd" jdbcType="TINYINT" />
     <result column="create_by" property="createBy" jdbcType="VARCHAR" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
@@ -14,10 +15,11 @@
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, phone, unionid, openid, del_ind, create_by, create_date, update_by, update_date
+    id, name, phone, unionid, openid, jpushid, del_ind, create_by, create_date, update_by,
+    update_date
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from user
     where id = #{id,jdbcType=INTEGER}
@@ -27,14 +29,14 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.example.demo.model.UserModel" >
-    insert into user (id, name, phone, 
-      unionid, openid, del_ind, 
-      create_by, create_date, update_by, 
-      update_date)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
-      #{unionid,jdbcType=VARCHAR}, #{openid,jdbcType=VARCHAR}, #{delInd,jdbcType=TINYINT}, 
-      #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
-      #{updateDate,jdbcType=TIMESTAMP})
+    insert into user (id, name, phone,
+      unionid, openid, jpushid,
+      del_ind, create_by, create_date,
+      update_by, update_date)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
+      #{unionid,jdbcType=VARCHAR}, #{openid,jdbcType=VARCHAR}, #{jpushid,jdbcType=VARCHAR},
+      #{delInd,jdbcType=TINYINT}, #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP},
+      #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.example.demo.model.UserModel" useGeneratedKeys="true" keyProperty="id" >
     insert into user
@@ -53,6 +55,9 @@
       </if>
       <if test="openid != null" >
         openid,
+      </if>
+      <if test="jpushid != null" >
+        jpushid,
       </if>
       <if test="delInd != null" >
         del_ind,
@@ -86,6 +91,9 @@
       <if test="openid != null" >
         #{openid,jdbcType=VARCHAR},
       </if>
+      <if test="jpushid != null" >
+        #{jpushid,jdbcType=VARCHAR},
+      </if>
       <if test="delInd != null" >
         #{delInd,jdbcType=TINYINT},
       </if>
@@ -118,6 +126,9 @@
       <if test="openid != null" >
         openid = #{openid,jdbcType=VARCHAR},
       </if>
+      <if test="jpushid != null" >
+        jpushid = #{jpushid,jdbcType=VARCHAR},
+      </if>
       <if test="delInd != null" >
         del_ind = #{delInd,jdbcType=TINYINT},
       </if>
@@ -142,6 +153,7 @@
       phone = #{phone,jdbcType=VARCHAR},
       unionid = #{unionid,jdbcType=VARCHAR},
       openid = #{openid,jdbcType=VARCHAR},
+      jpushid = #{jpushid,jdbcType=VARCHAR},
       del_ind = #{delInd,jdbcType=TINYINT},
       create_by = #{createBy,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},
@@ -166,6 +178,9 @@
       </if>
       <if test="openid != null" >
         and openid = #{openid,jdbcType=VARCHAR}
+      </if>
+      <if test="jpushid != null" >
+        and jpushid = #{jpushid,jdbcType=VARCHAR}
       </if>
       and del_ind = 0
     </trim>

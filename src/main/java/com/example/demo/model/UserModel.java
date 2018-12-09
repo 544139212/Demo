@@ -13,6 +13,8 @@ public class UserModel {
 
     private String openid;
 
+    private String jpushid;
+
     private Byte delInd;
 
     private String createBy;
@@ -61,6 +63,14 @@ public class UserModel {
 
     public void setOpenid(String openid) {
         this.openid = openid == null ? null : openid.trim();
+    }
+
+    public String getJpushid() {
+        return jpushid;
+    }
+
+    public void setJpushid(String jpushid) {
+        this.jpushid = jpushid == null ? null : jpushid.trim();
     }
 
     public Byte getDelInd() {

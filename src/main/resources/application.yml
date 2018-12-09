@@ -4,22 +4,28 @@ server:
 spring:
   application:
     name: demo
-  datasource:
-    url: jdbc:mysql://localhost/baike4app
-    username: root
-    password: root
-    driver-class-name: com.mysql.jdbc.Driver
+  data:
+    elasticsearch:
+      cluster-name: elasticsearch
+      cluster-nodes: localhost:9300
+      local: false
+      repositories:
+        enabled: true
   redis:
     host: localhost
     port: 6379
     password: redis
     database: 0
-    timeout: 30000
     jedis:
       pool:
         max-active: 20
         max-idle: 5
-    
+  datasource:
+    url: jdbc:mysql://localhost/baike4app
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+
 mybatis:
   type-aliases-package: com.example.demo.model
   mapper-locations: classpath:com/example/demo/mapper/*.xml

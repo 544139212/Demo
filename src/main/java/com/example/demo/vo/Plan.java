@@ -5,8 +5,6 @@ import com.example.demo.enums.PlanTypeEnum;
 import com.example.demo.validator.EcDate;
 import com.example.demo.validator.EcEnum;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 

@@ -8,6 +8,7 @@ public enum ResponseStatusEnum {
 	AUTH(-4, "鉴权未通过"),
 	EXIST(-5, "记录已存在"),
 
+	USER_NOT_FOUND(2002, "用户不存在"),
 	VEHICLE_NOT_FOUND(2003, "请完善车辆信息"),
 	STATION_START_INVALID(2004, "出发地无效"),
 	STATION_END_INVALID(2005, "目的地无效"),

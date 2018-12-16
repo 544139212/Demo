@@ -3,13 +3,18 @@
 <mapper namespace="com.example.demo.mapper.MessageModelMapper" >
   <resultMap id="BaseResultMap" type="com.example.demo.model.MessageModel" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="oPhone" property="ophone" jdbcType="VARCHAR" />
-    <result column="tPhone" property="tphone" jdbcType="VARCHAR" />
+    <result column="source_user_id" property="sourceUserId" jdbcType="INTEGER" />
+    <result column="target_user_id" property="targetUserId" jdbcType="INTEGER" />
     <result column="message" property="message" jdbcType="VARCHAR" />
-    <result column="date" property="date" jdbcType="TIMESTAMP" />
+    <result column="del_ind" property="delInd" jdbcType="TINYINT" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, oPhone, tPhone, message, date
+    id, source_user_id, target_user_id, message, del_ind, create_by, create_date, update_by,
+    update_date
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select
@@ -22,10 +27,14 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.example.demo.model.MessageModel" >
-    insert into message (id, oPhone, tPhone,
-    message, date)
-    values (#{id,jdbcType=INTEGER}, #{ophone,jdbcType=VARCHAR}, #{tphone,jdbcType=VARCHAR},
-    #{message,jdbcType=VARCHAR}, #{date,jdbcType=TIMESTAMP})
+    insert into message (id, source_user_id, target_user_id,
+      message, del_ind, create_by,
+      create_date, update_by, update_date
+      )
+    values (#{id,jdbcType=INTEGER}, #{sourceUserId,jdbcType=INTEGER}, #{targetUserId,jdbcType=INTEGER},
+      #{message,jdbcType=VARCHAR}, #{delInd,jdbcType=TINYINT}, #{createBy,jdbcType=VARCHAR},
+      #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.example.demo.model.MessageModel" >
     insert into message
@@ -33,83 +42,129 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="ophone != null" >
-        oPhone,
+      <if test="sourceUserId != null" >
+        source_user_id,
       </if>
-      <if test="tphone != null" >
-        tPhone,
+      <if test="targetUserId != null" >
+        target_user_id,
       </if>
       <if test="message != null" >
         message,
       </if>
-      <if test="date != null" >
-        date,
+      <if test="delInd != null" >
+        del_ind,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="ophone != null" >
-        #{ophone,jdbcType=VARCHAR},
+      <if test="sourceUserId != null" >
+        #{sourceUserId,jdbcType=INTEGER},
       </if>
-      <if test="tphone != null" >
-        #{tphone,jdbcType=VARCHAR},
+      <if test="targetUserId != null" >
+        #{targetUserId,jdbcType=INTEGER},
       </if>
       <if test="message != null" >
         #{message,jdbcType=VARCHAR},
       </if>
-      <if test="date != null" >
-        #{date,jdbcType=TIMESTAMP},
+      <if test="delInd != null" >
+        #{delInd,jdbcType=TINYINT},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.model.MessageModel" >
     update message
     <set >
-      <if test="ophone != null" >
-        oPhone = #{ophone,jdbcType=VARCHAR},
+      <if test="sourceUserId != null" >
+        source_user_id = #{sourceUserId,jdbcType=INTEGER},
       </if>
-      <if test="tphone != null" >
-        tPhone = #{tphone,jdbcType=VARCHAR},
+      <if test="targetUserId != null" >
+        target_user_id = #{targetUserId,jdbcType=INTEGER},
       </if>
       <if test="message != null" >
         message = #{message,jdbcType=VARCHAR},
       </if>
-      <if test="date != null" >
-        date = #{date,jdbcType=TIMESTAMP},
+      <if test="delInd != null" >
+        del_ind = #{delInd,jdbcType=TINYINT},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.example.demo.model.MessageModel" >
     update message
-    set oPhone = #{ophone,jdbcType=VARCHAR},
-      tPhone = #{tphone,jdbcType=VARCHAR},
+    set source_user_id = #{sourceUserId,jdbcType=INTEGER},
+      target_user_id = #{targetUserId,jdbcType=INTEGER},
       message = #{message,jdbcType=VARCHAR},
-      date = #{date,jdbcType=TIMESTAMP}
+      del_ind = #{delInd,jdbcType=TINYINT},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <sql id="Base_Where">
+    <trim prefix="where" prefixOverrides="and | or" >
+      <if test="id != null">
+        and id = #{id,jdbcType=INTEGER}
+      </if>
+      <if test="sourceUserId != null" >
+        and source_user_id = #{sourceUserId,jdbcType=INTEGER}
+      </if>
+      <if test="targetUserId != null" >
+        and target_user_id = #{targetUserId,jdbcType=INTEGER}
+      </if>
+      <if test="message != null" >
+        and message = #{message,jdbcType=VARCHAR}
+      </if>
+      and del_ind = 0
+    </trim>
+  </sql>
 
   <select id="findMessages" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from message
-    where (oPhone = #{ophone,jdbcType=VARCHAR} and tPhone = #{tphone,jdbcType=VARCHAR})
-    or (oPhone = #{tphone,jdbcType=VARCHAR} and tPhone = #{ophone,jdbcType=VARCHAR})
+    where (source_user_id = #{sourceUserId,jdbcType=INTEGER} and target_user_id = #{sourceUserId,jdbcType=INTEGER})
+    or (source_user_id = #{targetUserId,jdbcType=INTEGER} and target_user_id = #{targetUserId,jdbcType=INTEGER})
     order by id asc
   </select>
 
-  <select id="findRecentContacts" resultMap="BaseResultMap">
-    select id, oPhone, if(strcmp(tPhone, #{ophone,jdbcType=VARCHAR}) = 0, oPhone, tPhone) tPhone, message, date
-    from message m1,
-    (
-     select max(id) maxid, if(strcmp(oPhone, tPhone) = 1, CONCAT(oPhone, ',', tPhone), CONCAT(tPhone, ',', oPhone))
-     from message
-     where oPhone = #{ophone,jdbcType=VARCHAR} or tPhone = #{ophone,jdbcType=VARCHAR}
-     group by 2
-    ) m2
-    where m1.id = m2.maxid
-    order by date desc
-  </select>
 </mapper>

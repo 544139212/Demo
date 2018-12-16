@@ -5,13 +5,21 @@ import java.util.Date;
 public class MessageModel {
     private Integer id;
 
-    private String ophone;
+    private Integer sourceUserId;
 
-    private String tphone;
+    private Integer targetUserId;
 
     private String message;
 
-    private Date date;
+    private Byte delInd;
+
+    private String createBy;
+
+    private Date createDate;
+
+    private String updateBy;
+
+    private Date updateDate;
 
     public Integer getId() {
         return id;
@@ -21,20 +29,20 @@ public class MessageModel {
         this.id = id;
     }
 
-    public String getOphone() {
-        return ophone;
+    public Integer getSourceUserId() {
+        return sourceUserId;
     }
 
-    public void setOphone(String ophone) {
-        this.ophone = ophone == null ? null : ophone.trim();
+    public void setSourceUserId(Integer sourceUserId) {
+        this.sourceUserId = sourceUserId;
     }
 
-    public String getTphone() {
-        return tphone;
+    public Integer getTargetUserId() {
+        return targetUserId;
     }
 
-    public void setTphone(String tphone) {
-        this.tphone = tphone == null ? null : tphone.trim();
+    public void setTargetUserId(Integer targetUserId) {
+        this.targetUserId = targetUserId;
     }
 
     public String getMessage() {
@@ -45,11 +53,43 @@ public class MessageModel {
         this.message = message == null ? null : message.trim();
     }
 
-    public Date getDate() {
-        return date;
+    public Byte getDelInd() {
+        return delInd;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDelInd(Byte delInd) {
+        this.delInd = delInd;
+    }
+
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy == null ? null : createBy.trim();
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public String getUpdateBy() {
+        return updateBy;
+    }
+
+    public void setUpdateBy(String updateBy) {
+        this.updateBy = updateBy == null ? null : updateBy.trim();
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
     }
 }

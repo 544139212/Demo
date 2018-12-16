@@ -22,7 +22,5 @@ public interface MessageModelMapper {
 
     int updateByPrimaryKey(MessageModel record);
 
-    List<MessageModel> findMessages(@Param("ophone") String ophone, @Param("tphone") String tphone);
-
-    List<MessageModel> findRecentContacts(@Param("ophone") String ophone);
+    List<MessageModel> findMessages(MessageModel record);
 }

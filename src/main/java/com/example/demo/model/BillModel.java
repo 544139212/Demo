@@ -5,11 +5,21 @@ import java.util.Date;
 public class BillModel {
     private Integer id;
 
+    private Integer userId;
+
     private String name;
 
     private String cost;
 
-    private Date date;
+    private Byte delInd;
+
+    private String createBy;
+
+    private Date createDate;
+
+    private String updateBy;
+
+    private Date updateDate;
 
     public Integer getId() {
         return id;
@@ -17,6 +27,14 @@ public class BillModel {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getName() {
@@ -35,11 +53,43 @@ public class BillModel {
         this.cost = cost == null ? null : cost.trim();
     }
 
-    public Date getDate() {
-        return date;
+    public Byte getDelInd() {
+        return delInd;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDelInd(Byte delInd) {
+        this.delInd = delInd;
+    }
+
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy == null ? null : createBy.trim();
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public String getUpdateBy() {
+        return updateBy;
+    }
+
+    public void setUpdateBy(String updateBy) {
+        this.updateBy = updateBy == null ? null : updateBy.trim();
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
     }
 }

@@ -21,5 +21,5 @@ public interface BillModelMapper {
 
     int updateByPrimaryKey(BillModel record);
 
-    List<BillModel> findAll();
+    List<BillModel> search(BillModel record);
 }

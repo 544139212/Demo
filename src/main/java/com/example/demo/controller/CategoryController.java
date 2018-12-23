@@ -20,6 +20,7 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping(value = "/category")
@@ -132,11 +133,12 @@ public class CategoryController {
         List<CategoryModel> list = categoryModelMapper.search(criteria);//TODO:优化
         List<Category> list1 = new ArrayList<>();
         if (list != null && !list.isEmpty()) {
-            list.stream().forEach(categoryModel -> {
+            list1 = getChildren(0, list);
+            /*list.stream().forEach(categoryModel -> {
                 Category category = new Category();
                 BeanUtils.copyProperties(categoryModel, category);
                 list1.add(category);
-            });
+            });*/
         }
         result.setCode(ResponseStatusEnum.SUCCESS.getCode());
         result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
@@ -150,18 +152,19 @@ public class CategoryController {
      * @return
      */
     @RequestMapping(value = "/page/{pageNum}", method = RequestMethod.GET)
-    public Result<Pagination<Category>> list(@PathVariable Integer pageNum) {
+    public Result<Pagination<Category>> page(@PathVariable Integer pageNum) {
         Result<Pagination<Category>> result = new Result<>();
         PageHelper.startPage(pageNum, 20);
         CategoryModel criteria = new CategoryModel();
         Page<CategoryModel> page = (Page<CategoryModel>)categoryModelMapper.search(criteria);//TODO:优化
         List<Category> list = new ArrayList<>();
         if (page.getResult() != null && !page.getResult().isEmpty()) {
-            page.getResult().stream().forEach(categoryModel -> {
+            list = getChildren(0, page.getResult());
+            /*page.getResult().stream().forEach(categoryModel -> {
                 Category category = new Category();
                 BeanUtils.copyProperties(categoryModel, category);
                 list.add(category);
-            });
+            });*/
         }
         Pagination<Category> pagination = new Pagination<>();
         pagination.setPageNum(page.getPageNum());
@@ -173,5 +176,17 @@ public class CategoryController {
         result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
         result.setData(pagination);
         return result;
+    }
+
+    private List<Category> getChildren(Integer parentId, List<CategoryModel> categoryList) {
+        List<Category> list = new ArrayList<>();
+        categoryList.stream().filter(categoryModel -> Objects.equals(categoryModel.getParentId(), parentId)).forEach(categoryModel -> {
+            Category category = new Category();
+            BeanUtils.copyProperties(categoryModel, category);
+            List<Category> children = getChildren(categoryModel.getId(), categoryList);
+            category.setChildren(children);
+            list.add(category);
+        });
+        return list;
     }
 }

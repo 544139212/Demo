@@ -2,6 +2,7 @@ package com.example.demo.vo;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.util.List;
 
 public class Category implements Serializable {
 
@@ -13,6 +14,8 @@ public class Category implements Serializable {
     private String imageUrl;
 
     private Integer parentId;
+
+    private List<Category> children;
 
     public Integer getId() {
         return id;
@@ -44,5 +47,13 @@ public class Category implements Serializable {
 
     public void setParentId(Integer parentId) {
         this.parentId = parentId;
+    }
+
+    public List<Category> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<Category> children) {
+        this.children = children;
     }
 }

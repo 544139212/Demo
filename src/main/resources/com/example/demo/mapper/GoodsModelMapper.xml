@@ -3,16 +3,17 @@
 <mapper namespace="com.example.demo.mapper.GoodsModelMapper" >
   <resultMap id="BaseResultMap" type="com.example.demo.model.GoodsModel" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="title" property="title" jdbcType="VARCHAR" />
-    <result column="sub_title" property="subTitle" jdbcType="VARCHAR" />
-    <result column="image_url" property="imageUrl" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="goods_type" property="goodsType" jdbcType="TINYINT" />
     <result column="store_id" property="storeId" jdbcType="INTEGER" />
     <result column="category_id" property="categoryId" jdbcType="INTEGER" />
     <result column="brand_id" property="brandId" jdbcType="INTEGER" />
     <result column="unit_id" property="unitId" jdbcType="INTEGER" />
+    <result column="image_url" property="imageUrl" jdbcType="VARCHAR" />
+    <result column="video_url" property="videoUrl" jdbcType="VARCHAR" />
+    <result column="sale_status" property="saleStatus" jdbcType="TINYINT" />
+    <result column="audit_status" property="auditStatus" jdbcType="TINYINT" />
     <result column="delivery_template_id" property="deliveryTemplateId" jdbcType="INTEGER" />
-    <result column="approval_status" property="approvalStatus" jdbcType="TINYINT" />
-    <result column="approval_date" property="approvalDate" jdbcType="TIMESTAMP" />
     <result column="del_ind" property="delInd" jdbcType="TINYINT" />
     <result column="create_by" property="createBy" jdbcType="VARCHAR" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
@@ -23,14 +24,15 @@
     <result column="content" property="content" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, title, sub_title, image_url, store_id, category_id, brand_id, unit_id, delivery_template_id, 
-    approval_status, approval_date, del_ind, create_by, create_date, update_by, update_date
+    id, name, goods_type, store_id, category_id, brand_id, unit_id, image_url, video_url,
+    sale_status, audit_status, delivery_template_id, del_ind, create_by, create_date,
+    update_by, update_date
   </sql>
   <sql id="Blob_Column_List" >
     content
   </sql>
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
-    select 
+    select
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
@@ -42,18 +44,20 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.example.demo.model.GoodsModel" >
-    insert into goods (id, title, sub_title, 
-      image_url, store_id, category_id, 
-      brand_id, unit_id, delivery_template_id, 
-      approval_status, approval_date, del_ind, 
-      create_by, create_date, update_by, 
-      update_date, content)
-    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{subTitle,jdbcType=VARCHAR}, 
-      #{imageUrl,jdbcType=VARCHAR}, #{storeId,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, 
-      #{brandId,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, #{deliveryTemplateId,jdbcType=INTEGER}, 
-      #{approvalStatus,jdbcType=TINYINT}, #{approvalDate,jdbcType=TIMESTAMP}, #{delInd,jdbcType=TINYINT}, 
-      #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
-      #{updateDate,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR})
+    insert into goods (id, name, goods_type,
+      store_id, category_id, brand_id,
+      unit_id, image_url, video_url,
+      sale_status, audit_status, delivery_template_id,
+      del_ind, create_by, create_date,
+      update_by, update_date, content
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{goodsType,jdbcType=TINYINT},
+      #{storeId,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{brandId,jdbcType=INTEGER},
+      #{unitId,jdbcType=INTEGER}, #{imageUrl,jdbcType=VARCHAR}, #{videoUrl,jdbcType=VARCHAR},
+      #{saleStatus,jdbcType=TINYINT}, #{auditStatus,jdbcType=TINYINT}, #{deliveryTemplateId,jdbcType=INTEGER},
+      #{delInd,jdbcType=TINYINT}, #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP},
+      #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.example.demo.model.GoodsModel" >
     insert into goods
@@ -61,14 +65,11 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="title != null" >
-        title,
+      <if test="name != null" >
+        name,
       </if>
-      <if test="subTitle != null" >
-        sub_title,
-      </if>
-      <if test="imageUrl != null" >
-        image_url,
+      <if test="goodsType != null" >
+        goods_type,
       </if>
       <if test="storeId != null" >
         store_id,
@@ -82,14 +83,20 @@
       <if test="unitId != null" >
         unit_id,
       </if>
+      <if test="imageUrl != null" >
+        image_url,
+      </if>
+      <if test="videoUrl != null" >
+        video_url,
+      </if>
+      <if test="saleStatus != null" >
+        sale_status,
+      </if>
+      <if test="auditStatus != null" >
+        audit_status,
+      </if>
       <if test="deliveryTemplateId != null" >
         delivery_template_id,
-      </if>
-      <if test="approvalStatus != null" >
-        approval_status,
-      </if>
-      <if test="approvalDate != null" >
-        approval_date,
       </if>
       <if test="delInd != null" >
         del_ind,
@@ -114,14 +121,11 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="title != null" >
-        #{title,jdbcType=VARCHAR},
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
       </if>
-      <if test="subTitle != null" >
-        #{subTitle,jdbcType=VARCHAR},
-      </if>
-      <if test="imageUrl != null" >
-        #{imageUrl,jdbcType=VARCHAR},
+      <if test="goodsType != null" >
+        #{goodsType,jdbcType=TINYINT},
       </if>
       <if test="storeId != null" >
         #{storeId,jdbcType=INTEGER},
@@ -135,14 +139,20 @@
       <if test="unitId != null" >
         #{unitId,jdbcType=INTEGER},
       </if>
+      <if test="imageUrl != null" >
+        #{imageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="videoUrl != null" >
+        #{videoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="saleStatus != null" >
+        #{saleStatus,jdbcType=TINYINT},
+      </if>
+      <if test="auditStatus != null" >
+        #{auditStatus,jdbcType=TINYINT},
+      </if>
       <if test="deliveryTemplateId != null" >
         #{deliveryTemplateId,jdbcType=INTEGER},
-      </if>
-      <if test="approvalStatus != null" >
-        #{approvalStatus,jdbcType=TINYINT},
-      </if>
-      <if test="approvalDate != null" >
-        #{approvalDate,jdbcType=TIMESTAMP},
       </if>
       <if test="delInd != null" >
         #{delInd,jdbcType=TINYINT},
@@ -167,14 +177,11 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.model.GoodsModel" >
     update goods
     <set >
-      <if test="title != null" >
-        title = #{title,jdbcType=VARCHAR},
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="subTitle != null" >
-        sub_title = #{subTitle,jdbcType=VARCHAR},
-      </if>
-      <if test="imageUrl != null" >
-        image_url = #{imageUrl,jdbcType=VARCHAR},
+      <if test="goodsType != null" >
+        goods_type = #{goodsType,jdbcType=TINYINT},
       </if>
       <if test="storeId != null" >
         store_id = #{storeId,jdbcType=INTEGER},
@@ -188,14 +195,20 @@
       <if test="unitId != null" >
         unit_id = #{unitId,jdbcType=INTEGER},
       </if>
+      <if test="imageUrl != null" >
+        image_url = #{imageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="videoUrl != null" >
+        video_url = #{videoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="saleStatus != null" >
+        sale_status = #{saleStatus,jdbcType=TINYINT},
+      </if>
+      <if test="auditStatus != null" >
+        audit_status = #{auditStatus,jdbcType=TINYINT},
+      </if>
       <if test="deliveryTemplateId != null" >
         delivery_template_id = #{deliveryTemplateId,jdbcType=INTEGER},
-      </if>
-      <if test="approvalStatus != null" >
-        approval_status = #{approvalStatus,jdbcType=TINYINT},
-      </if>
-      <if test="approvalDate != null" >
-        approval_date = #{approvalDate,jdbcType=TIMESTAMP},
       </if>
       <if test="delInd != null" >
         del_ind = #{delInd,jdbcType=TINYINT},
@@ -220,16 +233,17 @@
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.demo.model.GoodsModel" >
     update goods
-    set title = #{title,jdbcType=VARCHAR},
-      sub_title = #{subTitle,jdbcType=VARCHAR},
-      image_url = #{imageUrl,jdbcType=VARCHAR},
+    set name = #{name,jdbcType=VARCHAR},
+      goods_type = #{goodsType,jdbcType=TINYINT},
       store_id = #{storeId,jdbcType=INTEGER},
       category_id = #{categoryId,jdbcType=INTEGER},
       brand_id = #{brandId,jdbcType=INTEGER},
       unit_id = #{unitId,jdbcType=INTEGER},
+      image_url = #{imageUrl,jdbcType=VARCHAR},
+      video_url = #{videoUrl,jdbcType=VARCHAR},
+      sale_status = #{saleStatus,jdbcType=TINYINT},
+      audit_status = #{auditStatus,jdbcType=TINYINT},
       delivery_template_id = #{deliveryTemplateId,jdbcType=INTEGER},
-      approval_status = #{approvalStatus,jdbcType=TINYINT},
-      approval_date = #{approvalDate,jdbcType=TIMESTAMP},
       del_ind = #{delInd,jdbcType=TINYINT},
       create_by = #{createBy,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},
@@ -240,16 +254,17 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.example.demo.model.GoodsModel" >
     update goods
-    set title = #{title,jdbcType=VARCHAR},
-      sub_title = #{subTitle,jdbcType=VARCHAR},
-      image_url = #{imageUrl,jdbcType=VARCHAR},
+    set name = #{name,jdbcType=VARCHAR},
+      goods_type = #{goodsType,jdbcType=TINYINT},
       store_id = #{storeId,jdbcType=INTEGER},
       category_id = #{categoryId,jdbcType=INTEGER},
       brand_id = #{brandId,jdbcType=INTEGER},
       unit_id = #{unitId,jdbcType=INTEGER},
+      image_url = #{imageUrl,jdbcType=VARCHAR},
+      video_url = #{videoUrl,jdbcType=VARCHAR},
+      sale_status = #{saleStatus,jdbcType=TINYINT},
+      audit_status = #{auditStatus,jdbcType=TINYINT},
       delivery_template_id = #{deliveryTemplateId,jdbcType=INTEGER},
-      approval_status = #{approvalStatus,jdbcType=TINYINT},
-      approval_date = #{approvalDate,jdbcType=TIMESTAMP},
       del_ind = #{delInd,jdbcType=TINYINT},
       create_by = #{createBy,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},
@@ -257,4 +272,52 @@
       update_date = #{updateDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <sql id="Base_Where">
+    <trim prefix="where" prefixOverrides="and | or" >
+      <if test="id != null">
+        and id = #{id,jdbcType=INTEGER}
+      </if>
+      <if test="name != null" >
+        and name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="goodsType != null" >
+        and goods_type = #{goodsType,jdbcType=TINYINT}
+      </if>
+      <if test="storeId != null" >
+        and store_id = #{storeId,jdbcType=INTEGER}
+      </if>
+      <if test="categoryId != null" >
+        and category_id = #{categoryId,jdbcType=INTEGER}
+      </if>
+      <if test="brandId != null" >
+        and brand_id = #{brandId,jdbcType=INTEGER}
+      </if>
+      <if test="unitId != null" >
+        and unit_id = #{unitId,jdbcType=INTEGER}
+      </if>
+      <if test="imageUrl != null" >
+        and image_url = #{imageUrl,jdbcType=VARCHAR}
+      </if>
+      <if test="videoUrl != null" >
+        and video_url = #{videoUrl,jdbcType=VARCHAR}
+      </if>
+      <if test="saleStatus != null" >
+        and sale_status = #{saleStatus,jdbcType=TINYINT}
+      </if>
+      <if test="auditStatus != null" >
+        and audit_status = #{auditStatus,jdbcType=TINYINT}
+      </if>
+      <if test="deliveryTemplateId != null" >
+        and delivery_template_id = #{deliveryTemplateId,jdbcType=INTEGER}
+      </if>
+      and del_ind = 0
+    </trim>
+  </sql>
+
+  <select id="search" resultMap="BaseResultMap" >
+    select <include refid="Base_Column_List" />
+    from goods
+    <include refid="Base_Where" />
+  </select>
 </mapper>

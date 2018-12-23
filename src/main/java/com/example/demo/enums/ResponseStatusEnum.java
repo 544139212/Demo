@@ -8,7 +8,7 @@ public enum ResponseStatusEnum {
 	AUTH(-4, "鉴权未通过"),
 	EXIST(-5, "记录已存在"),
 
-	USER_NOT_FOUND(2002, "用户不存在"),
+	USER_NOT_FOUND(1001, "用户不存在"),
 	VEHICLE_NOT_FOUND(2003, "请完善车辆信息"),
 	STATION_START_INVALID(2004, "出发地无效"),
 	STATION_END_INVALID(2005, "目的地无效"),
@@ -16,8 +16,9 @@ public enum ResponseStatusEnum {
 	DATE_INVALID(2007, "日期不能早于今天"),
 	TIME_INVALID(2008, "时间不能早于现在"),
 	REN_ZHAO_CHE_NUM_INVALID(2009, "出行人数必须大于0"),
-	CHE_ZHAO_REN_NUM_INVALID(2010, "剩余空位必须大于0");
-	
+	CHE_ZHAO_REN_NUM_INVALID(2010, "剩余空位必须大于0"),
+	STORE_NOT_FOUND(3001, "店铺不存在");
+
 	private int code;
 	private String msg;
 	

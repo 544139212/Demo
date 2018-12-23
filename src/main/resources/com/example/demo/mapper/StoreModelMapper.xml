@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.StoreModelMapper" >
+  <resultMap id="BaseResultMap" type="com.example.demo.model.StoreModel" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="logo" property="logo" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="open_status" property="openStatus" jdbcType="TINYINT" />
+    <result column="audit_status" property="auditStatus" jdbcType="TINYINT" />
+    <result column="lock_status" property="lockStatus" jdbcType="TINYINT" />
+    <result column="prov_id" property="provId" jdbcType="INTEGER" />
+    <result column="area_id" property="areaId" jdbcType="INTEGER" />
+    <result column="city_id" property="cityId" jdbcType="INTEGER" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="longitude" property="longitude" jdbcType="VARCHAR" />
+    <result column="latitude" property="latitude" jdbcType="VARCHAR" />
+    <result column="id_card_name" property="idCardName" jdbcType="VARCHAR" />
+    <result column="id_card_no" property="idCardNo" jdbcType="VARCHAR" />
+    <result column="id_card_front_image_url" property="idCardFrontImageUrl" jdbcType="VARCHAR" />
+    <result column="id_card_back_image_url" property="idCardBackImageUrl" jdbcType="VARCHAR" />
+    <result column="license_no" property="licenseNo" jdbcType="VARCHAR" />
+    <result column="license_image_url" property="licenseImageUrl" jdbcType="VARCHAR" />
+    <result column="del_ind" property="delInd" jdbcType="TINYINT" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, logo, name, open_status, audit_status, lock_status, prov_id, area_id, 
+    city_id, address, longitude, latitude, id_card_name, id_card_no, id_card_front_image_url, 
+    id_card_back_image_url, license_no, license_image_url, del_ind, create_by, create_date, 
+    update_by, update_date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from store
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from store
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.demo.model.StoreModel" >
+    insert into store (id, user_id, logo, 
+      name, open_status, audit_status, 
+      lock_status, prov_id, area_id, 
+      city_id, address, longitude, 
+      latitude, id_card_name, id_card_no, 
+      id_card_front_image_url, id_card_back_image_url, 
+      license_no, license_image_url, del_ind, 
+      create_by, create_date, update_by, 
+      update_date)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{logo,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{openStatus,jdbcType=TINYINT}, #{auditStatus,jdbcType=TINYINT}, 
+      #{lockStatus,jdbcType=TINYINT}, #{provId,jdbcType=INTEGER}, #{areaId,jdbcType=INTEGER}, 
+      #{cityId,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, #{longitude,jdbcType=VARCHAR}, 
+      #{latitude,jdbcType=VARCHAR}, #{idCardName,jdbcType=VARCHAR}, #{idCardNo,jdbcType=VARCHAR}, 
+      #{idCardFrontImageUrl,jdbcType=VARCHAR}, #{idCardBackImageUrl,jdbcType=VARCHAR}, 
+      #{licenseNo,jdbcType=VARCHAR}, #{licenseImageUrl,jdbcType=VARCHAR}, #{delInd,jdbcType=TINYINT}, 
+      #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
+      #{updateDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.demo.model.StoreModel" >
+    insert into store
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="logo != null" >
+        logo,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="openStatus != null" >
+        open_status,
+      </if>
+      <if test="auditStatus != null" >
+        audit_status,
+      </if>
+      <if test="lockStatus != null" >
+        lock_status,
+      </if>
+      <if test="provId != null" >
+        prov_id,
+      </if>
+      <if test="areaId != null" >
+        area_id,
+      </if>
+      <if test="cityId != null" >
+        city_id,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="longitude != null" >
+        longitude,
+      </if>
+      <if test="latitude != null" >
+        latitude,
+      </if>
+      <if test="idCardName != null" >
+        id_card_name,
+      </if>
+      <if test="idCardNo != null" >
+        id_card_no,
+      </if>
+      <if test="idCardFrontImageUrl != null" >
+        id_card_front_image_url,
+      </if>
+      <if test="idCardBackImageUrl != null" >
+        id_card_back_image_url,
+      </if>
+      <if test="licenseNo != null" >
+        license_no,
+      </if>
+      <if test="licenseImageUrl != null" >
+        license_image_url,
+      </if>
+      <if test="delInd != null" >
+        del_ind,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="logo != null" >
+        #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="openStatus != null" >
+        #{openStatus,jdbcType=TINYINT},
+      </if>
+      <if test="auditStatus != null" >
+        #{auditStatus,jdbcType=TINYINT},
+      </if>
+      <if test="lockStatus != null" >
+        #{lockStatus,jdbcType=TINYINT},
+      </if>
+      <if test="provId != null" >
+        #{provId,jdbcType=INTEGER},
+      </if>
+      <if test="areaId != null" >
+        #{areaId,jdbcType=INTEGER},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null" >
+        #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null" >
+        #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="idCardName != null" >
+        #{idCardName,jdbcType=VARCHAR},
+      </if>
+      <if test="idCardNo != null" >
+        #{idCardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="idCardFrontImageUrl != null" >
+        #{idCardFrontImageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="idCardBackImageUrl != null" >
+        #{idCardBackImageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="licenseNo != null" >
+        #{licenseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="licenseImageUrl != null" >
+        #{licenseImageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="delInd != null" >
+        #{delInd,jdbcType=TINYINT},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.model.StoreModel" >
+    update store
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="logo != null" >
+        logo = #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="openStatus != null" >
+        open_status = #{openStatus,jdbcType=TINYINT},
+      </if>
+      <if test="auditStatus != null" >
+        audit_status = #{auditStatus,jdbcType=TINYINT},
+      </if>
+      <if test="lockStatus != null" >
+        lock_status = #{lockStatus,jdbcType=TINYINT},
+      </if>
+      <if test="provId != null" >
+        prov_id = #{provId,jdbcType=INTEGER},
+      </if>
+      <if test="areaId != null" >
+        area_id = #{areaId,jdbcType=INTEGER},
+      </if>
+      <if test="cityId != null" >
+        city_id = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null" >
+        longitude = #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null" >
+        latitude = #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="idCardName != null" >
+        id_card_name = #{idCardName,jdbcType=VARCHAR},
+      </if>
+      <if test="idCardNo != null" >
+        id_card_no = #{idCardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="idCardFrontImageUrl != null" >
+        id_card_front_image_url = #{idCardFrontImageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="idCardBackImageUrl != null" >
+        id_card_back_image_url = #{idCardBackImageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="licenseNo != null" >
+        license_no = #{licenseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="licenseImageUrl != null" >
+        license_image_url = #{licenseImageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="delInd != null" >
+        del_ind = #{delInd,jdbcType=TINYINT},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.model.StoreModel" >
+    update store
+    set user_id = #{userId,jdbcType=INTEGER},
+      logo = #{logo,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      open_status = #{openStatus,jdbcType=TINYINT},
+      audit_status = #{auditStatus,jdbcType=TINYINT},
+      lock_status = #{lockStatus,jdbcType=TINYINT},
+      prov_id = #{provId,jdbcType=INTEGER},
+      area_id = #{areaId,jdbcType=INTEGER},
+      city_id = #{cityId,jdbcType=INTEGER},
+      address = #{address,jdbcType=VARCHAR},
+      longitude = #{longitude,jdbcType=VARCHAR},
+      latitude = #{latitude,jdbcType=VARCHAR},
+      id_card_name = #{idCardName,jdbcType=VARCHAR},
+      id_card_no = #{idCardNo,jdbcType=VARCHAR},
+      id_card_front_image_url = #{idCardFrontImageUrl,jdbcType=VARCHAR},
+      id_card_back_image_url = #{idCardBackImageUrl,jdbcType=VARCHAR},
+      license_no = #{licenseNo,jdbcType=VARCHAR},
+      license_image_url = #{licenseImageUrl,jdbcType=VARCHAR},
+      del_ind = #{delInd,jdbcType=TINYINT},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <sql id="Base_Where">
+    <trim prefix="where" prefixOverrides="and | or" >
+      <if test="id != null">
+        and id = #{id,jdbcType=INTEGER}
+      </if>
+      <if test="userId != null" >
+        and user_id = #{userId,jdbcType=INTEGER}
+      </if>
+      <if test="logo != null" >
+        and logo = #{logo,jdbcType=VARCHAR}
+      </if>
+      <if test="name != null" >
+        and name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="openStatus != null" >
+        and open_status = #{openStatus,jdbcType=TINYINT}
+      </if>
+      <if test="auditStatus != null" >
+        and audit_status = #{auditStatus,jdbcType=TINYINT}
+      </if>
+      <if test="lockStatus != null" >
+        and lock_status = #{lockStatus,jdbcType=TINYINT}
+      </if>
+      <if test="provId != null" >
+        and prov_id = #{provId,jdbcType=INTEGER}
+      </if>
+      <if test="areaId != null" >
+        and area_id = #{areaId,jdbcType=INTEGER}
+      </if>
+      <if test="cityId != null" >
+        and city_id = #{cityId,jdbcType=INTEGER}
+      </if>
+      <if test="address != null" >
+        and address = #{address,jdbcType=VARCHAR}
+      </if>
+      <if test="longitude != null" >
+        and longitude = #{longitude,jdbcType=VARCHAR}
+      </if>
+      <if test="latitude != null" >
+        and latitude = #{latitude,jdbcType=VARCHAR}
+      </if>
+      <if test="idCardName != null" >
+        and id_card_name = #{idCardName,jdbcType=VARCHAR}
+      </if>
+      <if test="idCardNo != null" >
+        and id_card_no = #{idCardNo,jdbcType=VARCHAR}
+      </if>
+      <if test="idCardFrontImageUrl != null" >
+        and id_card_front_image_url = #{idCardFrontImageUrl,jdbcType=VARCHAR}
+      </if>
+      <if test="idCardBackImageUrl != null" >
+        and id_card_back_image_url = #{idCardBackImageUrl,jdbcType=VARCHAR}
+      </if>
+      <if test="licenseNo != null" >
+        and license_no = #{licenseNo,jdbcType=VARCHAR}
+      </if>
+      <if test="licenseImageUrl != null" >
+        and license_image_url = #{licenseImageUrl,jdbcType=VARCHAR}
+      </if>
+      and del_ind = 0
+    </trim>
+  </sql>
+
+  <select id="search" resultMap="BaseResultMap" >
+    select <include refid="Base_Column_List" />
+    from store
+    <include refid="Base_Where" />
+  </select>
+</mapper>

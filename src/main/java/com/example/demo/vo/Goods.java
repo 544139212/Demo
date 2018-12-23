@@ -1,42 +1,42 @@
-package com.example.demo.model;
+package com.example.demo.vo;
 
-import java.util.Date;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
-public class GoodsModel {
+public class Goods {
     private Integer id;
 
+    @NotBlank(message = "请填写商品名称")
     private String name;
 
+    @NotNull(message = "请选择商品类型")
     private Byte goodsType;
 
     private Integer storeId;
 
+    @NotNull(message = "请选择商品分类")
     private Integer categoryId;
 
+    @NotNull(message = "请选择商品品牌")
     private Integer brandId;
 
+    @NotNull(message = "请选择商品单位")
     private Integer unitId;
 
+    @NotBlank(message = "请上传商品图片")
     private String imageUrl;
 
+//    @NotBlank(message = "请上传商品视频")
     private String videoUrl;
 
     private Byte saleStatus;
 
     private Byte auditStatus;
 
+    @NotNull(message = "请选择运费模板")
     private Integer deliveryTemplateId;
 
-    private Byte delInd;
-
-    private String createBy;
-
-    private Date createDate;
-
-    private String updateBy;
-
-    private Date updateDate;
-
+    @NotBlank(message = "请填写商品详情")
     private String content;
 
     public Integer getId() {
@@ -133,46 +133,6 @@ public class GoodsModel {
 
     public void setDeliveryTemplateId(Integer deliveryTemplateId) {
         this.deliveryTemplateId = deliveryTemplateId;
-    }
-
-    public Byte getDelInd() {
-        return delInd;
-    }
-
-    public void setDelInd(Byte delInd) {
-        this.delInd = delInd;
-    }
-
-    public String getCreateBy() {
-        return createBy;
-    }
-
-    public void setCreateBy(String createBy) {
-        this.createBy = createBy == null ? null : createBy.trim();
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public String getUpdateBy() {
-        return updateBy;
-    }
-
-    public void setUpdateBy(String updateBy) {
-        this.updateBy = updateBy == null ? null : updateBy.trim();
-    }
-
-    public Date getUpdateDate() {
-        return updateDate;
-    }
-
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
     }
 
     public String getContent() {

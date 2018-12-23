@@ -4,6 +4,8 @@ import com.example.demo.model.GoodsModel;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Mapper
 @Repository
 public interface GoodsModelMapper {
@@ -17,5 +19,9 @@ public interface GoodsModelMapper {
 
     int updateByPrimaryKeySelective(GoodsModel record);
 
+    int updateByPrimaryKeyWithBLOBs(GoodsModel record);
+
     int updateByPrimaryKey(GoodsModel record);
+
+    List<GoodsModel> search(GoodsModel record);
 }

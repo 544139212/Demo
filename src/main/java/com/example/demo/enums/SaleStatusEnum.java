@@ -1,19 +1,19 @@
 package com.example.demo.enums;
 
-public enum AppointTypeEnum {
-    NOW((byte)0, "现在"),
-    OTHER((byte)1, "预设");
+public enum SaleStatusEnum {
+    STOP_SALE((byte)0, "停售"),
+    ON_SALE((byte)1, "在售");
 
     private byte code;
     private String name;
 
-    AppointTypeEnum(byte code, String name) {
+    SaleStatusEnum(byte code, String name) {
         this.code = code;
         this.name = name;
     }
 
     public static boolean validate(Byte code) {
-        for (AppointTypeEnum current : AppointTypeEnum.values()) {
+        for (SaleStatusEnum current : SaleStatusEnum.values()) {
             if (current.getCode() == code.byteValue()) {
                 return true;
             }

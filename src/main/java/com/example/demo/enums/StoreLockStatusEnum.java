@@ -1,19 +1,19 @@
 package com.example.demo.enums;
 
-public enum AppointTypeEnum {
-    NOW((byte)0, "现在"),
-    OTHER((byte)1, "预设");
+public enum StoreLockStatusEnum {
+    NORMAL((byte)0, "正常"),
+    LOCK((byte)1, "锁定");
 
     private byte code;
     private String name;
 
-    AppointTypeEnum(byte code, String name) {
+    StoreLockStatusEnum(byte code, String name) {
         this.code = code;
         this.name = name;
     }
 
     public static boolean validate(Byte code) {
-        for (AppointTypeEnum current : AppointTypeEnum.values()) {
+        for (StoreLockStatusEnum current : StoreLockStatusEnum.values()) {
             if (current.getCode() == code.byteValue()) {
                 return true;
             }

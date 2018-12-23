@@ -4,29 +4,29 @@ public enum PlanTypeEnum {
     REN_ZHAO_CHE((byte)0, "人找车"),
     CHE_ZHAO_REN((byte)1, "车找人");
 
-    private byte type;
+    private byte code;
     private String name;
 
-    PlanTypeEnum(byte type, String name) {
-        this.type = type;
+    PlanTypeEnum(byte code, String name) {
+        this.code = code;
         this.name = name;
     }
 
-    public static boolean validate(Byte type) {
+    public static boolean validate(Byte code) {
         for (PlanTypeEnum current : PlanTypeEnum.values()) {
-            if (current.getType() == type.byteValue()) {
+            if (current.getCode() == code.byteValue()) {
                 return true;
             }
         }
         return false;
     }
 
-    public int getType() {
-        return type;
+    public byte getCode() {
+        return code;
     }
 
-    public void setType(byte type) {
-        this.type = type;
+    public void setCode(byte code) {
+        this.code = code;
     }
 
     public String getName() {

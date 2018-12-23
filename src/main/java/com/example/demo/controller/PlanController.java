@@ -49,7 +49,7 @@ public class PlanController {
 
         Result<Void> result = new Result<>();
         // 当类型为"车找人"时，需校验车辆信息是否存在
-        if (PlanTypeEnum.CHE_ZHAO_REN.getType() == plan.getPlanType().byteValue()) {
+        if (PlanTypeEnum.CHE_ZHAO_REN.getCode() == plan.getPlanType().byteValue()) {
             VehicleModel criteria = new VehicleModel();
             criteria.setUserId(Context.get().getUserId());
             List<VehicleModel> list = vehicleModelMapper.search(criteria);//TODO:优化
@@ -86,10 +86,10 @@ public class PlanController {
         }
 
         // 校验出发时间
-        if (AppointTypeEnum.NOW.getType() == plan.getAppointType().byteValue()) {
+        if (AppointTypeEnum.NOW.getCode() == plan.getAppointType().byteValue()) {
             plan.setDate(DateUtils.toDateString(new Date()));
             plan.setTime(DateUtils.toShortTimeString(new Date()));
-        } else if (AppointTypeEnum.OTHER.getType() == plan.getAppointType().byteValue()) {
+        } else if (AppointTypeEnum.OTHER.getCode() == plan.getAppointType().byteValue()) {
             // 校验日期
             Date planDate = DateUtils.toDate(plan.getDate(), DateUtils.DEFAULT_PATTERN_DATE);
             Date nowDate = DateUtils.toDate(DateUtils.toDateString(new Date()), DateUtils.DEFAULT_PATTERN_DATE);
@@ -111,10 +111,10 @@ public class PlanController {
 
         // 校验出行人数|剩余空位
         if (plan.getNum() == null || plan.getNum() < 1) {
-            if (PlanTypeEnum.REN_ZHAO_CHE.getType() == plan.getPlanType().byteValue()) {
+            if (PlanTypeEnum.REN_ZHAO_CHE.getCode() == plan.getPlanType().byteValue()) {
                 result.setCode(ResponseStatusEnum.REN_ZHAO_CHE_NUM_INVALID.getCode());
                 result.setMsg(ResponseStatusEnum.REN_ZHAO_CHE_NUM_INVALID.getMsg());
-            } else if (PlanTypeEnum.CHE_ZHAO_REN.getType() == plan.getPlanType().byteValue()) {
+            } else if (PlanTypeEnum.CHE_ZHAO_REN.getCode() == plan.getPlanType().byteValue()) {
                 result.setCode(ResponseStatusEnum.CHE_ZHAO_REN_NUM_INVALID.getCode());
                 result.setMsg(ResponseStatusEnum.CHE_ZHAO_REN_NUM_INVALID.getMsg());
             }

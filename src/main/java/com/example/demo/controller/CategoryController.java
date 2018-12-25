@@ -189,4 +189,40 @@ public class CategoryController {
         });
         return list;
     }
+
+    /**
+     * 获取全部分类<>小程序商家专用</>
+     * @return
+     */
+    @RequestMapping(value = "/array", method = RequestMethod.GET)
+    public Result<List<Object>> array() {
+        Result<List<Object>> result = new Result<>();
+        CategoryModel criteria = new CategoryModel();
+        List<CategoryModel> list = categoryModelMapper.search(criteria);//TODO:优化
+        List<Object> list1 = new ArrayList<>();
+        if (list != null && !list.isEmpty()) {
+            List<Category> firstLevelList = new ArrayList<>();
+            List<List<Category>> secondLevelList = new ArrayList<>();
+            list.stream().forEach(categoryModel -> {
+                Category category = new Category();
+                BeanUtils.copyProperties(categoryModel, category);
+                if (Objects.equals(category.getParentId(), 0)) {
+                    firstLevelList.add(category);
+                }
+                if (!Objects.equals(category.getParentId(), 0)) {
+                    if (secondLevelList.isEmpty() || !Objects.equals(category.getParentId(), secondLevelList.subList(secondLevelList.size() - 1, secondLevelList.size()).get(0).get(0).getParentId())) {
+                        List<Category> secondLevelListElementList = new ArrayList<>();
+                        secondLevelList.add(secondLevelListElementList);
+                    }
+                    secondLevelList.subList(secondLevelList.size() - 1, secondLevelList.size()).get(0).add(category);
+                }
+            });
+            list1.add(firstLevelList);
+            list1.add(secondLevelList);
+        }
+        result.setCode(ResponseStatusEnum.SUCCESS.getCode());
+        result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
+        result.setData(list1);
+        return result;
+    }
 }

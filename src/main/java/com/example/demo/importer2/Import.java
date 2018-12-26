@@ -33,8 +33,11 @@ public class Import {
             int id = num++;
 
             ImageUtils.download(doc.getImg(), id + "", timestamp);
-            System.out.println("insert into goods(id, name, describ, buy_unit, img_url, tag, period, take_rate, take_chances, total_chances) " +
-                    "values(" + id + ", '" + doc.getTitle() + "', '" + doc.getTitle() + "', 1, '" + doc.getImg() + "', '" + String.join(",", doc.getProps()) + "', " + String.valueOf(timestamp).substring(3) + ", " + doc.getPrice() + ", " + doc.getSale() + ", " + doc.getSale() + ");");
+            System.out.println("insert into goods(id, name, image_url, content) " +
+                    "values(" + id + ", '" + doc.getTitle() + "', '" + doc.getImg() + "', '" + String.join(",", doc.getProps()) + "'" + ");");
+
+            System.out.println("insert into goods_sku(id, goods_id, image_url, promote_price, market_price) " +
+                    "values(" + id + ", " + id + ", '" + doc.getImg() + "', " + doc.getPrice() + ", " + doc.getSale() + ");");
         }
     }
 

@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.dao.BannerModelMapper" >
+  <resultMap id="BaseResultMap" type="com.example.demo.model.BannerModel" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="link" property="link" jdbcType="VARCHAR" />
+    <result column="color" property="color" jdbcType="VARCHAR" />
+    <result column="image" property="image" jdbcType="VARCHAR" />
+    <result column="date_fr" property="dateFr" jdbcType="DATE" />
+    <result column="date_to" property="dateTo" jdbcType="DATE" />
+    <result column="del_ind" property="delInd" jdbcType="TINYINT" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, title, link, color, image, date_fr, date_to, del_ind, create_by, create_date, 
+    update_by, update_date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from banner
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from banner
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.demo.model.BannerModel" >
+    insert into banner (id, title, link, 
+      color, image, date_fr, 
+      date_to, del_ind, create_by, 
+      create_date, update_by, update_date
+      )
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{link,jdbcType=VARCHAR}, 
+      #{color,jdbcType=VARCHAR}, #{image,jdbcType=VARCHAR}, #{dateFr,jdbcType=DATE}, 
+      #{dateTo,jdbcType=DATE}, #{delInd,jdbcType=TINYINT}, #{createBy,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.demo.model.BannerModel" >
+    insert into banner
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="link != null" >
+        link,
+      </if>
+      <if test="color != null" >
+        color,
+      </if>
+      <if test="image != null" >
+        image,
+      </if>
+      <if test="dateFr != null" >
+        date_fr,
+      </if>
+      <if test="dateTo != null" >
+        date_to,
+      </if>
+      <if test="delInd != null" >
+        del_ind,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="link != null" >
+        #{link,jdbcType=VARCHAR},
+      </if>
+      <if test="color != null" >
+        #{color,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null" >
+        #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="dateFr != null" >
+        #{dateFr,jdbcType=DATE},
+      </if>
+      <if test="dateTo != null" >
+        #{dateTo,jdbcType=DATE},
+      </if>
+      <if test="delInd != null" >
+        #{delInd,jdbcType=TINYINT},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.model.BannerModel" >
+    update banner
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="link != null" >
+        link = #{link,jdbcType=VARCHAR},
+      </if>
+      <if test="color != null" >
+        color = #{color,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null" >
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="dateFr != null" >
+        date_fr = #{dateFr,jdbcType=DATE},
+      </if>
+      <if test="dateTo != null" >
+        date_to = #{dateTo,jdbcType=DATE},
+      </if>
+      <if test="delInd != null" >
+        del_ind = #{delInd,jdbcType=TINYINT},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.model.BannerModel" >
+    update banner
+    set title = #{title,jdbcType=VARCHAR},
+      link = #{link,jdbcType=VARCHAR},
+      color = #{color,jdbcType=VARCHAR},
+      image = #{image,jdbcType=VARCHAR},
+      date_fr = #{dateFr,jdbcType=DATE},
+      date_to = #{dateTo,jdbcType=DATE},
+      del_ind = #{delInd,jdbcType=TINYINT},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <sql id="Base_Where">
+    <trim prefix="where" prefixOverrides="and | or" >
+      <if test="id != null">
+        and id = #{id,jdbcType=INTEGER}
+      </if>
+      <if test="title != null" >
+        and title = #{title,jdbcType=VARCHAR}
+      </if>
+      <if test="link != null" >
+        and link = #{link,jdbcType=VARCHAR}
+      </if>
+      <if test="color != null" >
+        and color = #{color,jdbcType=VARCHAR}
+      </if>
+      <if test="image != null" >
+        and image = #{image,jdbcType=VARCHAR}
+      </if>
+      <if test="dateFr != null" >
+        and date_fr = #{dateFr,jdbcType=DATE}
+      </if>
+      <if test="dateTo != null" >
+        and date_to = #{dateTo,jdbcType=DATE}
+      </if>
+      and del_ind = 0
+    </trim>
+  </sql>
+
+  <select id="search" resultMap="BaseResultMap" >
+    select <include refid="Base_Column_List" />
+    from banner
+    <include refid="Base_Where" />
+  </select>
+</mapper>

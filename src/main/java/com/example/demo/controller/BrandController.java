@@ -24,7 +24,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/brand")
 public class BrandController {
-    private static Logger logger = LoggerFactory.getLogger(VehicleController.class);
+    private static Logger logger = LoggerFactory.getLogger(BrandController.class);
 
     @Autowired
     BrandModelMapper brandModelMapper;

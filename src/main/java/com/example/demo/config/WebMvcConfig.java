@@ -28,14 +28,14 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		 */
 //		registry.addInterceptor(new SessionInterceptor()).excludePathPatterns("/login", "/error").addPathPatterns("/**");
 		
-		registry.addInterceptor(sessionInterceptor()).excludePathPatterns("/login", "/error").addPathPatterns("/**");
+		registry.addInterceptor(sessionInterceptor()).excludePathPatterns("/login", "/loginMock", "/error").addPathPatterns("/**");
 		WebMvcConfigurer.super.addInterceptors(registry);
 	}
 
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
 		// TODO Auto-generated method stub
-		registry.addMapping("/**").allowedOrigins("*").allowedMethods("*");
+		registry.addMapping("/**").allowedOrigins("*").allowedMethods("*").allowedHeaders("*");
 		WebMvcConfigurer.super.addCorsMappings(registry);
 	}
 

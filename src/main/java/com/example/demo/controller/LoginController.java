@@ -100,4 +100,45 @@ public class LoginController {
 		return null;
 	}
 
+	@GetMapping("/loginMock")
+	public Result<String> loginMock(HttpServletRequest request, HttpServletResponse response) {
+		Result<String> result = new Result<>();
+		try {
+			String phone = request.getParameter("phone");
+			if (StringUtils.isEmpty(phone)) {
+				result.setCode(ResponseStatusEnum.ERROR.getCode());
+				result.setMsg(ResponseStatusEnum.ERROR.getMsg());
+				return result;
+			}
+
+			UserModel criteria = new UserModel();
+			criteria.setPhone(phone);
+			List<UserModel> list = userModelMapper.search(criteria);
+			UserModel userModel;
+			if (list == null || list.isEmpty()) {
+				result.setCode(ResponseStatusEnum.USER_NOT_FOUND.getCode());
+				result.setMsg(ResponseStatusEnum.USER_NOT_FOUND.getMsg());
+				return result;
+			} else {
+				userModel = list.get(0);
+			}
+
+			Session session = new Session();
+			session.setUserId(userModel.getId());
+
+			String token = EncryptUtils.md5(UUID.randomUUID().toString());
+			redisTemplate.opsForValue().set(token, session);
+			redisTemplate.expire(token, 30*60, TimeUnit.SECONDS);
+
+			result.setCode(ResponseStatusEnum.SUCCESS.getCode());
+			result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
+			result.setData(token);
+			return result;
+
+		} catch (Exception e) {
+			logger.error("login error", e);
+		}
+		return null;
+	}
+
 }

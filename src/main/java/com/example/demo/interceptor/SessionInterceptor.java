@@ -33,6 +33,14 @@ public class SessionInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		// TODO Auto-generated method stub
+
+		if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+			response.setHeader("Access-Control-Allow-Origin", "*");
+			response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE, PATCH");
+			response.setHeader("Access-Control-Allow-Headers", "origin, content-type, accept, x-requested-with, token");
+			response.setHeader("Access-Control-Max-Age", "3600");
+			return false;
+		}
 		
 		logger.debug("url:{}", request.getRequestURI());
 

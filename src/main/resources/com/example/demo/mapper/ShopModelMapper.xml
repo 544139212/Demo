@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.example.demo.mapper.StoreModelMapper" >
-  <resultMap id="BaseResultMap" type="com.example.demo.model.StoreModel" >
+<mapper namespace="com.example.demo.mapper.ShopModelMapper" >
+  <resultMap id="BaseResultMap" type="com.example.demo.model.ShopModel" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="logo" property="logo" jdbcType="VARCHAR" />
@@ -36,15 +36,15 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from store
+    from shop
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from store
+    delete from shop
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.example.demo.model.StoreModel" >
-    insert into store (id, user_id, logo, 
+  <insert id="insert" parameterType="com.example.demo.model.ShopModel" >
+    insert into shop (id, user_id, logo,
       name, open_status, audit_status, 
       lock_status, prov_id, area_id, 
       city_id, address, longitude, 
@@ -63,8 +63,8 @@
       #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
       #{updateDate,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.example.demo.model.StoreModel" >
-    insert into store
+  <insert id="insertSelective" parameterType="com.example.demo.model.ShopModel" >
+    insert into shop
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -214,8 +214,8 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.model.StoreModel" >
-    update store
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.model.ShopModel" >
+    update shop
     <set >
       <if test="userId != null" >
         user_id = #{userId,jdbcType=INTEGER},
@@ -289,8 +289,8 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.example.demo.model.StoreModel" >
-    update store
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.model.ShopModel" >
+    update shop
     set user_id = #{userId,jdbcType=INTEGER},
       logo = #{logo,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
@@ -382,7 +382,7 @@
 
   <select id="search" resultMap="BaseResultMap" >
     select <include refid="Base_Column_List" />
-    from store
+    from shop
     <include refid="Base_Where" />
   </select>
 </mapper>

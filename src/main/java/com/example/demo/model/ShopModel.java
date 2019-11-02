@@ -2,7 +2,7 @@ package com.example.demo.model;
 
 import java.util.Date;
 
-public class StoreModel {
+public class ShopModel {
     private Integer id;
 
     private Integer userId;

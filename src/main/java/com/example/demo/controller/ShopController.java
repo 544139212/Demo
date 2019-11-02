@@ -1,16 +1,16 @@
 package com.example.demo.controller;
 
 import com.example.demo.context.Context;
-import com.example.demo.enums.ResponseStatusEnum;
 import com.example.demo.enums.AuditStatusEnum;
+import com.example.demo.enums.ResponseStatusEnum;
 import com.example.demo.enums.StoreLockStatusEnum;
 import com.example.demo.enums.StoreOpenStatusEnum;
-import com.example.demo.mapper.StoreModelMapper;
-import com.example.demo.model.StoreModel;
+import com.example.demo.mapper.ShopModelMapper;
+import com.example.demo.model.ShopModel;
 import com.example.demo.util.JsonUtils;
 import com.example.demo.vo.Pagination;
 import com.example.demo.vo.Result;
-import com.example.demo.vo.Store;
+import com.example.demo.vo.Shop;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
@@ -25,43 +25,43 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/store")
-public class StoreController {
+@RequestMapping(value = "/shop")
+public class ShopController {
 
-    private static Logger logger = LoggerFactory.getLogger(StoreController.class);
+    private static Logger logger = LoggerFactory.getLogger(ShopController.class);
 
     @Autowired
-    StoreModelMapper storeModelMapper;
+    ShopModelMapper shopModelMapper;
 
     /**
      * 添加店铺信息<>当前登录用户</>
-     * @param store
+     * @param shop
      * @return
      */
     @RequestMapping(method = RequestMethod.POST)
-    public Result<Void> add(@RequestBody @Valid Store store) {
-        logger.debug("参数:{}", JsonUtils.deserializer(store));
+    public Result<Void> add(@RequestBody @Valid Shop shop) {
+        logger.debug("参数:{}", JsonUtils.deserializer(shop));
 
         Result<Void> result = new Result<>();
-        StoreModel criteria = new StoreModel();
+        ShopModel criteria = new ShopModel();
         criteria.setUserId(Context.get().getUserId());
-        List<StoreModel> list = storeModelMapper.search(criteria);//TODO:优化
+        List<ShopModel> list = shopModelMapper.search(criteria);//TODO:优化
         if (list != null && !list.isEmpty()) {
             result.setCode(ResponseStatusEnum.EXIST.getCode());
             result.setMsg(ResponseStatusEnum.EXIST.getMsg());
             return result;
         }
-        StoreModel storeModel = new StoreModel();
-        BeanUtils.copyProperties(store, storeModel);
-        storeModel.setUserId(Context.get().getUserId());
-        storeModel.setOpenStatus(StoreOpenStatusEnum.CLOSE.getCode());
-        storeModel.setAuditStatus(AuditStatusEnum.PENDING.getCode());
-        storeModel.setLockStatus(StoreLockStatusEnum.LOCK.getCode());
-        storeModel.setCreateBy(Context.get().getUserId().toString());
-        storeModel.setCreateDate(new Date());
-        storeModel.setUpdateBy(Context.get().getUserId().toString());
-        storeModel.setUpdateDate(new Date());
-        storeModelMapper.insertSelective(storeModel);
+        ShopModel shopModel = new ShopModel();
+        BeanUtils.copyProperties(shop, shopModel);
+        shopModel.setUserId(Context.get().getUserId());
+        shopModel.setOpenStatus(StoreOpenStatusEnum.CLOSE.getCode());
+        shopModel.setAuditStatus(AuditStatusEnum.PENDING.getCode());
+        shopModel.setLockStatus(StoreLockStatusEnum.LOCK.getCode());
+        shopModel.setCreateBy(Context.get().getUserId().toString());
+        shopModel.setCreateDate(new Date());
+        shopModel.setUpdateBy(Context.get().getUserId().toString());
+        shopModel.setUpdateDate(new Date());
+        shopModelMapper.insertSelective(shopModel);
         result.setCode(ResponseStatusEnum.SUCCESS.getCode());
         result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
         return result;
@@ -69,34 +69,34 @@ public class StoreController {
 
     /**
      * 更新店铺信息<>当前登录用户</>
-     * @param store
+     * @param shop
      * @return
      */
     @RequestMapping(method = RequestMethod.PUT)
-    public Result<Void> update(@RequestBody @Valid Store store) {
-        logger.debug("参数:{}", JsonUtils.deserializer(store));
+    public Result<Void> update(@RequestBody @Valid Shop shop) {
+        logger.debug("参数:{}", JsonUtils.deserializer(shop));
 
         Result<Void> result = new Result<>();
-        if (store.getId() == null) {
+        if (shop.getId() == null) {
             result.setCode(ResponseStatusEnum.INVALID.getCode());
             result.setMsg(ResponseStatusEnum.INVALID.getMsg());
             return result;
         }
-        StoreModel storeModel = storeModelMapper.selectByPrimaryKey(store.getId());
-        if (storeModel == null) {
+        ShopModel shopModel = shopModelMapper.selectByPrimaryKey(shop.getId());
+        if (shopModel == null) {
             result.setCode(ResponseStatusEnum.NOT_FOUND.getCode());
             result.setMsg(ResponseStatusEnum.NOT_FOUND.getMsg());
             return result;
         }
-        if (!storeModel.getUserId().equals(Context.get().getUserId())) {
+        if (!shopModel.getUserId().equals(Context.get().getUserId())) {
             result.setCode(ResponseStatusEnum.AUTH.getCode());
             result.setMsg(ResponseStatusEnum.AUTH.getMsg());
             return result;
         }
-        BeanUtils.copyProperties(store, storeModel);
-        storeModel.setUpdateBy(Context.get().getUserId().toString());
-        storeModel.setUpdateDate(new Date());
-        storeModelMapper.updateByPrimaryKeySelective(storeModel);
+        BeanUtils.copyProperties(shop, shopModel);
+        shopModel.setUpdateBy(Context.get().getUserId().toString());
+        shopModel.setUpdateDate(new Date());
+        shopModelMapper.updateByPrimaryKeySelective(shopModel);
         result.setCode(ResponseStatusEnum.SUCCESS.getCode());
         result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
         return result;
@@ -107,19 +107,19 @@ public class StoreController {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET)
-    public Result<Store> get() {
-        Result<Store> result = new Result<>();
-        StoreModel criteria = new StoreModel();
+    public Result<Shop> get() {
+        Result<Shop> result = new Result<>();
+        ShopModel criteria = new ShopModel();
         criteria.setUserId(Context.get().getUserId());
-        List<StoreModel> list = storeModelMapper.search(criteria);//TODO:优化
-        Store store = null;
+        List<ShopModel> list = shopModelMapper.search(criteria);//TODO:优化
+        Shop shop = null;
         if (list != null && !list.isEmpty()) {
-            store = new Store();
-            BeanUtils.copyProperties(list.get(0), store);
+            shop = new Shop();
+            BeanUtils.copyProperties(list.get(0), shop);
         }
         result.setCode(ResponseStatusEnum.SUCCESS.getCode());
         result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
-        result.setData(store);
+        result.setData(shop);
         return result;
     }
 
@@ -129,19 +129,19 @@ public class StoreController {
      * @return
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Result<Store> get(@PathVariable Integer id) {
-        Result<Store> result = new Result<>();
-        StoreModel criteria = new StoreModel();
+    public Result<Shop> get(@PathVariable Integer id) {
+        Result<Shop> result = new Result<>();
+        ShopModel criteria = new ShopModel();
         criteria.setId(id);
-        List<StoreModel> list = storeModelMapper.search(criteria);//TODO:优化
-        Store store = null;
+        List<ShopModel> list = shopModelMapper.search(criteria);//TODO:优化
+        Shop shop = null;
         if (list != null && !list.isEmpty()) {
-            store = new Store();
-            BeanUtils.copyProperties(list.get(0), store);
+            shop = new Shop();
+            BeanUtils.copyProperties(list.get(0), shop);
         }
         result.setCode(ResponseStatusEnum.SUCCESS.getCode());
         result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
-        result.setData(store);
+        result.setData(shop);
         return result;
     }
 
@@ -151,20 +151,20 @@ public class StoreController {
      * @return
      */
     @RequestMapping(value = "/page/{pageNum}", method = RequestMethod.GET)
-    public Result<Pagination<Store>> list(@PathVariable Integer pageNum) {
-        Result<Pagination<Store>> result = new Result<>();
+    public Result<Pagination<Shop>> list(@PathVariable Integer pageNum) {
+        Result<Pagination<Shop>> result = new Result<>();
         PageHelper.startPage(pageNum, 20);
-        StoreModel criteria = new StoreModel();
-        Page<StoreModel> page = (Page<StoreModel>)storeModelMapper.search(criteria);//TODO:优化
-        List<Store> list = new ArrayList<>();
+        ShopModel criteria = new ShopModel();
+        Page<ShopModel> page = (Page<ShopModel>) shopModelMapper.search(criteria);//TODO:优化
+        List<Shop> list = new ArrayList<>();
         if (page.getResult() != null && !page.getResult().isEmpty()) {
-            page.getResult().stream().forEach(storeModel -> {
-                Store store = new Store();
-                BeanUtils.copyProperties(storeModel, store);
-                list.add(store);
+            page.getResult().stream().forEach(shopModel -> {
+                Shop shop = new Shop();
+                BeanUtils.copyProperties(shopModel, shop);
+                list.add(shop);
             });
         }
-        Pagination<Store> pagination = new Pagination<>();
+        Pagination<Shop> pagination = new Pagination<>();
         pagination.setPageNum(page.getPageNum());
         pagination.setPageSize(page.getPageSize());
         pagination.setPages(page.getPages());

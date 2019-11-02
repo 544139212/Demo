@@ -4,7 +4,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
-public class Store implements Serializable {
+public class Shop implements Serializable {
     private Integer id;
 
     private Integer userId;

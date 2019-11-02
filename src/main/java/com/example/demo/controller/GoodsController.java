@@ -5,9 +5,9 @@ import com.example.demo.enums.AuditStatusEnum;
 import com.example.demo.enums.ResponseStatusEnum;
 import com.example.demo.enums.SaleStatusEnum;
 import com.example.demo.mapper.GoodsModelMapper;
-import com.example.demo.mapper.StoreModelMapper;
+import com.example.demo.mapper.ShopModelMapper;
 import com.example.demo.model.GoodsModel;
-import com.example.demo.model.StoreModel;
+import com.example.demo.model.ShopModel;
 import com.example.demo.util.JsonUtils;
 import com.example.demo.vo.Pagination;
 import com.example.demo.vo.Result;
@@ -35,7 +35,7 @@ public class GoodsController {
     GoodsModelMapper goodsModelMapper;
 
     @Autowired
-    StoreModelMapper storeModelMapper;
+    ShopModelMapper shopModelMapper;
 
     /**
      * 添加商品信息<>当前登录用户</>
@@ -47,9 +47,9 @@ public class GoodsController {
         logger.debug("参数:{}", JsonUtils.deserializer(goods));
 
         Result<Void> result = new Result<>();
-        StoreModel criteria1 = new StoreModel();
+        ShopModel criteria1 = new ShopModel();
         criteria1.setUserId(Context.get().getUserId());
-        List<StoreModel> list1 = storeModelMapper.search(criteria1);//TODO:优化
+        List<ShopModel> list1 = shopModelMapper.search(criteria1);//TODO:优化
         if (list1 == null || list1.isEmpty()) {
             result.setCode(ResponseStatusEnum.STORE_NOT_FOUND.getCode());
             result.setMsg(ResponseStatusEnum.STORE_NOT_FOUND.getMsg());
@@ -102,9 +102,9 @@ public class GoodsController {
             return result;
         }
 
-        StoreModel criteria1 = new StoreModel();
+        ShopModel criteria1 = new ShopModel();
         criteria1.setUserId(Context.get().getUserId());
-        List<StoreModel> list1 = storeModelMapper.search(criteria1);//TODO:优化
+        List<ShopModel> list1 = shopModelMapper.search(criteria1);//TODO:优化
         if (list1 == null || list1.isEmpty()) {
             result.setCode(ResponseStatusEnum.STORE_NOT_FOUND.getCode());
             result.setMsg(ResponseStatusEnum.STORE_NOT_FOUND.getMsg());

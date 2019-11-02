@@ -2,10 +2,12 @@ package com.example.demo.model;
 
 import java.util.Date;
 
-public class BroadcastModel {
+public class NoticeModel {
     private Integer id;
 
     private String title;
+
+    private String image;
 
     private String content;
 
@@ -37,6 +39,14 @@ public class BroadcastModel {
 
     public void setTitle(String title) {
         this.title = title == null ? null : title.trim();
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image == null ? null : image.trim();
     }
 
     public String getContent() {

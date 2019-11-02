@@ -3,29 +3,22 @@
 <mapper namespace="com.example.demo.mapper.BroadcastModelMapper" >
   <resultMap id="BaseResultMap" type="com.example.demo.model.BroadcastModel" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="start_date" property="startDate" jdbcType="DATE" />
-    <result column="end_date" property="endDate" jdbcType="DATE" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+    <result column="date_fr" property="dateFr" jdbcType="DATE" />
+    <result column="date_to" property="dateTo" jdbcType="DATE" />
     <result column="del_ind" property="delInd" jdbcType="TINYINT" />
     <result column="create_by" property="createBy" jdbcType="VARCHAR" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
     <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
   </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.example.demo.model.BroadcastModel" extends="BaseResultMap" >
-    <result column="content" property="content" jdbcType="LONGVARCHAR" />
-  </resultMap>
   <sql id="Base_Column_List" >
-    id, name, start_date, end_date, del_ind, create_by, create_date, update_by, update_date
+    id, title, content, date_fr, date_to, del_ind, create_by, create_date, update_by, update_date
   </sql>
-  <sql id="Blob_Column_List" >
-    content
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from broadcast
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -34,14 +27,14 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.example.demo.model.BroadcastModel" >
-    insert into broadcast (id, name, start_date, 
-      end_date, del_ind, create_by, 
-      create_date, update_by, update_date, 
-      content)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{startDate,jdbcType=DATE}, 
-      #{endDate,jdbcType=DATE}, #{delInd,jdbcType=TINYINT}, #{createBy,jdbcType=VARCHAR}, 
-      #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, 
-      #{content,jdbcType=LONGVARCHAR})
+    insert into broadcast (id, title, content,
+      date_fr, date_to, del_ind, create_by,
+      create_date, update_by, update_date
+      )
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR},
+      #{dateFr,jdbcType=DATE}, #{dateTo,jdbcType=DATE}, #{delInd,jdbcType=TINYINT}, #{createBy,jdbcType=VARCHAR},
+      #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.example.demo.model.BroadcastModel" >
     insert into broadcast
@@ -49,14 +42,17 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="name != null" >
-        name,
+      <if test="title != null" >
+        title,
       </if>
-      <if test="startDate != null" >
-        start_date,
+      <if test="content != null" >
+        content,
       </if>
-      <if test="endDate != null" >
-        end_date,
+      <if test="dateFr != null" >
+        date_fr,
+      </if>
+      <if test="dateTo != null" >
+        date_to,
       </if>
       <if test="delInd != null" >
         del_ind,
@@ -73,22 +69,22 @@
       <if test="updateDate != null" >
         update_date,
       </if>
-      <if test="content != null" >
-        content,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
       </if>
-      <if test="startDate != null" >
-        #{startDate,jdbcType=DATE},
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
       </if>
-      <if test="endDate != null" >
-        #{endDate,jdbcType=DATE},
+      <if test="dateFr != null" >
+        #{dateFr,jdbcType=DATE},
+      </if>
+      <if test="dateTo != null" >
+        #{dateTo,jdbcType=DATE},
       </if>
       <if test="delInd != null" >
         #{delInd,jdbcType=TINYINT},
@@ -105,22 +101,22 @@
       <if test="updateDate != null" >
         #{updateDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="content != null" >
-        #{content,jdbcType=LONGVARCHAR},
-      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.model.BroadcastModel" >
     update broadcast
     <set >
-      <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
       </if>
-      <if test="startDate != null" >
-        start_date = #{startDate,jdbcType=DATE},
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
       </if>
-      <if test="endDate != null" >
-        end_date = #{endDate,jdbcType=DATE},
+      <if test="dateFr != null" >
+        date_fr = #{dateFr,jdbcType=DATE},
+      </if>
+      <if test="dateTo != null" >
+        date_to = #{dateTo,jdbcType=DATE},
       </if>
       <if test="delInd != null" >
         del_ind = #{delInd,jdbcType=TINYINT},
@@ -137,30 +133,15 @@
       <if test="updateDate != null" >
         update_date = #{updateDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="content != null" >
-        content = #{content,jdbcType=LONGVARCHAR},
-      </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.demo.model.BroadcastModel" >
-    update broadcast
-    set name = #{name,jdbcType=VARCHAR},
-      start_date = #{startDate,jdbcType=DATE},
-      end_date = #{endDate,jdbcType=DATE},
-      del_ind = #{delInd,jdbcType=TINYINT},
-      create_by = #{createBy,jdbcType=VARCHAR},
-      create_date = #{createDate,jdbcType=TIMESTAMP},
-      update_by = #{updateBy,jdbcType=VARCHAR},
-      update_date = #{updateDate,jdbcType=TIMESTAMP},
-      content = #{content,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.example.demo.model.BroadcastModel" >
     update broadcast
-    set name = #{name,jdbcType=VARCHAR},
-      start_date = #{startDate,jdbcType=DATE},
-      end_date = #{endDate,jdbcType=DATE},
+    set title = #{title,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR},
+      date_fr = #{dateFr,jdbcType=DATE},
+      date_to = #{dateTo,jdbcType=DATE},
       del_ind = #{delInd,jdbcType=TINYINT},
       create_by = #{createBy,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},
@@ -171,17 +152,20 @@
 
   <sql id="Base_Where">
     <trim prefix="where" prefixOverrides="and | or" >
-      <if test="name != null" >
-        and name = #{name,jdbcType=VARCHAR}
+      <if test="id != null">
+        and id = #{id,jdbcType=INTEGER}
       </if>
-      <if test="startDate != null" >
-        and start_date = #{startDate,jdbcType=DATE}
-      </if>
-      <if test="endDate != null" >
-        and end_date = #{endDate,jdbcType=DATE}
+      <if test="title != null" >
+        and title = #{title,jdbcType=VARCHAR}
       </if>
       <if test="content != null" >
         and content = #{content,jdbcType=LONGVARCHAR}
+      </if>
+      <if test="dateFr != null" >
+        and date_fr = #{dateFr,jdbcType=DATE}
+      </if>
+      <if test="dateTo != null" >
+        and date_to = #{dateTo,jdbcType=DATE}
       </if>
       and del_ind = 0
     </trim>

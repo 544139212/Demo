@@ -3,12 +3,11 @@ package com.example.demo.controller;
 import com.example.demo.context.Context;
 import com.example.demo.enums.ResponseStatusEnum;
 import com.example.demo.mapper.BroadcastModelMapper;
-import com.example.demo.mapper.BroadcastModelMapper;
 import com.example.demo.model.BroadcastModel;
 import com.example.demo.util.JsonUtils;
+import com.example.demo.vo.Broadcast;
 import com.example.demo.vo.Pagination;
 import com.example.demo.vo.Result;
-import com.example.demo.vo.Broadcast;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
@@ -24,8 +23,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/broadcast")
-public class BroadCastController {
-    private static Logger logger = LoggerFactory.getLogger(BroadCastController.class);
+public class BroadcastController {
+    private static Logger logger = LoggerFactory.getLogger(BroadcastController.class);
 
     @Autowired
     BroadcastModelMapper broadcastModelMapper;
@@ -42,7 +41,7 @@ public class BroadCastController {
         Result<Void> result = new Result<>();
         //TODO:鉴权
         BroadcastModel criteria = new BroadcastModel();
-        criteria.setName(broadcast.getName());
+        criteria.setTitle(broadcast.getTitle());
         List<BroadcastModel> list = broadcastModelMapper.search(criteria);//TODO:优化
         if (list != null && !list.isEmpty()) {
             result.setCode(ResponseStatusEnum.EXIST.getCode());
@@ -78,7 +77,7 @@ public class BroadCastController {
             return result;
         }
         BroadcastModel criteria = new BroadcastModel();
-        criteria.setName(broadcast.getName());
+        criteria.setTitle(broadcast.getTitle());
         List<BroadcastModel> list = broadcastModelMapper.search(criteria);//TODO:优化
         if (list != null && !list.isEmpty() && !list.get(0).getId().equals(broadcast.getId())) {
             result.setCode(ResponseStatusEnum.EXIST.getCode());

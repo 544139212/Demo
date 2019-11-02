@@ -5,13 +5,16 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Broadcast implements Serializable {
+public class Notice implements Serializable {
     private Integer id;
 
     @NotBlank(message = "请填写标题")
     private String title;
 
-    @NotBlank(message = "请填写公告内容")
+    @NotBlank(message = "请上传图片")
+    private String image;
+
+    @NotBlank(message = "请填写通知内容")
     private String content;
 
     @NotNull(message = "请选择开始时间")
@@ -34,6 +37,14 @@ public class Broadcast implements Serializable {
 
     public void setTitle(String title) {
         this.title = title == null ? null : title.trim();
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image == null ? null : image.trim();
     }
 
     public String getContent() {

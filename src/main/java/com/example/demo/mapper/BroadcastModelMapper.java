@@ -19,8 +19,6 @@ public interface BroadcastModelMapper {
 
     int updateByPrimaryKeySelective(BroadcastModel record);
 
-    int updateByPrimaryKeyWithBLOBs(BroadcastModel record);
-
     int updateByPrimaryKey(BroadcastModel record);
 
     List<BroadcastModel> search(BroadcastModel record);

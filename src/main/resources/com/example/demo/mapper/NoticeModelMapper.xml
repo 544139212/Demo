@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.example.demo.mapper.BrandModelMapper" >
-  <resultMap id="BaseResultMap" type="com.example.demo.model.BrandModel" >
+<mapper namespace="com.example.demo.mapper.NoticeModelMapper" >
+  <resultMap id="BaseResultMap" type="com.example.demo.model.NoticeModel" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="name_chi" property="nameChi" jdbcType="VARCHAR" />
-    <result column="name_eng" property="nameEng" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="image" property="image" jdbcType="VARCHAR" />
-    <result column="desc_chi" property="descChi" jdbcType="VARCHAR" />
-    <result column="desc_eng" property="descEng" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+    <result column="date_fr" property="dateFr" jdbcType="DATE" />
+    <result column="date_to" property="dateTo" jdbcType="DATE" />
     <result column="del_ind" property="delInd" jdbcType="TINYINT" />
     <result column="create_by" property="createBy" jdbcType="VARCHAR" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
@@ -15,49 +15,49 @@
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name_chi, name_eng, image, desc_chi, desc_eng, del_ind, create_by, create_date, 
-    update_by, update_date
+    id, title, image, content, date_fr, date_to, del_ind, create_by, create_date, update_by, 
+    update_date
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from brand
+    from notice
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from brand
+    delete from notice
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.example.demo.model.BrandModel" >
-    insert into brand (id, name_chi, name_eng, 
-      image, desc_chi, desc_eng, 
+  <insert id="insert" parameterType="com.example.demo.model.NoticeModel" >
+    insert into notice (id, title, image, 
+      content, date_fr, date_to, 
       del_ind, create_by, create_date, 
       update_by, update_date)
-    values (#{id,jdbcType=INTEGER}, #{nameChi,jdbcType=VARCHAR}, #{nameEng,jdbcType=VARCHAR}, 
-      #{image,jdbcType=VARCHAR}, #{descChi,jdbcType=VARCHAR}, #{descEng,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{image,jdbcType=VARCHAR}, 
+      #{content,jdbcType=LONGVARCHAR}, #{dateFr,jdbcType=DATE}, #{dateTo,jdbcType=DATE},
       #{delInd,jdbcType=TINYINT}, #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
       #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.example.demo.model.BrandModel" >
-    insert into brand
+  <insert id="insertSelective" parameterType="com.example.demo.model.NoticeModel" >
+    insert into notice
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
       </if>
-      <if test="nameChi != null" >
-        name_chi,
-      </if>
-      <if test="nameEng != null" >
-        name_eng,
+      <if test="title != null" >
+        title,
       </if>
       <if test="image != null" >
         image,
       </if>
-      <if test="descChi != null" >
-        desc_chi,
+      <if test="content != null" >
+        content,
       </if>
-      <if test="descEng != null" >
-        desc_eng,
+      <if test="dateFr != null" >
+        date_fr,
+      </if>
+      <if test="dateTo != null" >
+        date_to,
       </if>
       <if test="delInd != null" >
         del_ind,
@@ -79,20 +79,20 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="nameChi != null" >
-        #{nameChi,jdbcType=VARCHAR},
-      </if>
-      <if test="nameEng != null" >
-        #{nameEng,jdbcType=VARCHAR},
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
       </if>
       <if test="image != null" >
         #{image,jdbcType=VARCHAR},
       </if>
-      <if test="descChi != null" >
-        #{descChi,jdbcType=VARCHAR},
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
       </if>
-      <if test="descEng != null" >
-        #{descEng,jdbcType=VARCHAR},
+      <if test="dateFr != null" >
+        #{dateFr,jdbcType=DATE},
+      </if>
+      <if test="dateTo != null" >
+        #{dateTo,jdbcType=DATE},
       </if>
       <if test="delInd != null" >
         #{delInd,jdbcType=TINYINT},
@@ -111,23 +111,23 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.model.BrandModel" >
-    update brand
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.model.NoticeModel" >
+    update notice
     <set >
-      <if test="nameChi != null" >
-        name_chi = #{nameChi,jdbcType=VARCHAR},
-      </if>
-      <if test="nameEng != null" >
-        name_eng = #{nameEng,jdbcType=VARCHAR},
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
       </if>
       <if test="image != null" >
         image = #{image,jdbcType=VARCHAR},
       </if>
-      <if test="descChi != null" >
-        desc_chi = #{descChi,jdbcType=VARCHAR},
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
       </if>
-      <if test="descEng != null" >
-        desc_eng = #{descEng,jdbcType=VARCHAR},
+      <if test="dateFr != null" >
+        date_fr = #{dateFr,jdbcType=DATE},
+      </if>
+      <if test="dateTo != null" >
+        date_to = #{dateTo,jdbcType=DATE},
       </if>
       <if test="delInd != null" >
         del_ind = #{delInd,jdbcType=TINYINT},
@@ -147,13 +147,13 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.example.demo.model.BrandModel" >
-    update brand
-    set name_chi = #{nameChi,jdbcType=VARCHAR},
-      name_eng = #{nameEng,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.model.NoticeModel" >
+    update notice
+    set title = #{title,jdbcType=VARCHAR},
       image = #{image,jdbcType=VARCHAR},
-      desc_chi = #{descChi,jdbcType=VARCHAR},
-      desc_eng = #{descEng,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR},
+      date_fr = #{dateFr,jdbcType=DATE},
+      date_to = #{dateTo,jdbcType=DATE},
       del_ind = #{delInd,jdbcType=TINYINT},
       create_by = #{createBy,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},
@@ -167,20 +167,20 @@
       <if test="id != null">
         and id = #{id,jdbcType=INTEGER}
       </if>
-      <if test="nameChi != null" >
-        and name_chi = #{nameChi,jdbcType=VARCHAR}
-      </if>
-      <if test="nameEng != null" >
-        and name_eng = #{nameEng,jdbcType=VARCHAR}
+      <if test="title != null" >
+        and title = #{title,jdbcType=VARCHAR}
       </if>
       <if test="image != null" >
         and image = #{image,jdbcType=VARCHAR}
       </if>
-      <if test="descChi != null" >
-        and desc_chi = #{descChi,jdbcType=VARCHAR}
+      <if test="content != null" >
+        and content = #{content,jdbcType=LONGVARCHAR}
       </if>
-      <if test="descEng != null" >
-        and desc_eng = #{descEng,jdbcType=VARCHAR}
+      <if test="dateFr != null" >
+        and date_fr = #{dateFr,jdbcType=DATE}
+      </if>
+      <if test="dateTo != null" >
+        and date_to = #{dateTo,jdbcType=DATE}
       </if>
       and del_ind = 0
     </trim>
@@ -188,7 +188,7 @@
 
   <select id="search" resultMap="BaseResultMap" >
     select <include refid="Base_Column_List" />
-    from brand
+    from notice
     <include refid="Base_Where" />
   </select>
 </mapper>

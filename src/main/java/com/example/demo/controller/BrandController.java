@@ -30,7 +30,7 @@ public class BrandController {
     BrandModelMapper brandModelMapper;
 
     /**
-     * 添加站点信息<>管理</>
+     * 添加品牌信息<>管理</>
      * @param brand
      * @return
      */
@@ -41,7 +41,8 @@ public class BrandController {
         Result<Void> result = new Result<>();
         //TODO:鉴权
         BrandModel criteria = new BrandModel();
-        criteria.setName(brand.getName());
+        criteria.setNameChi(brand.getNameChi());
+        criteria.setNameEng(brand.getNameEng());
         List<BrandModel> list = brandModelMapper.search(criteria);//TODO:优化
         if (list != null && !list.isEmpty()) {
             result.setCode(ResponseStatusEnum.EXIST.getCode());
@@ -61,7 +62,7 @@ public class BrandController {
     }
 
     /**
-     * 更新站点信息<>管理</>
+     * 更新品牌信息<>管理</>
      * @param brand
      * @return
      */
@@ -77,7 +78,8 @@ public class BrandController {
             return result;
         }
         BrandModel criteria = new BrandModel();
-        criteria.setName(brand.getName());
+        criteria.setNameChi(brand.getNameChi());
+        criteria.setNameEng(brand.getNameEng());
         List<BrandModel> list = brandModelMapper.search(criteria);//TODO:优化
         if (list != null && !list.isEmpty() && !list.get(0).getId().equals(brand.getId())) {
             result.setCode(ResponseStatusEnum.EXIST.getCode());
@@ -100,7 +102,7 @@ public class BrandController {
     }
 
     /**
-     * 获取站点信息<>用户/管理</>
+     * 获取品牌信息<>用户/管理</>
      * @param id
      * @return
      */
@@ -122,7 +124,7 @@ public class BrandController {
     }
 
     /**
-     * 获取全部站点<>用户/管理</>
+     * 获取全部品牌<>用户/管理</>
      * @return
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -145,7 +147,7 @@ public class BrandController {
     }
 
     /**
-     * 获取分页站点<>管理</>
+     * 获取分页品牌<>管理</>
      * @param pageNum
      * @return
      */

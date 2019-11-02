@@ -5,9 +5,9 @@ import com.example.demo.enums.ResponseStatusEnum;
 import com.example.demo.mapper.CategoryModelMapper;
 import com.example.demo.model.CategoryModel;
 import com.example.demo.util.JsonUtils;
+import com.example.demo.vo.Category;
 import com.example.demo.vo.Pagination;
 import com.example.demo.vo.Result;
-import com.example.demo.vo.Category;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
@@ -20,7 +20,6 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping(value = "/category")
@@ -133,12 +132,11 @@ public class CategoryController {
         List<CategoryModel> list = categoryModelMapper.search(criteria);//TODO:优化
         List<Category> list1 = new ArrayList<>();
         if (list != null && !list.isEmpty()) {
-            list1 = getChildren(0, list);
-            /*list.stream().forEach(categoryModel -> {
+            list.stream().forEach(categoryModel -> {
                 Category category = new Category();
                 BeanUtils.copyProperties(categoryModel, category);
                 list1.add(category);
-            });*/
+            });
         }
         result.setCode(ResponseStatusEnum.SUCCESS.getCode());
         result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
@@ -159,12 +157,11 @@ public class CategoryController {
         Page<CategoryModel> page = (Page<CategoryModel>)categoryModelMapper.search(criteria);//TODO:优化
         List<Category> list = new ArrayList<>();
         if (page.getResult() != null && !page.getResult().isEmpty()) {
-            list = getChildren(0, page.getResult());
-            /*page.getResult().stream().forEach(categoryModel -> {
+            page.getResult().stream().forEach(categoryModel -> {
                 Category category = new Category();
                 BeanUtils.copyProperties(categoryModel, category);
                 list.add(category);
-            });*/
+            });
         }
         Pagination<Category> pagination = new Pagination<>();
         pagination.setPageNum(page.getPageNum());
@@ -175,54 +172,6 @@ public class CategoryController {
         result.setCode(ResponseStatusEnum.SUCCESS.getCode());
         result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
         result.setData(pagination);
-        return result;
-    }
-
-    private List<Category> getChildren(Integer parentId, List<CategoryModel> categoryList) {
-        List<Category> list = new ArrayList<>();
-        categoryList.stream().filter(categoryModel -> Objects.equals(categoryModel.getParentId(), parentId)).forEach(categoryModel -> {
-            Category category = new Category();
-            BeanUtils.copyProperties(categoryModel, category);
-            List<Category> children = getChildren(categoryModel.getId(), categoryList);
-            category.setChildren(children);
-            list.add(category);
-        });
-        return list;
-    }
-
-    /**
-     * 获取全部分类<>小程序商家专用</>
-     * @return
-     */
-    @RequestMapping(value = "/array", method = RequestMethod.GET)
-    public Result<List<Object>> array() {
-        Result<List<Object>> result = new Result<>();
-        CategoryModel criteria = new CategoryModel();
-        List<CategoryModel> list = categoryModelMapper.search(criteria);//TODO:优化
-        List<Object> list1 = new ArrayList<>();
-        if (list != null && !list.isEmpty()) {
-            List<Category> firstLevelList = new ArrayList<>();
-            List<List<Category>> secondLevelList = new ArrayList<>();
-            list.stream().forEach(categoryModel -> {
-                Category category = new Category();
-                BeanUtils.copyProperties(categoryModel, category);
-                if (Objects.equals(category.getParentId(), 0)) {
-                    firstLevelList.add(category);
-                }
-                if (!Objects.equals(category.getParentId(), 0)) {
-                    if (secondLevelList.isEmpty() || !Objects.equals(category.getParentId(), secondLevelList.subList(secondLevelList.size() - 1, secondLevelList.size()).get(0).get(0).getParentId())) {
-                        List<Category> secondLevelListElementList = new ArrayList<>();
-                        secondLevelList.add(secondLevelListElementList);
-                    }
-                    secondLevelList.subList(secondLevelList.size() - 1, secondLevelList.size()).get(0).add(category);
-                }
-            });
-            list1.add(firstLevelList);
-            list1.add(secondLevelList);
-        }
-        result.setCode(ResponseStatusEnum.SUCCESS.getCode());
-        result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
-        result.setData(list1);
         return result;
     }
 }

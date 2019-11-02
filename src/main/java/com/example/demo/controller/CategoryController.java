@@ -126,9 +126,10 @@ public class CategoryController {
      * @return
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public Result<List<Category>> list() {
+    public Result<List<Category>> list(@RequestParam(value = "parentId", required = false) Integer parentId) {
         Result<List<Category>> result = new Result<>();
         CategoryModel criteria = new CategoryModel();
+        criteria.setParentId(parentId);
         List<CategoryModel> list = categoryModelMapper.search(criteria);//TODO:优化
         List<Category> list1 = new ArrayList<>();
         if (list != null && !list.isEmpty()) {
@@ -149,7 +150,7 @@ public class CategoryController {
      * @param pageNum
      * @return
      */
-    @RequestMapping(value = "/page/{pageNum}", method = RequestMethod.GET)
+    /*@RequestMapping(value = "/page/{pageNum}", method = RequestMethod.GET)
     public Result<Pagination<Category>> page(@PathVariable Integer pageNum) {
         Result<Pagination<Category>> result = new Result<>();
         PageHelper.startPage(pageNum, 20);
@@ -173,5 +174,5 @@ public class CategoryController {
         result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
         result.setData(pagination);
         return result;
-    }
+    }*/
 }

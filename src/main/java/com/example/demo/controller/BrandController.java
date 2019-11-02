@@ -41,8 +41,7 @@ public class BrandController {
         Result<Void> result = new Result<>();
         //TODO:鉴权
         BrandModel criteria = new BrandModel();
-        criteria.setNameChi(brand.getNameChi());
-        criteria.setNameEng(brand.getNameEng());
+        criteria.setName(brand.getName());
         List<BrandModel> list = brandModelMapper.search(criteria);//TODO:优化
         if (list != null && !list.isEmpty()) {
             result.setCode(ResponseStatusEnum.EXIST.getCode());
@@ -78,8 +77,7 @@ public class BrandController {
             return result;
         }
         BrandModel criteria = new BrandModel();
-        criteria.setNameChi(brand.getNameChi());
-        criteria.setNameEng(brand.getNameEng());
+        criteria.setName(brand.getName());
         List<BrandModel> list = brandModelMapper.search(criteria);//TODO:优化
         if (list != null && !list.isEmpty() && !list.get(0).getId().equals(brand.getId())) {
             result.setCode(ResponseStatusEnum.EXIST.getCode());

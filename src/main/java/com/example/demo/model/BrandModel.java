@@ -5,15 +5,11 @@ import java.util.Date;
 public class BrandModel {
     private Integer id;
 
-    private String nameChi;
-
-    private String nameEng;
+    private String name;
 
     private String image;
 
-    private String descChi;
-
-    private String descEng;
+    private String intro;
 
     private Byte delInd;
 
@@ -33,20 +29,12 @@ public class BrandModel {
         this.id = id;
     }
 
-    public String getNameChi() {
-        return nameChi;
+    public String getName() {
+        return name;
     }
 
-    public void setNameChi(String nameChi) {
-        this.nameChi = nameChi == null ? null : nameChi.trim();
-    }
-
-    public String getNameEng() {
-        return nameEng;
-    }
-
-    public void setNameEng(String nameEng) {
-        this.nameEng = nameEng == null ? null : nameEng.trim();
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
     }
 
     public String getImage() {
@@ -57,20 +45,12 @@ public class BrandModel {
         this.image = image == null ? null : image.trim();
     }
 
-    public String getDescChi() {
-        return descChi;
+    public String getIntro() {
+        return intro;
     }
 
-    public void setDescChi(String descChi) {
-        this.descChi = descChi == null ? null : descChi.trim();
-    }
-
-    public String getDescEng() {
-        return descEng;
-    }
-
-    public void setDescEng(String descEng) {
-        this.descEng = descEng == null ? null : descEng.trim();
+    public void setIntro(String intro) {
+        this.intro = intro == null ? null : intro.trim();
     }
 
     public Byte getDelInd() {

@@ -3,11 +3,9 @@
 <mapper namespace="com.example.demo.mapper.BrandModelMapper" >
   <resultMap id="BaseResultMap" type="com.example.demo.model.BrandModel" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="name_chi" property="nameChi" jdbcType="VARCHAR" />
-    <result column="name_eng" property="nameEng" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="image" property="image" jdbcType="VARCHAR" />
-    <result column="desc_chi" property="descChi" jdbcType="VARCHAR" />
-    <result column="desc_eng" property="descEng" jdbcType="VARCHAR" />
+    <result column="intro" property="intro" jdbcType="LONGVARCHAR" />
     <result column="del_ind" property="delInd" jdbcType="TINYINT" />
     <result column="create_by" property="createBy" jdbcType="VARCHAR" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
@@ -15,11 +13,10 @@
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name_chi, name_eng, image, desc_chi, desc_eng, del_ind, create_by, create_date, 
-    update_by, update_date
+    id, name, image, intro, del_ind, create_by, create_date, update_by, update_date
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from brand
     where id = #{id,jdbcType=INTEGER}
@@ -29,14 +26,14 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.example.demo.model.BrandModel" >
-    insert into brand (id, name_chi, name_eng, 
-      image, desc_chi, desc_eng, 
-      del_ind, create_by, create_date, 
-      update_by, update_date)
-    values (#{id,jdbcType=INTEGER}, #{nameChi,jdbcType=VARCHAR}, #{nameEng,jdbcType=VARCHAR}, 
-      #{image,jdbcType=VARCHAR}, #{descChi,jdbcType=VARCHAR}, #{descEng,jdbcType=VARCHAR}, 
-      #{delInd,jdbcType=TINYINT}, #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
-      #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP})
+    insert into brand (id, name, image,
+      intro, del_ind, create_by,
+      create_date, update_by, update_date
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{image,jdbcType=VARCHAR},
+      #{intro,jdbcType=LONGVARCHAR}, #{delInd,jdbcType=TINYINT}, #{createBy,jdbcType=VARCHAR},
+      #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.example.demo.model.BrandModel" >
     insert into brand
@@ -44,20 +41,14 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="nameChi != null" >
-        name_chi,
-      </if>
-      <if test="nameEng != null" >
-        name_eng,
+      <if test="name != null" >
+        name,
       </if>
       <if test="image != null" >
         image,
       </if>
-      <if test="descChi != null" >
-        desc_chi,
-      </if>
-      <if test="descEng != null" >
-        desc_eng,
+      <if test="intro != null" >
+        intro,
       </if>
       <if test="delInd != null" >
         del_ind,
@@ -79,20 +70,14 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="nameChi != null" >
-        #{nameChi,jdbcType=VARCHAR},
-      </if>
-      <if test="nameEng != null" >
-        #{nameEng,jdbcType=VARCHAR},
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
       </if>
       <if test="image != null" >
         #{image,jdbcType=VARCHAR},
       </if>
-      <if test="descChi != null" >
-        #{descChi,jdbcType=VARCHAR},
-      </if>
-      <if test="descEng != null" >
-        #{descEng,jdbcType=VARCHAR},
+      <if test="intro != null" >
+        #{intro,jdbcType=LONGVARCHAR},
       </if>
       <if test="delInd != null" >
         #{delInd,jdbcType=TINYINT},
@@ -114,20 +99,14 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.model.BrandModel" >
     update brand
     <set >
-      <if test="nameChi != null" >
-        name_chi = #{nameChi,jdbcType=VARCHAR},
-      </if>
-      <if test="nameEng != null" >
-        name_eng = #{nameEng,jdbcType=VARCHAR},
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="image != null" >
         image = #{image,jdbcType=VARCHAR},
       </if>
-      <if test="descChi != null" >
-        desc_chi = #{descChi,jdbcType=VARCHAR},
-      </if>
-      <if test="descEng != null" >
-        desc_eng = #{descEng,jdbcType=VARCHAR},
+      <if test="intro != null" >
+        intro = #{intro,jdbcType=LONGVARCHAR},
       </if>
       <if test="delInd != null" >
         del_ind = #{delInd,jdbcType=TINYINT},
@@ -149,11 +128,9 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.example.demo.model.BrandModel" >
     update brand
-    set name_chi = #{nameChi,jdbcType=VARCHAR},
-      name_eng = #{nameEng,jdbcType=VARCHAR},
+    set name = #{name,jdbcType=VARCHAR},
       image = #{image,jdbcType=VARCHAR},
-      desc_chi = #{descChi,jdbcType=VARCHAR},
-      desc_eng = #{descEng,jdbcType=VARCHAR},
+      intro = #{intro,jdbcType=LONGVARCHAR},
       del_ind = #{delInd,jdbcType=TINYINT},
       create_by = #{createBy,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},
@@ -167,20 +144,14 @@
       <if test="id != null">
         and id = #{id,jdbcType=INTEGER}
       </if>
-      <if test="nameChi != null" >
-        and name_chi = #{nameChi,jdbcType=VARCHAR}
-      </if>
-      <if test="nameEng != null" >
-        and name_eng = #{nameEng,jdbcType=VARCHAR}
+      <if test="name != null" >
+        and name = #{name,jdbcType=VARCHAR}
       </if>
       <if test="image != null" >
         and image = #{image,jdbcType=VARCHAR}
       </if>
-      <if test="descChi != null" >
-        and desc_chi = #{descChi,jdbcType=VARCHAR}
-      </if>
-      <if test="descEng != null" >
-        and desc_eng = #{descEng,jdbcType=VARCHAR}
+      <if test="intro != null" >
+        and intro = #{intro,jdbcType=LONGVARCHAR}
       </if>
       and del_ind = 0
     </trim>

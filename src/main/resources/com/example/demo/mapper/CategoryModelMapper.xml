@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.example.demo.model.CategoryModel" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="image_url" property="imageUrl" jdbcType="VARCHAR" />
+    <result column="image" property="image" jdbcType="VARCHAR" />
     <result column="parent_id" property="parentId" jdbcType="INTEGER" />
     <result column="del_ind" property="delInd" jdbcType="TINYINT" />
     <result column="create_by" property="createBy" jdbcType="VARCHAR" />
@@ -13,7 +13,7 @@
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, image_url, parent_id, del_ind, create_by, create_date, update_by, update_date
+    id, name, image, parent_id, del_ind, create_by, create_date, update_by, update_date
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -26,11 +26,11 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.example.demo.model.CategoryModel" >
-    insert into category (id, name, image_url, 
+    insert into category (id, name, image,
       parent_id, del_ind, create_by, 
       create_date, update_by, update_date
       )
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{imageUrl,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{image,jdbcType=VARCHAR},
       #{parentId,jdbcType=INTEGER}, #{delInd,jdbcType=TINYINT}, #{createBy,jdbcType=VARCHAR}, 
       #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}
       )
@@ -44,8 +44,8 @@
       <if test="name != null" >
         name,
       </if>
-      <if test="imageUrl != null" >
-        image_url,
+      <if test="image != null" >
+        image,
       </if>
       <if test="parentId != null" >
         parent_id,
@@ -73,8 +73,8 @@
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="imageUrl != null" >
-        #{imageUrl,jdbcType=VARCHAR},
+      <if test="image != null" >
+        #{image,jdbcType=VARCHAR},
       </if>
       <if test="parentId != null" >
         #{parentId,jdbcType=INTEGER},
@@ -102,8 +102,8 @@
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="imageUrl != null" >
-        image_url = #{imageUrl,jdbcType=VARCHAR},
+      <if test="image != null" >
+        image = #{image,jdbcType=VARCHAR},
       </if>
       <if test="parentId != null" >
         parent_id = #{parentId,jdbcType=INTEGER},
@@ -129,7 +129,7 @@
   <update id="updateByPrimaryKey" parameterType="com.example.demo.model.CategoryModel" >
     update category
     set name = #{name,jdbcType=VARCHAR},
-      image_url = #{imageUrl,jdbcType=VARCHAR},
+      image = #{image,jdbcType=VARCHAR},
       parent_id = #{parentId,jdbcType=INTEGER},
       del_ind = #{delInd,jdbcType=TINYINT},
       create_by = #{createBy,jdbcType=VARCHAR},
@@ -147,8 +147,8 @@
       <if test="name != null" >
         and name = #{name,jdbcType=VARCHAR}
       </if>
-      <if test="imageUrl != null" >
-        and image_url = #{imageUrl,jdbcType=VARCHAR}
+      <if test="image != null" >
+        and image = #{image,jdbcType=VARCHAR}
       </if>
       <if test="parentId != null" >
         and parent_id = #{parentId,jdbcType=INTEGER}

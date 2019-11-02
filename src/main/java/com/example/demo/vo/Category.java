@@ -4,13 +4,12 @@ import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 public class Category implements Serializable {
-
     private Integer id;
 
-    @NotBlank(message = "请填写分类名称")
+    @NotBlank(message = "请填写名称")
     private String name;
 
-    private String imageUrl;
+    private String image;
 
     private Integer parentId;
 
@@ -27,15 +26,15 @@ public class Category implements Serializable {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name == null ? null : name.trim();
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getImage() {
+        return image;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImage(String image) {
+        this.image = image == null ? null : image.trim();
     }
 
     public Integer getParentId() {

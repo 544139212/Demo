@@ -2,12 +2,12 @@ package com.example.demo.model;
 
 import java.util.Date;
 
-public class CategoryGoodsSpecModel {
+public class CategorySpecModel extends GenericModel {
     private Integer id;
 
     private Integer categoryId;
 
-    private Integer goodsSpecId;
+    private Integer specId;
 
     private Byte delInd;
 
@@ -35,12 +35,12 @@ public class CategoryGoodsSpecModel {
         this.categoryId = categoryId;
     }
 
-    public Integer getGoodsSpecId() {
-        return goodsSpecId;
+    public Integer getSpecId() {
+        return specId;
     }
 
-    public void setGoodsSpecId(Integer goodsSpecId) {
-        this.goodsSpecId = goodsSpecId;
+    public void setSpecId(Integer specId) {
+        this.specId = specId;
     }
 
     public Byte getDelInd() {

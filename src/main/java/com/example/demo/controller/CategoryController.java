@@ -3,23 +3,27 @@ package com.example.demo.controller;
 import com.example.demo.context.Context;
 import com.example.demo.enums.ResponseStatusEnum;
 import com.example.demo.mapper.CategoryModelMapper;
+import com.example.demo.mapper.CategorySpecMapper;
 import com.example.demo.model.CategoryModel;
+import com.example.demo.model.CategorySpecModel;
 import com.example.demo.util.JsonUtils;
 import com.example.demo.vo.Category;
-import com.example.demo.vo.Pagination;
+import com.example.demo.vo.CategorySpec;
 import com.example.demo.vo.Result;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/category")
@@ -28,6 +32,9 @@ public class CategoryController {
 
     @Autowired
     CategoryModelMapper categoryModelMapper;
+
+    @Autowired
+    CategorySpecMapper categorySpecMapper;
 
     /**
      * 添加分类信息<>管理</>
@@ -40,6 +47,12 @@ public class CategoryController {
 
         Result<Void> result = new Result<>();
         //TODO:鉴权
+        if ((category.getParentId() == 0 && (!CollectionUtils.isEmpty(category.getCategorySpecList()) || !StringUtils.isEmpty(category.getImage())))
+                || (category.getParentId() > 0 && (CollectionUtils.isEmpty(category.getCategorySpecList()) || StringUtils.isEmpty(category.getImage())))) {
+            result.setCode(ResponseStatusEnum.INVALID.getCode());
+            result.setMsg(ResponseStatusEnum.INVALID.getMsg());
+            return result;
+        }
         CategoryModel criteria = new CategoryModel();
         criteria.setName(category.getName());
         List<CategoryModel> list = categoryModelMapper.search(criteria);//TODO:优化
@@ -54,7 +67,19 @@ public class CategoryController {
         categoryModel.setCreateDate(new Date());
         categoryModel.setUpdateBy(Context.get().getUserId().toString());
         categoryModel.setUpdateDate(new Date());
-        categoryModelMapper.insertSelective(categoryModel);
+        int id = categoryModelMapper.insertSelective(categoryModel);
+        if (!CollectionUtils.isEmpty(category.getCategorySpecList())) {
+            category.getCategorySpecList().forEach(source -> {
+                CategorySpecModel target = new CategorySpecModel();
+                BeanUtils.copyProperties(source, target);
+                target.setCategoryId(id);
+                target.setCreateBy(Context.get().getUserId().toString());
+                target.setCreateDate(new Date());
+                target.setUpdateBy(Context.get().getUserId().toString());
+                target.setUpdateDate(new Date());
+                categorySpecMapper.insertSelective(target);
+            });
+        }
         result.setCode(ResponseStatusEnum.SUCCESS.getCode());
         result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
         return result;
@@ -71,7 +96,9 @@ public class CategoryController {
 
         Result<Void> result = new Result<>();
         //TODO:鉴权
-        if (category.getId() == null) {
+        if (category.getId() == null
+                || (category.getParentId() == 0 && (!CollectionUtils.isEmpty(category.getCategorySpecList()) || !StringUtils.isEmpty(category.getImage())))
+                || (category.getParentId() > 0 && (CollectionUtils.isEmpty(category.getCategorySpecList()) || StringUtils.isEmpty(category.getImage())))) {
             result.setCode(ResponseStatusEnum.INVALID.getCode());
             result.setMsg(ResponseStatusEnum.INVALID.getMsg());
             return result;
@@ -94,6 +121,26 @@ public class CategoryController {
         categoryModel.setUpdateBy(Context.get().getUserId().toString());
         categoryModel.setUpdateDate(new Date());
         categoryModelMapper.updateByPrimaryKeySelective(categoryModel);
+        if (!CollectionUtils.isEmpty(category.getCategorySpecList())) {
+            List<Integer> ids = category.getCategorySpecList().parallelStream()
+                    .filter(categorySpec -> Objects.nonNull(categorySpec.getId()))
+                    .map(categorySpec -> categorySpec.getId()).collect(Collectors.toList());
+            categorySpecMapper.disableByFKAndIds(category.getId(), ids);
+            category.getCategorySpecList().forEach(categorySpec -> {
+                CategorySpecModel categorySpecModel = new CategorySpecModel();
+                BeanUtils.copyProperties(categorySpec, categorySpecModel);
+                categorySpecModel.setCategoryId(category.getId());
+                categorySpecModel.setUpdateBy(Context.get().getUserId().toString());
+                categorySpecModel.setUpdateDate(new Date());
+                if (Objects.isNull(categorySpecModel.getId())) {
+                    categorySpecModel.setCreateBy(Context.get().getUserId().toString());
+                    categorySpecModel.setCreateDate(new Date());
+                    categorySpecMapper.insertSelective(categorySpecModel);
+                } else {
+                    categorySpecMapper.updateByPrimaryKeySelective(categorySpecModel);
+                }
+            });
+        }
         result.setCode(ResponseStatusEnum.SUCCESS.getCode());
         result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());
         return result;
@@ -114,6 +161,18 @@ public class CategoryController {
         if (list != null && !list.isEmpty()) {
             category = new Category();
             BeanUtils.copyProperties(list.get(0), category);
+            CategorySpecModel categorySpecModel = new CategorySpecModel();
+            categorySpecModel.setCategoryId(id);
+            List<CategorySpecModel> categorySpecModelList = categorySpecMapper.search(categorySpecModel);
+            List<CategorySpec> categorySpecList= new ArrayList<>();
+            if (!CollectionUtils.isEmpty(categorySpecModelList)) {
+                categorySpecModelList.stream().forEach(source -> {
+                    CategorySpec target = new CategorySpec();
+                    BeanUtils.copyProperties(source, target);
+                    categorySpecList.add(target);
+                });
+            }
+            category.setCategorySpecList(categorySpecList);
         }
         result.setCode(ResponseStatusEnum.SUCCESS.getCode());
         result.setMsg(ResponseStatusEnum.SUCCESS.getMsg());

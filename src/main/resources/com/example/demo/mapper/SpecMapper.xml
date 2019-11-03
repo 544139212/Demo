@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.example.demo.mapper.CategoryGoodsSpecModelMapper" >
-  <resultMap id="BaseResultMap" type="com.example.demo.model.CategoryGoodsSpecModel" >
+<mapper namespace="com.example.demo.mapper.SpecMapper" >
+  <resultMap id="BaseResultMap" type="com.example.demo.model.SpecModel" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="category_id" property="categoryId" jdbcType="INTEGER" />
-    <result column="goods_spec_id" property="goodsSpecId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="del_ind" property="delInd" jdbcType="TINYINT" />
     <result column="create_by" property="createBy" jdbcType="VARCHAR" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
@@ -12,37 +11,34 @@
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, category_id, goods_spec_id, del_ind, create_by, create_date, update_by, update_date
+    id, name, del_ind, create_by, create_date, update_by, update_date
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from category_goods_spec
+    from spec
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from category_goods_spec
+    delete from spec
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.example.demo.model.CategoryGoodsSpecModel" >
-    insert into category_goods_spec (id, category_id, goods_spec_id, 
-      del_ind, create_by, create_date, 
-      update_by, update_date)
-    values (#{id,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{goodsSpecId,jdbcType=INTEGER}, 
-      #{delInd,jdbcType=TINYINT}, #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
-      #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP})
+  <insert id="insert" parameterType="com.example.demo.model.SpecModel" >
+    insert into spec (id, name, del_ind, 
+      create_by, create_date, update_by, 
+      update_date)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{delInd,jdbcType=TINYINT}, 
+      #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
+      #{updateDate,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.example.demo.model.CategoryGoodsSpecModel" >
-    insert into category_goods_spec
+  <insert id="insertSelective" parameterType="com.example.demo.model.SpecModel" >
+    insert into spec
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
       </if>
-      <if test="categoryId != null" >
-        category_id,
-      </if>
-      <if test="goodsSpecId != null" >
-        goods_spec_id,
+      <if test="name != null" >
+        name,
       </if>
       <if test="delInd != null" >
         del_ind,
@@ -64,11 +60,8 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="categoryId != null" >
-        #{categoryId,jdbcType=INTEGER},
-      </if>
-      <if test="goodsSpecId != null" >
-        #{goodsSpecId,jdbcType=INTEGER},
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
       </if>
       <if test="delInd != null" >
         #{delInd,jdbcType=TINYINT},
@@ -87,14 +80,11 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.model.CategoryGoodsSpecModel" >
-    update category_goods_spec
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.model.SpecModel" >
+    update spec
     <set >
-      <if test="categoryId != null" >
-        category_id = #{categoryId,jdbcType=INTEGER},
-      </if>
-      <if test="goodsSpecId != null" >
-        goods_spec_id = #{goodsSpecId,jdbcType=INTEGER},
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="delInd != null" >
         del_ind = #{delInd,jdbcType=TINYINT},
@@ -114,10 +104,9 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.example.demo.model.CategoryGoodsSpecModel" >
-    update category_goods_spec
-    set category_id = #{categoryId,jdbcType=INTEGER},
-      goods_spec_id = #{goodsSpecId,jdbcType=INTEGER},
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.model.SpecModel" >
+    update spec
+    set name = #{name,jdbcType=VARCHAR},
       del_ind = #{delInd,jdbcType=TINYINT},
       create_by = #{createBy,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},
@@ -125,4 +114,32 @@
       update_date = #{updateDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <sql id="Base_Where">
+    <trim prefix="where" prefixOverrides="and | or" >
+      <if test="id != null">
+        and id = #{id,jdbcType=INTEGER}
+      </if>
+      <if test="name != null" >
+        and name = #{name,jdbcType=VARCHAR}
+      </if>
+      and del_ind = 0
+    </trim>
+  </sql>
+
+  <select id="search" resultMap="BaseResultMap" >
+    select <include refid="Base_Column_List" />
+    from spec
+    <include refid="Base_Where" />
+  </select>
+
+  <select id="getByIds" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from spec
+    where id in
+    <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+      #{id,jdbcType=INTEGER}
+    </foreach>
+  </select>
 </mapper>

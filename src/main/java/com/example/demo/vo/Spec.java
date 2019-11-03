@@ -3,7 +3,7 @@ package com.example.demo.vo;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
-public class GoodsSpec implements Serializable {
+public class Spec implements Serializable {
     private Integer id;
 
     @NotBlank(message = "请填写商品规格名称")

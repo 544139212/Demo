@@ -2,12 +2,12 @@ package com.example.demo.model;
 
 import java.util.Date;
 
-public class GoodsSpecValueModel {
+public class SpecValueModel {
     private Integer id;
 
-    private Integer goodsSpecId;
-
     private String value;
+
+    private Integer specId;
 
     private Byte delInd;
 
@@ -27,20 +27,20 @@ public class GoodsSpecValueModel {
         this.id = id;
     }
 
-    public Integer getGoodsSpecId() {
-        return goodsSpecId;
-    }
-
-    public void setGoodsSpecId(Integer goodsSpecId) {
-        this.goodsSpecId = goodsSpecId;
-    }
-
     public String getValue() {
         return value;
     }
 
     public void setValue(String value) {
         this.value = value == null ? null : value.trim();
+    }
+
+    public Integer getSpecId() {
+        return specId;
+    }
+
+    public void setSpecId(Integer specId) {
+        this.specId = specId;
     }
 
     public Byte getDelInd() {

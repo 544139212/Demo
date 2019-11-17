@@ -35,7 +35,7 @@
       #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.example.demo.model.CategoryModel" useGeneratedKeys="true" keyColumn="id" keyProperty="id" >
+  <insert id="insertSelective" parameterType="com.example.demo.model.CategoryModel" >
     insert into category
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

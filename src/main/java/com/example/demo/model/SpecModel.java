@@ -7,6 +7,8 @@ public class SpecModel {
 
     private String name;
 
+    private Integer categoryId;
+
     private Byte delInd;
 
     private String createBy;
@@ -31,6 +33,14 @@ public class SpecModel {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    public Integer getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
     }
 
     public Byte getDelInd() {

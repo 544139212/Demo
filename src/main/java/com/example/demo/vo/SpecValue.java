@@ -1,12 +1,16 @@
 package com.example.demo.vo;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
-public class CategorySpec implements Serializable {
+public class SpecValue implements Serializable {
     private Integer id;
 
-    private Integer categoryId;
+    @NotBlank(message = "请填写规格值")
+    private String value;
 
+    @NotNull(message = "请选择规格")
     private Integer specId;
 
     public Integer getId() {
@@ -17,12 +21,12 @@ public class CategorySpec implements Serializable {
         this.id = id;
     }
 
-    public Integer getCategoryId() {
-        return categoryId;
+    public String getValue() {
+        return value;
     }
 
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
+    public void setValue(String value) {
+        this.value = value == null ? null : value.trim();
     }
 
     public Integer getSpecId() {

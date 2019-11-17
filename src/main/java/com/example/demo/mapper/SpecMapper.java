@@ -22,6 +22,4 @@ public interface SpecMapper {
     int updateByPrimaryKey(SpecModel record);
 
     List<SpecModel> search(SpecModel record);
-
-    List<SpecModel> getByIds(List<Integer> ids);
 }

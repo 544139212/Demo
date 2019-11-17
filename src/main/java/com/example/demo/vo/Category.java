@@ -3,7 +3,6 @@ package com.example.demo.vo;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.util.List;
 
 public class Category implements Serializable {
     private Integer id;
@@ -15,8 +14,6 @@ public class Category implements Serializable {
 
     @Min(value = 0, message = "请关联正确的父分类")
     private Integer parentId;
-
-    List<CategorySpec> categorySpecList;
 
     public Integer getId() {
         return id;
@@ -48,13 +45,5 @@ public class Category implements Serializable {
 
     public void setParentId(Integer parentId) {
         this.parentId = parentId;
-    }
-
-    public List<CategorySpec> getCategorySpecList() {
-        return categorySpecList;
-    }
-
-    public void setCategorySpecList(List<CategorySpec> categorySpecList) {
-        this.categorySpecList = categorySpecList;
     }
 }

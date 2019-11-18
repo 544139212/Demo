@@ -27,5 +27,5 @@ public interface SpecValueMapper {
 
     int disableByFKAndIds(@Param("specId") Integer specId, @Param("ids") List<Integer> ids);
 
-    List<SpecValueModel> getBySpecIds(List<Integer> specIds);
+    List<SpecValueModel> getBySpecIds(@Param("specIds") List<Integer> specIds);
 }

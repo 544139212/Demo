@@ -196,7 +196,7 @@ public class SpecController {
                 List<SpecValueModel> specValueModelList1 = specValueModelListMap.get(specModel.getId());
                 List<SpecValue> specValueList = new ArrayList<>();
                 if (!CollectionUtils.isEmpty(specValueModelList1)) {
-                    specValueModelList.stream().forEach(source -> {
+                    specValueModelList1.stream().forEach(source -> {
                         SpecValue target = new SpecValue();
                         BeanUtils.copyProperties(source, target);
                         specValueList.add(target);

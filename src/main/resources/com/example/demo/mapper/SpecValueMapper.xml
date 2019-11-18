@@ -159,7 +159,7 @@
     </if>
   </update>
 
-  <select id="getByIds" resultMap="BaseResultMap" >
+  <select id="getBySpecIds" resultMap="BaseResultMap" >
     select
     <include refid="Base_Column_List" />
     from spec_value
@@ -167,5 +167,6 @@
     <foreach item="specId" index="index" collection="specIds" open="(" separator="," close=")">
       #{specId,jdbcType=INTEGER}
     </foreach>
+    and del_ind = 0
   </select>
 </mapper>
